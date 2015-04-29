@@ -18,6 +18,10 @@ public class ConnectionProvider {
   private static ConnectionProvider instance;
   private WebTarget target;
   private String userId;
+  
+  public enum RegisterResponse {
+    SUCCESS, ERROR, PASSWORD, USERNAME, EMAIL
+  }
 
   private ConnectionProvider() {
     ClientConfig config = new ClientConfig();

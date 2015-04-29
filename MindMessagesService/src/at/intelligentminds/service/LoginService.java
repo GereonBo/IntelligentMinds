@@ -1,6 +1,5 @@
 package at.intelligentminds.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
@@ -14,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/userservice")
 public class LoginService {
-  
+
   private static List<String> userTokens = new Vector<String>();
 
   @Path("/login")
