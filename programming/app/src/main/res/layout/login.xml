@@ -19,7 +19,9 @@
         android:textColor="#ffffffff"
         android:layout_below="@+id/textfieldPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="80dp"
+        android:enabled="true"
+        android:clickable="true" />
 
     <Button
         android:layout_width="80dip"
@@ -33,7 +35,9 @@
         android:layout_alignStart="@+id/buttonLogin"
         android:layout_alignRight="@+id/buttonLogin"
         android:layout_alignEnd="@+id/buttonLogin"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp"
+        android:enabled="true"
+        android:clickable="true" />
 
     <EditText
         android:layout_width="300dp"
@@ -41,7 +45,6 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/textfieldPassword"
-        android:text="password"
         android:background="#ffffffff"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/textfieldUserName"
@@ -53,7 +56,6 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/textfieldUserName"
-        android:text="E-Mail"
         android:background="#ffffffff"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="120dp"
@@ -90,7 +92,7 @@
         android:layout_alignLeft="@+id/textfieldPassword"
         android:layout_alignStart="@+id/textfieldPassword" />
 
-    <TextView
+    <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
@@ -103,6 +105,6 @@
         android:layout_alignRight="@+id/textfieldPassword"
         android:layout_alignStart="@+id/textfieldPassword"
         android:layout_alignEnd="@+id/textfieldPassword"
-        android:visibility="invisible" />
+        android:visibility="invisible" /> -->
 
 </RelativeLayout>
