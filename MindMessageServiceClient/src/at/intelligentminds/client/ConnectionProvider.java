@@ -13,13 +13,14 @@ public class ConnectionProvider {
 
   private static ConnectionProvider instance;
   private WebTarget target;
+  private String userId;
 
   private ConnectionProvider() {
     ClientConfig config = new ClientConfig();
 
     Client client = ClientBuilder.newClient(config);
 
-    target = client.target(getBaseURI());
+    this.target = client.target(getBaseURI());
   }
 
   public static ConnectionProvider getInstance() {
@@ -29,6 +30,8 @@ public class ConnectionProvider {
     
     return ConnectionProvider.instance;
   }
+  
+  
 
   private static URI getBaseURI() {
 
