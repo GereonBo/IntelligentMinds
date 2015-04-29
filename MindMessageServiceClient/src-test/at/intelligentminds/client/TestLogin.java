@@ -44,9 +44,10 @@ public class TestLogin {
    * wrong password
    */   
   public void testLoginFailsWrongPassword() {
-    boolean loginFails = provider.performLogin("test", "ups");
+    String loginFails = provider.performLogin("test", "ups");
     
     assertNotNull(loginFails);
     assertEquals("", loginFails);
   }
+  
 }
