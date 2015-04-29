@@ -46,9 +46,21 @@ public class ConnectionProvider {
     Form login_form = new Form();
     login_form.param("username", user);
     login_form.param("password", password);
-    
-    String token = this.target.path("login").request().accept(MediaType.TEXT_PLAIN)
+
+    userId = this.target.path("userservice").path("login").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(login_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
-    return token;
+
+    return userId;
+  }
+
+  public boolean validateLogin(String token) {    
+    Form validate_form = new Form();
+    validate_form.param("token", token);
+    
+    boolean isLoggedIn = this.target.path("userservice").path("validate").request().
+        accept(MediaType.TEXT_PLAIN).
+        post(Entity.entity(validate_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+    
+    return isLoggedIn;
   }
 }
