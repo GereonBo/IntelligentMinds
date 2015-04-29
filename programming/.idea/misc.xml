@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EclipseCodeFormatter">
+    <option name="formatter" value="ECLIPSE" />
+    <option name="id" value="1430303782268" />
+    <option name="name" value="Messenger" />
+    <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../Documentation/intelligentstyle.xml" />
+    <option name="selectedJavaProfile" value="IntelligentStyle" />
+  </component>
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
