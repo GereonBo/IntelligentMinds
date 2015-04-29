@@ -13,6 +13,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientResponse;
 
+import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
+
 public class ConnectionProvider {
 
   private static ConnectionProvider instance;
@@ -20,7 +22,7 @@ public class ConnectionProvider {
   private String userId;
   
   public enum RegisterResponse {
-    SUCCESS, ERROR, PASSWORD, USERNAME, EMAIL
+    SUCCESS, ERROR, PASSWORD, USER_EXISTS, NAME, MISC_ERROR, EMAIL
   }
 
   private ConnectionProvider() {
@@ -67,4 +69,24 @@ public class ConnectionProvider {
     
     return isLoggedIn;
   }
+
+  public RegisterResponse register(String email, String password, String gender, String firstname, String lastname) {
+    Form register_form = new Form();
+    register_form.param("username", email);
+    register_form.param("password", password);
+    register_form.param("gender", gender);
+    register_form.param("firstName", firstname);
+    register_form.param("lastName", lastname);
+    
+    RegisterResponse response = RegisterResponse.values()[this.target.path("userservice").path("register").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(register_form,  MediaType.APPLICATION_FORM_URLENCODED_TYPE), Integer.class)];
+    
+    return response;
+  }
+
+  public void deleteAccount(String user1, String pw1, String performLogin) {
+    // TODO Implement
+    
+  }
+  
 }

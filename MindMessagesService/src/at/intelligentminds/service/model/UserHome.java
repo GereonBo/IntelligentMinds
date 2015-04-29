@@ -4,6 +4,8 @@ package at.intelligentminds.service.model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -68,4 +70,5 @@ public class UserHome {
       throw re;
     }
   }
+
 }

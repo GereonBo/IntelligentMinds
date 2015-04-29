@@ -24,7 +24,7 @@ public class User implements java.io.Serializable {
   private static final long serialVersionUID = 6940947260228300929L;
   private int id;
   private String name;
-  private String userName;
+  private String lastName;
   private String password;
   private String email;
   private String profileText;
@@ -41,12 +41,12 @@ public class User implements java.io.Serializable {
     this.id = id;
   }
 
-  public User(int id, String name, String userName, String password, String email, String profileText,
+  public User(int id, String name, String lastName, String password, String email, String profileText,
       Set<User> usersForContactId, Set<Message> messagesForUserReceiverId, Set<User> usersForUserId,
       Set<Message> messagesForUserSenderId, Set<Group> groups) {
     this.id = id;
     this.name = name;
-    this.userName = userName;
+    this.lastName = lastName;
     this.password = password;
     this.email = email;
     this.profileText = profileText;
@@ -76,13 +76,13 @@ public class User implements java.io.Serializable {
     this.name = name;
   }
 
-  @Column(name = "user_name", length = 45)
-  public String getUserName() {
-    return this.userName;
+  @Column(name = "last_name", length = 45)
+  public String getLastName() {
+    return this.lastName;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   @Column(name = "password", length = 56)
