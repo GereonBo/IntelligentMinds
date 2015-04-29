@@ -49,7 +49,6 @@ public class ConnectionProvider {
     
     String token = this.target.path("login").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(login_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
-    System.out.println("Got token: " + token);
     return token;
   }
 }
