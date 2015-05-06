@@ -38,7 +38,7 @@
 	<path id="project.classpath">
 		<pathelement location="${project.classes.dir}" />
 		<path refid="classpath.runtime" />
-		<path refid="classoath.lib" />
+		<path refid="classpath.lib" />
 	</path>
 	<target name="init">
 		<mkdir dir="${project.classes.dir}" />
