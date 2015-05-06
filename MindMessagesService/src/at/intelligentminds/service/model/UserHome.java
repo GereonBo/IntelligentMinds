@@ -4,6 +4,7 @@ package at.intelligentminds.service.model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.apache.commons.logging.Log;
@@ -62,6 +63,22 @@ public class UserHome {
     log.debug("getting User instance with id: " + id);
     try {
       User instance = entityManager.find(User.class, id);
+      log.debug("get successful");
+      return instance;
+    }
+    catch (RuntimeException re) {
+      log.error("get failed", re);
+      throw re;
+    }
+  }
+  
+  public User getUserByEmail(String email) {
+    log.debug("getting User instance with email: " + email);
+    try {
+      Query query = entityManager.createQuery("select u from user u where email = :email");
+      query.setParameter("email", email);
+      
+      User instance = (User)query.getSingleResult();
       log.debug("get successful");
       return instance;
     }

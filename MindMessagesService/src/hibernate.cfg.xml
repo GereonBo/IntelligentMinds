@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">mindthegap</property>
-        <property name="hibernate.connection.url">jdbc:mysql://129.27.229.184:3306/mindmessages</property>
-        <property name="hibernate.connection.username">intelligentminds</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.search.autoregister_listeners">false</property>
-        <property name="hibernate.validator.apply_to_ddl">false</property>
-        <mapping class="at.intelligentminds.service.model.Message" />
-        <mapping class="at.intelligentminds.service.model.Group" />
-        <mapping class="at.intelligentminds.service.model.User" />
-    </session-factory>
+ <session-factory name="">
+  <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+  <property name="hibernate.connection.password">mindthegap</property>
+  <property name="hibernate.connection.url">jdbc:mysql://80.110.233.183:12346/mindmessages</property>
+  <property name="hibernate.connection.username">intelligentminds</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.search.autoregister_listeners">false</property>
+  <property name="hibernate.validator.apply_to_ddl">false</property>
+  <mapping class="at.intelligentminds.service.model.Message"/>
+  <mapping class="at.intelligentminds.service.model.Group"/>
+  <mapping class="at.intelligentminds.service.model.User"/>
+  <mapping class="at.intelligentminds.service.model.Request"/>
+ </session-factory>
 </hibernate-configuration>
