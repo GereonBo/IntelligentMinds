@@ -1,0 +1,37 @@
+package at.intelligentminds.client;
+
+import static org.junit.Assert.*;
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class TestLogin {
+
+  private ConnectionProvider provider;
+  
+  @Before
+  public void setUp() throws Exception {
+    provider = ConnectionProvider.getInstance();
+  }
+
+  @Test
+  /**
+   * should succeed
+   */   
+  public void test() {
+    boolean loginSucceeded = provider.performLogin("test", "p@$$w0rd");
+    
+    assertTrue(loginSucceeded);
+  }
+  
+  @Test
+  /**
+   * should fail
+   */   
+  public void testLoginFails() {
+    boolean loginSucceeded = provider.performLogin("testNotAllowed", "p@$$w0rd");
+    
+    assertFalse(loginSucceeded);
+  }
+}
