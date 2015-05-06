@@ -17,6 +17,14 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
+        <activity
+            android:name=".Registration"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".Profile"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>
