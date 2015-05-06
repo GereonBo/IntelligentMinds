@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-//import at.intelligentminds.client;
+import at.intelligentminds.client.*;
 
 
 // test test test
@@ -18,7 +18,7 @@ import android.widget.Toast;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity{
-
+  ConnectionProvider connectionProvider;
 
 
   // UI references.
