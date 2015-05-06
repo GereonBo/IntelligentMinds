@@ -43,7 +43,7 @@ public class ConnectionProvider {
 
   private static URI getBaseURI() {
 
-    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
 
   }
 
