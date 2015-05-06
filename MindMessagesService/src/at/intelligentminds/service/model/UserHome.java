@@ -4,11 +4,12 @@ package at.intelligentminds.service.model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 
 /**
  * Home object for domain model class User.
@@ -75,10 +76,17 @@ public class UserHome {
   public User getUserByEmail(String email) {
     log.debug("getting User instance with email: " + email);
     try {
-      Query query = entityManager.createQuery("select u from user u where email = :email");
+      Configuration configuration = new Configuration().configure();
+      StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().
+      applySettings(configuration.getProperties());
+      SessionFactory factory = configuration.buildSessionFactory(builder.build());
+//      EntityManagerFactory emf = Persistence.createEntityManagerFactory("mindmessages");
+//      EntityManager ecm = emf.createEntityManager(); 
+      org.hibernate.Query query = factory.openSession().createQuery("select u from User u where email = :email");
+     // Query query = ecm.createQuery("select u from user u where email = :email");
       query.setParameter("email", email);
       
-      User instance = (User)query.getSingleResult();
+      User instance = (User)query.uniqueResult();
       log.debug("get successful");
       return instance;
     }

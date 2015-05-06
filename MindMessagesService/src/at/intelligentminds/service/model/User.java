@@ -34,12 +34,12 @@ public class User implements java.io.Serializable {
   private Set<Message> messagesForUserSenderId = new HashSet<Message>(0);
   private Set<Group> groups = new HashSet<Group>(0);
 
-  @OneToMany(mappedBy="user")
-  @JoinColumn(name="user_id")
-  private Set<Request> userRequests = new HashSet<Request>(0);
+  @OneToMany(mappedBy="confirmer")
+  //@JoinColumn(name="confirmer_id")
+  private Set<Request> confirmerRequests = new HashSet<Request>(0);
   
-  @OneToMany(mappedBy="user")
-  @JoinColumn(name="requester_id")
+  @OneToMany(mappedBy="requester")
+  //@JoinColumn(name="requester_id")
   private Set<Request> requesterRequests = new HashSet<Request>(0);
   
   public User() {
@@ -63,7 +63,7 @@ public class User implements java.io.Serializable {
     this.usersForUserId = usersForUserId;
     this.messagesForUserSenderId = messagesForUserSenderId;
     this.groups = groups;
-    this.userRequests = userRequests;
+    this.confirmerRequests = userRequests;
     this.requesterRequests = requesterRequests;
   }
 

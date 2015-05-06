@@ -16,16 +16,11 @@ import javax.persistence.Table;
 public class Request implements java.io.Serializable {
 
   private static final long serialVersionUID = 2751247612846123166L;
-  @Id
-  @GeneratedValue
+
   private int id;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "requester_id")
+  
+  private User confirmer;
+  
   private User requester;
 
   private Status status;
@@ -33,9 +28,9 @@ public class Request implements java.io.Serializable {
   public Request() {
   }
 
-  public Request(int id, User user, User requester, Status status) {
+  public Request(int id, User confirmer, User requester, Status status) {
     this.id = id;
-    this.user = user;
+    this.confirmer = confirmer;
     this.requester = requester;
     this.status = status;
   }
@@ -59,14 +54,18 @@ public class Request implements java.io.Serializable {
     this.id = id;
   }
 
-  public User getUser() {
-    return this.user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "confirmer_id")
+  public User getConfirmer() {
+    return this.confirmer;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setConfirmer(User confirmer) {
+    this.confirmer = confirmer;
   }
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "requester_id")
   public User getRequester() {
     return this.requester;
   }

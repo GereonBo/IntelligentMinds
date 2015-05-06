@@ -11,6 +11,7 @@
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
   <property name="hibernate.search.autoregister_listeners">false</property>
   <property name="hibernate.validator.apply_to_ddl">false</property>
+  <property name="hibernate.hbm2ddl.auto">update</property>
   <mapping class="at.intelligentminds.service.model.Message"/>
   <mapping class="at.intelligentminds.service.model.Group"/>
   <mapping class="at.intelligentminds.service.model.User"/>
