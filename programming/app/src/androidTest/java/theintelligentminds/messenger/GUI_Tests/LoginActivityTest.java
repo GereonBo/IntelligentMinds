@@ -7,6 +7,8 @@ import com.robotium.solo.Solo;
 import theintelligentminds.messenger.LoginActivity;
 import theintelligentminds.messenger.R;
 
+
+
 public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
   private Solo my_solo_;
