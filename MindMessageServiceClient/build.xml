@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="MindmessageServiceClient">
+  <target name="build">
+    <jar destfile="dist/mindmessageclient.jar">
+      <fileset dir="bin"/>
+    </jar>
+  </target>
+</project>
