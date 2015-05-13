@@ -99,12 +99,10 @@ public class RegisterService {
   @POST
   @Path("/deleteuser")
   @Produces(MediaType.TEXT_PLAIN)
-  public boolean login(@FormParam("email") String email, @FormParam("password") String password, 
+  public boolean deleteUser(@FormParam("email") String email, @FormParam("password") String password, 
       @FormParam("authtoken") String authtoken) {
 
     if(!new LoginService().validate(authtoken)) return false;
-    
-    System.out.println("EMAIL: "+email);
     
     Transaction tx = HibernateSupport.getSession().beginTransaction();
     User user = (User)HibernateSupport.getSession().get(User.class, email);
