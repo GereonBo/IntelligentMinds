@@ -9,7 +9,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import at.intelligentminds.service.model.UserHome;
+import org.hibernate.Criteria;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
+import at.intelligentminds.service.model.HibernateSupport;
+import at.intelligentminds.service.model.User;
 
 @Path("/userservice")
 public class RegisterService {
@@ -26,7 +31,7 @@ public class RegisterService {
   @POST
   @Path("/register")
   @Produces(MediaType.TEXT_PLAIN)
-  public Integer login(@FormParam("username") String username, @FormParam("password") String password, 
+  public Integer login(@FormParam("email") String email, @FormParam("password") String password, 
       @FormParam("gender") String gender, @FormParam("firstName") String firstName, 
       @FormParam("lastName") String lastName) {
 
@@ -38,7 +43,7 @@ public class RegisterService {
       return RegisterResponse.NAME.ordinal();
     }
     
-    if(!EMAIL_VALIDATOR.matcher(username).matches()){
+    if(!EMAIL_VALIDATOR.matcher(email).matches()){
       return RegisterResponse.EMAIL.ordinal();
     }
     
@@ -47,9 +52,40 @@ public class RegisterService {
       return RegisterResponse.MISC_ERROR.ordinal();
     }
     
-    //TODO: Finish
+    Transaction tx = HibernateSupport.getSession().beginTransaction();
+    Criteria criteria = HibernateSupport.getSession().createCriteria(User.class);
+    criteria.add(Restrictions.like("email", email));
+    int found = criteria.list().size();
+    tx.commit();
     
-    return RegisterResponse.SUCCESS.ordinal();
+    if(found > 0){
+      return RegisterResponse.USER_EXISTS.ordinal();
+    }
+    
+    User newuser = new User();
+    newuser.setEmail(email);
+    newuser.setFirstName(firstName);
+    newuser.setLastName(lastName);
+    
+    String hash;
+    try {
+      hash = PasswordHash.createHash(password);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      return RegisterResponse.MISC_ERROR.ordinal();
+    }
+    newuser.setPwHash(hash);
+    
+    tx = HibernateSupport.getSession().beginTransaction();
+    boolean success =  HibernateSupport.persist(newuser);
+    tx.commit();
+    
+    if(success){
+      return RegisterResponse.SUCCESS.ordinal();
+    }else{
+      return RegisterResponse.MISC_ERROR.ordinal();
+    }
   }
   
   @Path("/register")
@@ -57,6 +93,36 @@ public class RegisterService {
   @Produces(MediaType.TEXT_HTML)
   public String get() {
     return "These are not the droids you are looking for.";
+  }
+  
+  
+  @POST
+  @Path("/deleteuser")
+  @Produces(MediaType.TEXT_PLAIN)
+  public boolean deleteUser(@FormParam("email") String email, @FormParam("password") String password, 
+      @FormParam("authtoken") String authtoken) {
+
+    if(!new LoginService().validate(authtoken)) return false;
+    
+    Transaction tx = HibernateSupport.getSession().beginTransaction();
+    User user = (User)HibernateSupport.getSession().get(User.class, email);
+    tx.commit();
+    
+    try {
+      if(PasswordHash.validatePassword(password, user.getPwHash())){
+        tx = HibernateSupport.getSession().beginTransaction();
+        HibernateSupport.getSession().delete(user);
+        tx.commit();
+        return true;
+      }else{
+        return false;
+      }
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+    
   }
   
 }

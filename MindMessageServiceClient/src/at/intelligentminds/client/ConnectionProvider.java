@@ -20,7 +20,7 @@ public class ConnectionProvider {
   private static ConnectionProvider instance;
   private WebTarget target;
   private String userId;
-  
+
   public enum RegisterResponse {
     SUCCESS, ERROR, PASSWORD, USER_EXISTS, NAME, MISC_ERROR, EMAIL
   }
@@ -43,14 +43,14 @@ public class ConnectionProvider {
 
   private static URI getBaseURI() {
 
-    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
-
+    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
+//    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
-  public String performLogin(String user, String password) {
+  public String performLogin(String email, String password) {
 
     Form login_form = new Form();
-    login_form.param("username", user);
+    login_form.param("email", email);
     login_form.param("password", password);
 
     userId = this.target.path("userservice").path("login").request().accept(MediaType.TEXT_PLAIN)
@@ -59,34 +59,40 @@ public class ConnectionProvider {
     return userId;
   }
 
-  public boolean validateLogin(String token) {    
+  public boolean validateLogin(String token) {
     Form validate_form = new Form();
     validate_form.param("token", token);
-    
-    boolean isLoggedIn = this.target.path("userservice").path("validate").request().
-        accept(MediaType.TEXT_PLAIN).
-        post(Entity.entity(validate_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
-    
+
+    boolean isLoggedIn = this.target.path("userservice").path("validate").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(validate_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+
     return isLoggedIn;
   }
 
   public RegisterResponse register(String email, String password, String gender, String firstname, String lastname) {
     Form register_form = new Form();
-    register_form.param("username", email);
+    register_form.param("email", email);
     register_form.param("password", password);
     register_form.param("gender", gender);
     register_form.param("firstName", firstname);
     register_form.param("lastName", lastname);
-    
-    RegisterResponse response = RegisterResponse.values()[this.target.path("userservice").path("register").request().accept(MediaType.TEXT_PLAIN)
-        .post(Entity.entity(register_form,  MediaType.APPLICATION_FORM_URLENCODED_TYPE), Integer.class)];
-    
+
+    RegisterResponse response = RegisterResponse.values()[this.target.path("userservice").path("register").request()
+        .accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(register_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Integer.class)];
+
     return response;
   }
 
-  public void deleteAccount(String user1, String pw1, String performLogin) {
-    // TODO Implement
-    
+  public boolean deleteAccount(String email, String password, String authtoken) {
+    Form delete_form = new Form();
+    delete_form.param("email", email);
+    delete_form.param("password", password);
+    delete_form.param("authtoken", authtoken);
+
+    boolean response = this.target.path("userservice").path("deleteuser").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(delete_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+
+    return response;
   }
-  
 }

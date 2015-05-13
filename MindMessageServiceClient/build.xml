@@ -3,6 +3,9 @@
   <target name="build">
     <jar destfile="dist/mindmessageclient.jar">
       <fileset dir="bin"/>
+    	<zipgroupfileset dir="lib/">
+          <include name="**/*.jar" />
+    	</zipgroupfileset>
     </jar>
   </target>
 </project>
