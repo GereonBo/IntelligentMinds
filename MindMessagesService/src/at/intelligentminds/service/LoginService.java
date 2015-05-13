@@ -56,33 +56,6 @@ public class LoginService {
     return "";
   }
   
-  @Path("/test/{varX}/{varY}")
-  @GET
-  @Produces(MediaType.TEXT_PLAIN)
-  public String test(@PathParam("varX") String email, @PathParam("varY") String password) {
-
-    Transaction tx = HibernateSupport.getSession().beginTransaction();
-    User user = (User)HibernateSupport.getSession().get(User.class, email);
-    tx.commit();
-    
-    if(user != null){
-      try {
-        if(PasswordHash.validatePassword(password.toCharArray(), user.getPwHash())){
-          String random_uuid = UUID.randomUUID().toString().toUpperCase() + '|' + email;
-          userTokens.put(random_uuid, user);
-          return random_uuid;
-        }
-      }
-      catch (Exception e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-        return "";
-      }
-    }
-    
-    return "";
-  }
-  
   @Path("/validate")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
@@ -98,6 +71,10 @@ public class LoginService {
   @Produces(MediaType.TEXT_HTML)
   public String get() {
     return "These are not the droids you are looking for.";
+  }
+  
+  public static User getUserByToken(String token) {
+    return userTokens.get(token);
   }
   
 }

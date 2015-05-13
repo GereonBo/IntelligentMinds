@@ -95,34 +95,4 @@ public class RegisterService {
     return "These are not the droids you are looking for.";
   }
   
-  
-  @POST
-  @Path("/deleteuser")
-  @Produces(MediaType.TEXT_PLAIN)
-  public boolean deleteUser(@FormParam("email") String email, @FormParam("password") String password, 
-      @FormParam("authtoken") String authtoken) {
-
-    if(!new LoginService().validate(authtoken)) return false;
-    
-    Transaction tx = HibernateSupport.getSession().beginTransaction();
-    User user = (User)HibernateSupport.getSession().get(User.class, email);
-    tx.commit();
-    
-    try {
-      if(PasswordHash.validatePassword(password, user.getPwHash())){
-        tx = HibernateSupport.getSession().beginTransaction();
-        HibernateSupport.getSession().delete(user);
-        tx.commit();
-        return true;
-      }else{
-        return false;
-      }
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      return false;
-    }
-    
-  }
-  
 }

@@ -41,7 +41,6 @@ public class TestRegister {
   }
   
   @Test
-  @Ignore
   /**
    * test username already exists
    */   
@@ -56,7 +55,6 @@ public class TestRegister {
   }
   
   @Test
-  @Ignore
   /**
    * test username already exists
    */   
@@ -66,7 +64,7 @@ public class TestRegister {
     assertNotNull(response);
     assertEquals(RegisterResponse.SUCCESS, response);
     //Delete
-    provider.deleteAccount(provider.performLogin(user2, pw1));
+    provider.deleteAccount(user2, pw1, provider.performLogin(user2, pw1));
     //Reregister
     response = provider.register(user2, pw1, "male", "user", "mustermann");
     assertNotEquals(RegisterResponse.USER_EXISTS, response);
@@ -134,8 +132,8 @@ public class TestRegister {
   @After
   public void tearDown() {
     
-    provider.deleteAccount(provider.performLogin(user1, pw1));
-    provider.deleteAccount(provider.performLogin(user1, pw1));
+    provider.deleteAccount(user1, pw1, provider.performLogin(user1, pw1));
+    provider.deleteAccount(user2, pw1, provider.performLogin(user2, pw1));
   }
 
 }

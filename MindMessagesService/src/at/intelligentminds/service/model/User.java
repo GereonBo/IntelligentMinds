@@ -22,6 +22,7 @@ public class User {
   private String lastName;
   private String pwHash;
   private String profileText;
+  private String gender;
   private Set<User> usersForContactId = new HashSet<User>(0);
   private Set<Message> messagesForUserReceiverId = new HashSet<Message>(0);
   private Set<User> usersForUserId = new HashSet<User>(0);
@@ -43,7 +44,7 @@ public class User {
     this.email = email;
   }
   
-  public User(String email, String firstName, String lastName, String pwHash, String profileText,
+  public User(String email, String firstName, String lastName, String pwHash, String profileText, String gender,
       Set<User> usersForContactId, Set<Message> messagesForUserReceiverId, Set<User> usersForUserId,
       Set<Message> messagesForUserSenderId, Set<Group> groups, Set<Request> userRequests, Set<Request> requesterRequests) {
     this.firstName = firstName;
@@ -51,6 +52,7 @@ public class User {
     this.pwHash = pwHash;
     this.email = email;
     this.profileText = profileText;
+    this.gender = gender;
     this.usersForContactId = usersForContactId;
     this.messagesForUserReceiverId = messagesForUserReceiverId;
     this.usersForUserId = usersForUserId;
@@ -104,6 +106,15 @@ public class User {
 
   public void setProfileText(String profileText) {
     this.profileText = profileText;
+  }
+  
+  @Column(name = "gender", length = 6)
+  public String getGender() {
+    return this.profileText;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
   }
 
   @ManyToMany(fetch = FetchType.LAZY)
