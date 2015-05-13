@@ -34,6 +34,7 @@ public class LoginService {
   @Produces(MediaType.TEXT_PLAIN)
   public String login(@FormParam("email") String email, @FormParam("password") String password) {
 
+	  try{
     Transaction tx = HibernateSupport.getSession().beginTransaction();
     User user = (User)HibernateSupport.getSession().get(User.class, email);
     tx.commit();
@@ -52,6 +53,9 @@ public class LoginService {
         return "";
       }
     }
+	  }catch(Exception e){
+		  e.printStackTrace();
+	  }
     return "";
   }
   
@@ -69,7 +73,7 @@ public class LoginService {
   @GET
   @Produces(MediaType.TEXT_HTML)
   public String get() {
-    return "These are not the droids you are looking for.";
+    return "These are not the droids you are looking for!";
   }
   
 }

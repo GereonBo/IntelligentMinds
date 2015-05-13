@@ -11,9 +11,7 @@
 	<classpathentry kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
 	<classpathentry kind="lib" path="lib/javax.annotation-api-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/javax.inject-2.4.0-b10.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet-api-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/javax.ws.rs-api-2.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/jaxb-api-2.2.7.jar"/>
 	<classpathentry kind="lib" path="lib/jersey-client.jar"/>
 	<classpathentry kind="lib" path="lib/jersey-common.jar"/>
 	<classpathentry kind="lib" path="lib/jersey-container-servlet-core.jar"/>
