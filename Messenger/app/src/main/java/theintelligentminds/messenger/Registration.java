@@ -3,6 +3,7 @@ package theintelligentminds.messenger;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,62 +41,73 @@ public class Registration extends Activity {
     register.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        String message = "";
-        String sex = "";
+        String message;
+        AsyncDBAccess async = new AsyncDBAccess();
+        async.execute();
+      }
+    });
+  }
 
-        int selectedId = radioSexGroup.getCheckedRadioButtonId();
+  class AsyncDBAccess extends AsyncTask<String, Void, String> {
+    @Override
+    protected String doInBackground(String... strings) {
+      String message;
+      String sex = "";
 
-        switch (selectedId) {
-          case R.id.radioButtonFemale:
-            sex = "female";
-            break;
-          case R.id.radioButtonMale:
-            sex = "male";
-            break;
-          default:
-            message = "No sex selected";
-        }
+      int selectedId = radioSexGroup.getCheckedRadioButtonId();
 
-        if (!sex.isEmpty()) {
-          ConnectionProvider.RegisterResponse response = provider.register(email.getText().toString(), password
-              .getText().toString(), "male", firstName.getText().toString(), lastName.getText().toString());
-
-          switch (response) {
-            case EMAIL:
-              message = "wrong email address";
-              break;
-            case ERROR:
-              message = "an error has occurred";
-              break;
-            default:
-            case MISC_ERROR:
-              message = "an unexpected error has occurred";
-              break;
-            case NAME:
-              message = "invalid format at name";
-              break;
-            case PASSWORD:
-              message = "invalid format at name";
-              break;
-            case SUCCESS:
-              message = "Registration has been successful";
-              break;
-            case USER_EXISTS:
-              message = "The user exists already";
-              break;
-          }
-        }
-
-        new AlertDialog.Builder(getApplicationContext()).setTitle("Invalid Input").setMessage(message)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialogInterface, int i) {
-
-              }
-            }).show();
+      switch (selectedId) {
+        case R.id.radioButtonFemale:
+          sex = "female";
+          break;
+        case R.id.radioButtonMale:
+          sex = "male";
+          break;
+        default:
+          return "No sex selected";
       }
 
-    });
+      ConnectionProvider.RegisterResponse response = provider.register(email.getText().toString(), password.getText()
+          .toString(), "male", firstName.getText().toString(), lastName.getText().toString());
 
+      switch (response) {
+        case EMAIL:
+          message = "wrong email address";
+          break;
+        case ERROR:
+          message = "an error has occurred";
+          break;
+        case NAME:
+          message = "invalid format at name";
+          break;
+        case PASSWORD:
+          message = "Password does not meet requirements";
+          break;
+        case SUCCESS:
+          message = "Registration has been successful";
+          break;
+        case USER_EXISTS:
+          message = "The user exists already";
+          break;
+        default:
+        case MISC_ERROR:
+          message = "an unexpected error has occurred";
+          break;
+      }
+
+      return message;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+      super.onPostExecute(s);
+      new AlertDialog.Builder(Registration.this).setTitle("Registration").setMessage(s)
+          .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+          }).show();
+    }
   }
 }
