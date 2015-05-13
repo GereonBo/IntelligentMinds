@@ -77,6 +77,7 @@
         android:layout_alignStart="@+id/textfieldFirstname"
         android:layout_marginTop="23dp" />
 <RadioGroup
+    android:id="@+id/radioSex"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
     android:layout_below="@+id/textfieldLastname"

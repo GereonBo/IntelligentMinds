@@ -30,6 +30,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.intelligentminds.client.ConnectionProvider;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -37,6 +39,8 @@ import java.util.List;
 public class LoginActivity extends Activity {
 private Button register;
 private Button login;
+private ConnectionProvider provider = ConnectionProvider.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
