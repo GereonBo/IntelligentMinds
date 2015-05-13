@@ -21,6 +21,10 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
+            android:name=".Main_Menue"
+            android:label="@string/app_name">
+        </activity>
+        <activity
             android:name=".Registration"
             android:label="@string/app_name">
         </activity>

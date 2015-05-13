@@ -30,8 +30,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.intelligentminds.client.ConnectionProvider;
-
 
 /**
  * A login screen that offers login via email/password.
@@ -39,15 +37,15 @@ import at.intelligentminds.client.ConnectionProvider;
 public class LoginActivity extends Activity {
 private Button register;
 private Button login;
-private ConnectionProvider provider = ConnectionProvider.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         //Parse.initialize(this, "app-id", "client-key");
 
-        EditText usernameField = (EditText) findViewById(R.id.textfieldEMail);
+
+
+        final EditText usernameField = (EditText) findViewById(R.id.textfieldEMail);
         register = (Button) findViewById(R.id.buttonRegister);
         login = (Button) findViewById(R.id.buttonLogin);
 

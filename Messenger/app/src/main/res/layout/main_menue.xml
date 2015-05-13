@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff9045"
+    android:weightSum="1"
+    android:id="@+id/gridProfil"
+    android:rowCount="17"
+    android:columnCount="3"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:id="@+id/imageView2"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="20dp" />
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/imageView3"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:src="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp" />
+
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView"
+        android:src="@mipmap/ic_launcher"
+        android:layout_row="2"
+        android:layout_column="0" />
+
+    <EditText
+        android:layout_width="330dp"
+        android:layout_height="18dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editTextLine"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_marginLeft="15dp" />
+
+    <EditText
+        android:layout_width="330dp"
+        android:layout_height="18dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editTextLine1"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_marginLeft="15dp" />
+
+    <EditText
+        android:layout_width="330dp"
+        android:layout_height="18dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editTextLine2"
+        android:layout_row="5"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_marginLeft="15dp" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView1"
+        android:src="@mipmap/ic_launcher"
+        android:layout_row="4"
+        android:layout_column="0" />
+
+
+    <TextView
+        android:layout_width="194dp"
+        android:layout_height="40dp"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:layout_row="2"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_column="1"
+        android:id="@+id/editTextUsername"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="194dp"
+        android:layout_height="40dp"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:layout_row="4"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_column="1"
+        android:id="@+id/editTextUsername1"
+        android:layout_marginTop="10dp" />
+
+
+    <TextView
+        android:layout_width="194dp"
+        android:layout_height="40dp"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editTextLastname"
+        android:layout_row="2"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_column="1"
+        android:layout_marginTop="95dp"
+        android:text="Lastname" />
+
+    <TextView
+        android:layout_width="194dp"
+        android:layout_height="40dp"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editTextLastname1"
+        android:layout_row="4"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_column="1"
+        android:layout_marginTop="95dp"
+        android:text="Lastname" />
+
+
+    <TextView
+        android:layout_width="194dp"
+        android:layout_height="40dp"
+        android:inputType="textPersonName"
+        android:text="Firstname"
+        style="@style/Widget.AppCompat.EditText"
+        android:id="@+id/editTextFirstname"
+        android:layout_marginTop="50dp"
+        android:layout_row="2"
+        android:layout_column="1" />
+
+    <TextView
+        android:layout_width="194dp"
+        android:layout_height="40dp"
+        android:inputType="textPersonName"
+        android:text="Firstname"
+        style="@style/Widget.AppCompat.EditText"
+        android:id="@+id/editTextFirstname1"
+        android:layout_marginTop="50dp"
+        android:layout_row="4"
+        android:layout_column="1" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/Online"
+        android:layout_row="2"
+        android:layout_column="2"
+        android:src="@drawable/abc_btn_switch_to_on_mtrl_00012"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="25dp" />
+
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/Online2"
+        android:layout_row="4"
+        android:layout_column="2"
+        android:src="@drawable/abc_btn_switch_to_on_mtrl_00012"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="25dp" />
+
+
+</GridLayout>
