@@ -76,35 +76,35 @@
         android:layout_alignLeft="@+id/textfieldFirstname"
         android:layout_alignStart="@+id/textfieldFirstname"
         android:layout_marginTop="23dp" />
-<RadioGroup
-    android:layout_width="150dp"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/textfieldLastname"
-    android:layout_alignLeft="@+id/textfieldLastname"
-    android:layout_alignStart="@+id/textfieldLastname"
-    android:layout_alignRight="@+id/textfieldEMail"
-    android:layout_alignEnd="@+id/textfieldEMail"
-    android:layout_marginTop="10dp">
-
-    <RadioButton
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Female"
-        android:id="@+id/radioButtonFemale"
-        android:checked="false"
         android:layout_below="@+id/textfieldLastname"
-        android:layout_centerHorizontal="true" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Male"
-        android:id="@+id/radioButtonMale"
-        android:checked="false"
-        android:layout_alignTop="@+id/radioButtonFemale"
         android:layout_alignLeft="@+id/textfieldLastname"
         android:layout_alignStart="@+id/textfieldLastname"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignRight="@+id/textfieldEMail"
+        android:layout_alignEnd="@+id/textfieldEMail"
+        android:layout_marginTop="10dp">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:id="@+id/radioButtonFemale"
+            android:checked="false"
+            android:layout_below="@+id/textfieldLastname"
+            android:layout_centerHorizontal="true" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:id="@+id/radioButtonMale"
+            android:checked="false"
+            android:layout_alignTop="@+id/radioButtonFemale"
+            android:layout_alignLeft="@+id/textfieldLastname"
+            android:layout_alignStart="@+id/textfieldLastname"
+            android:layout_centerHorizontal="true"/>
 
     </RadioGroup>
 

@@ -6,7 +6,6 @@ import android.app.Application;
 import android.content.Intent;
 
 import android.os.Bundle;
-import messenger.theintelligentminds.messenger.Profile;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +30,7 @@ public class Registration extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
         Register = (Button) findViewById(R.id.buttonRegister);
-        final EditText FirstName = (EditText) findViewById(R.id.editTextFirstname);
+        //final EditText FirstName = (EditText) findViewById(R.id.editTextFirstname);
 /*
         FirstName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                                                 @Override
@@ -48,16 +47,16 @@ public class Registration extends Activity{
 
                                             });
 */
-                Register.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        Register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                        Intent intent = new Intent(Registration.this, Profile.class);
-                        //intent.putExtra("key", FirstName.getText().toString());
-                        startActivity(intent);
-                    }
+                Intent intent = new Intent(Registration.this, Profile.class);
+                //intent.putExtra("key", FirstName.getText().toString());
+                startActivity(intent);
+            }
 
-                });
+        });
 
 
 
