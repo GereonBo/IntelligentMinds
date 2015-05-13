@@ -3,6 +3,7 @@ package theintelligentminds.messenger;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -49,10 +50,13 @@ public class Registration extends Activity {
   }
 
   class AsyncDBAccess extends AsyncTask<String, Void, String> {
+    private boolean registrationSuccessful = false;
+
     @Override
     protected String doInBackground(String... strings) {
       String message;
       String sex = "";
+      registrationSuccessful = false;
 
       int selectedId = radioSexGroup.getCheckedRadioButtonId();
 
@@ -85,6 +89,7 @@ public class Registration extends Activity {
           break;
         case SUCCESS:
           message = "Registration has been successful";
+          registrationSuccessful = true;
           break;
         case USER_EXISTS:
           message = "The user exists already";
@@ -105,7 +110,10 @@ public class Registration extends Activity {
           .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+              if (registrationSuccessful) {
+                Intent intent = new Intent(Registration.this, LoginActivity.class);
+                startActivity(intent);
+              }
             }
           }).show();
     }
