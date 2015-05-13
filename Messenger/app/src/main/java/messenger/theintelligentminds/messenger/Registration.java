@@ -45,14 +45,9 @@ public class Registration extends Activity {
       public void onClick(View v) {
         String message;
 
-       // ConnectionProvider.RegisterResponse response = provider.register(email.getText().toString(),
-        //        password.getText().toString(), "male", firstName.getText().toString(),
-         //       lastName.getText().toString());
-
-          
-          ConnectionProvider.RegisterResponse response = provider.register("usermustermann@bla.com", "Passw0rd", "male", "user", "mustermann");
-
-
+        ConnectionProvider.RegisterResponse response = provider.register(email.getText().toString(),
+                password.getText().toString(), "male", firstName.getText().toString(),
+                lastName.getText().toString());
 
         switch(response) {
             case EMAIL: message = "wrong email address"; break;
