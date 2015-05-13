@@ -43,8 +43,8 @@ public class ConnectionProvider {
 
   private static URI getBaseURI() {
 
-    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
-
+    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
+//    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
   public String performLogin(String email, String password) {
@@ -86,7 +86,7 @@ public class ConnectionProvider {
 
   public boolean deleteAccount(String email, String password, String authtoken) {
     Form delete_form = new Form();
-    delete_form.param("eamil", email);
+    delete_form.param("email", email);
     delete_form.param("password", password);
     delete_form.param("authtoken", authtoken);
 
