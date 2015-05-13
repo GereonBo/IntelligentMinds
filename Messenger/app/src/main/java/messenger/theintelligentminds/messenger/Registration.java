@@ -35,8 +35,8 @@ public class Registration extends Activity {
     setContentView(R.layout.registration);
 
     register = (Button) findViewById(R.id.buttonRegister);
-    firstName = (EditText) findViewById(R.id.editTextFirstname);
-    lastName = (EditText) findViewById(R.id.editTextLastname);
+    firstName = (EditText) findViewById(R.id.textfieldFirstname);
+    lastName = (EditText) findViewById(R.id.textfieldLastname);
     email = (EditText) findViewById(R.id.textfieldEMail);
     password = (EditText) findViewById(R.id.textfieldPassword);
 
