@@ -18,10 +18,8 @@
 	<classpathentry kind="lib" path="lib/jersey-container-servlet.jar"/>
 	<classpathentry kind="lib" path="lib/jersey-guava-2.17.jar"/>
 	<classpathentry kind="lib" path="lib/jersey-media-jaxb.jar"/>
-	<classpathentry kind="lib" path="lib/jersey-server.jar"/>
 	<classpathentry kind="lib" path="lib/org.osgi.core-4.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/osgi-resource-locator-1.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/persistence-api-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/validation-api-1.1.0.Final.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
