@@ -17,54 +17,59 @@
         android:layout_row="0"
         android:layout_column="0" />
 
-    <EditText
+    <TextView
         android:layout_width="194dp"
         android:layout_height="40dp"
         android:inputType="textPersonName"
         android:text="Firstname"
         android:layout_row="0"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_column="1"
         android:id="@+id/editTextFirstname"
         android:layout_marginTop="5dp" />
 
-    <EditText
+    <TextView
         android:layout_width="194dp"
         android:layout_height="40dp"
         android:inputType="textEmailAddress"
         android:ems="10"
+        style="@style/Widget.AppCompat.EditText"
         android:id="@+id/viewTextMail"
         android:layout_row="0"
         android:layout_column="1"
         android:text="E-Mail"
         android:layout_marginTop="140dp" />
 
-    <EditText
+    <TextView
         android:layout_width="194dp"
         android:layout_height="40dp"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editTextAge"
         android:layout_row="0"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_column="1"
         android:layout_marginTop="95dp"
         android:text="Age" />
 
-    <EditText
+    <TextView
         android:layout_width="194dp"
         android:layout_height="40dp"
         android:inputType="textPersonName"
         android:text="Lastname"
+        style="@style/Widget.AppCompat.EditText"
         android:id="@+id/editTextLastname"
         android:layout_marginTop="50dp"
         android:layout_row="0"
         android:layout_column="1" />
 
-    <EditText
+    <TextView
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:id="@+id/editTextCountry"
         android:layout_row="2"
         android:layout_column="0"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_columnSpan="2"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
@@ -74,7 +79,7 @@
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="125dp"
-        android:layout_height="15dp"
+        android:layout_height="20dp"
         android:text="Edit"
         android:id="@+id/buttonEdit"
         android:layout_row="1"
@@ -83,11 +88,12 @@
         android:layout_column="0"
         android:layout_gravity="center_horizontal" />
 
-    <EditText
+    <TextView
         android:layout_width="145dp"
         android:layout_height="40dp"
         android:inputType="numberDecimal"
         android:ems="10"
+        style="@style/Widget.AppCompat.EditText"
         android:id="@+id/editTextZIP"
         android:layout_row="3"
         android:layout_column="0"
@@ -95,36 +101,37 @@
         android:text="ZIP"
         android:layout_marginBottom="20dp" />
 
-    <EditText
+    <TextView
         android:layout_width="155dp"
         android:layout_height="40dp"
         android:id="@+id/editTextLocation"
         android:layout_row="3"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_column="1"
         android:layout_gravity="left"
         android:text="Location"
         android:layout_marginBottom="20dp" />
 
-    <EditText
+    <TextView
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:inputType="textPostalAddress"
         android:ems="10"
         android:id="@+id/editTextaddress"
         android:layout_row="5"
         android:layout_column="0"
         android:layout_columnSpan="2"
-
+        style="@style/Widget.AppCompat.EditText"
         android:layout_gravity="center_horizontal"
         android:text="Address"
-        android:layout_marginBottom="20dp" />
-    <!--style="@style/Widget.AppCompat.EditText" -->
+        android:layout_marginBottom="20dp"
+        android:inputType="textPostalAddress" />
 
-    <EditText
+    <TextView
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:inputType="textMultiLine"
         android:ems="10"
+        style="@style/Widget.AppCompat.EditText"
         android:id="@+id/editTextAbout_Me"
         android:layout_row="7"
         android:background="#FFCC90"
