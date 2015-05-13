@@ -16,6 +16,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -52,6 +53,33 @@ public class LoginService {
         return "";
       }
     }
+    return "";
+  }
+  
+  @Path("/test/{varX}/{varY}")
+  @GET
+  @Produces(MediaType.TEXT_PLAIN)
+  public String test(@PathParam("varX") String email, @PathParam("varY") String password) {
+
+    Transaction tx = HibernateSupport.getSession().beginTransaction();
+    User user = (User)HibernateSupport.getSession().get(User.class, email);
+    tx.commit();
+    
+    if(user != null){
+      try {
+        if(PasswordHash.validatePassword(password.toCharArray(), user.getPwHash())){
+          String random_uuid = UUID.randomUUID().toString().toUpperCase() + '|' + email;
+          userTokens.put(random_uuid, user);
+          return random_uuid;
+        }
+      }
+      catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        return "";
+      }
+    }
+    
     return "";
   }
   
