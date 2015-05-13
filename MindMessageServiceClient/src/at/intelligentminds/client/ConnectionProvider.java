@@ -84,10 +84,8 @@ public class ConnectionProvider {
     return response;
   }
 
-  public boolean deleteAccount(String email, String password, String authtoken) {
+  public boolean deleteAccount( String authtoken) {
     Form delete_form = new Form();
-    delete_form.param("eamil", email);
-    delete_form.param("password", password);
     delete_form.param("authtoken", authtoken);
 
     boolean response = this.target.path("userservice").path("deleteuser").request().accept(MediaType.TEXT_PLAIN)

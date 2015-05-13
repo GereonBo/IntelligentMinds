@@ -37,6 +37,7 @@ public class TestRegister {
     
     assertNotNull(response);
     assertEquals(RegisterResponse.SUCCESS, response);
+    
   }
   
   @Test
@@ -51,12 +52,29 @@ public class TestRegister {
     assertNotNull(response);
     assertNotNull(response2);
     assertEquals(RegisterResponse.SUCCESS, response);
-    assertEquals(RegisterResponse.USER_EXISTS, response);
+    assertEquals(RegisterResponse.USER_EXISTS, response2);
+  }
+  
+  @Test
+  @Ignore
+  /**
+   * test username already exists
+   */   
+  public void testRegisterDeleteRegisterWithoutLogin() {
+    //Register
+	RegisterResponse response = provider.register(user2, pw1, "male", "user", "mustermann");
+    assertNotNull(response);
+    assertEquals(RegisterResponse.SUCCESS, response);
+    //Delete
+    provider.deleteAccount(provider.performLogin(user2, pw1));
+    //Reregister
+    response = provider.register(user2, pw1, "male", "user", "mustermann");
+    assertNotEquals(RegisterResponse.USER_EXISTS, response);
   }
   
   @Test
   /**
-   * test username already exists
+   * test using weak password
    */   
   public void testRegisterWeakPassword() {
     RegisterResponse response = provider.register(user3, "testfere", "male", "max", "mustermann");
@@ -91,11 +109,33 @@ public class TestRegister {
     assertEquals(RegisterResponse.EMAIL, response);
   }
   
+  @Test
+  /**
+   * wrong name
+   */   
+  public void testRegisterNamefail() {
+    RegisterResponse response = provider.register(user3, pw1, "male", "12345weird name", "mustermann");
+    
+    assertNotNull(response);
+    assertEquals(RegisterResponse.NAME, response);
+  }
+  
+  @Test
+  /**
+   * wrong gender
+   */   
+  public void testRegisterGenderfail() {
+    RegisterResponse response = provider.register(user3, pw1, "unknown", "user", "mustermann");
+    
+    assertNotNull(response);
+    assertEquals(RegisterResponse.MISC_ERROR, response);
+  }
+  
   @After
   public void tearDown() {
     
-    provider.deleteAccount(user1, pw1, provider.performLogin(user1, pw1));
-    provider.deleteAccount(user2, pw1, provider.performLogin(user1, pw1));
+    provider.deleteAccount(provider.performLogin(user1, pw1));
+    provider.deleteAccount(provider.performLogin(user1, pw1));
   }
 
 }
