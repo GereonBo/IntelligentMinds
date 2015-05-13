@@ -4,9 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -39,8 +41,9 @@ import at.intelligentminds.client.ConnectionProvider;
 public class LoginActivity extends Activity {
 private Button register;
 private Button login;
-private ConnectionProvider provider = ConnectionProvider.getInstance();
-
+    private EditText email;
+    private EditText password;
+    private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +54,14 @@ private ConnectionProvider provider = ConnectionProvider.getInstance();
         register = (Button) findViewById(R.id.buttonRegister);
         login = (Button) findViewById(R.id.buttonLogin);
 
+        email = (EditText) findViewById(R.id.textfieldEMail);
+        password = (EditText) findViewById(R.id.textfieldPassword);
 
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(LoginActivity.this, Profile.class);
-                startActivity(intent);
+                AsyncDBAccess async = new AsyncDBAccess();
+                async.execute();
             }
         });
 
@@ -69,6 +74,39 @@ private ConnectionProvider provider = ConnectionProvider.getInstance();
             }
 
         });
+    }
+
+
+    class AsyncDBAccess extends AsyncTask<String,Void,String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            String auth_token = provider.performLogin(email.getText().toString(),
+                    password.getText().toString());
+
+            return auth_token;
+        }
+
+        @Override
+        protected void onPostExecute(String auth_token) {
+            super.onPostExecute(auth_token);
+
+            if(auth_token.equals("")) {
+                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login failed").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+            }else{
+                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login successful").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(LoginActivity.this, Profile.class);
+                        startActivity(intent);
+                    }
+                }).show();
+            }
+        }
     }
 }
 

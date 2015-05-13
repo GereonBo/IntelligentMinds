@@ -25,7 +25,7 @@ public class Registration extends Activity {
   private EditText email;
   private EditText password;
   private RadioGroup radioSexGroup;
-  private ConnectionProvider provider = ConnectionProvider.getInstance();
+  private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
