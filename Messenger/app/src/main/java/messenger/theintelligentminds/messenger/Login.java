@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import at.intelligentminds.client.ConnectionProvider;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -14,6 +16,7 @@ import android.widget.EditText;
 public class Login extends Activity {
     private Button register;
     private Button login;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

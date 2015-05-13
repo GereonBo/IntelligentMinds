@@ -6,6 +6,8 @@ import android.app.Application;
 import android.content.Intent;
 
 import android.os.Bundle;
+
+import at.intelligentminds.client.ConnectionProvider;
 import messenger.theintelligentminds.messenger.Profile;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,7 +26,7 @@ import android.widget.Toast;
 
 public class Registration extends Activity{
     private Button Register;
-
+    private ConnectionProvider provider = ConnectionProvider.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
