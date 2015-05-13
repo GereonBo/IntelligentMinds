@@ -1,4 +1,4 @@
-package messenger.theintelligentminds.messenger;
+package theintelligentminds.messenger;
 
 import android.app.Activity;
 import android.content.Intent;
