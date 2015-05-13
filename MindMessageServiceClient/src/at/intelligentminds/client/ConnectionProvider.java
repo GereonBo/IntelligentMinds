@@ -1,6 +1,7 @@
 package at.intelligentminds.client;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -96,4 +97,14 @@ public class ConnectionProvider {
     return response;
   }
   
+  public List searchAccounts(String searchText, String authtoken) {
+    Form search_form = new Form();
+    search_form.param("searchText", searchText);
+    search_form.param("authtoken", authtoken);
+
+    List response = this.target.path("userservice").path("searchuser").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(search_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), List.class);
+
+    return response;
+  }
 }

@@ -14,10 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity()
-@Table(name="user")
+@Table(name = "user")
 public class User {
 
   private String email;
+  private String accountName;
   private String firstName;
   private String lastName;
   private String pwHash;
@@ -28,27 +29,27 @@ public class User {
   private Set<User> usersForUserId = new HashSet<User>(0);
   private Set<Message> messagesForUserSenderId = new HashSet<Message>(0);
   private Set<Group> groups = new HashSet<Group>(0);
-  
-  @OneToMany(mappedBy="confirmer")
+
+  @OneToMany(mappedBy = "confirmer")
   private Set<Request> confirmerRequests = new HashSet<Request>(0);
-  
-  @OneToMany(mappedBy="requester")
+
+  @OneToMany(mappedBy = "requester")
   private Set<Request> requesterRequests = new HashSet<Request>(0);
-  
-  public User()
-  {
-    
+
+  public User() {
+
   }
-  
+
   public User(String email) {
     this.email = email;
   }
-  
-  public User(String email, String firstName, String lastName, String pwHash, String profileText, String gender,
-      Set<User> usersForContactId, Set<Message> messagesForUserReceiverId, Set<User> usersForUserId,
+
+  public User(String email, String accountName, String firstName, String lastName, String pwHash, String profileText,
+      String gender, Set<User> usersForContactId, Set<Message> messagesForUserReceiverId, Set<User> usersForUserId,
       Set<Message> messagesForUserSenderId, Set<Group> groups, Set<Request> userRequests, Set<Request> requesterRequests) {
     this.firstName = firstName;
     this.lastName = lastName;
+    this.accountName = accountName;
     this.pwHash = pwHash;
     this.email = email;
     this.profileText = profileText;
@@ -63,7 +64,7 @@ public class User {
   }
 
   @Id
-  @Column(name="email", nullable=false)
+  @Column(name = "email", nullable = false)
   public String getEmail() {
     return email;
   }
@@ -71,8 +72,17 @@ public class User {
   public void setEmail(String email) {
     this.email = email;
   }
+  
+  @Column(name = "accountName", nullable = false, length=50, unique=true)
+  public String getAccountName() {
+    return this.accountName;
+  }
 
-  @Column(name="firstName")
+  public void setAccountName(String accountName) {
+    this.accountName = accountName;
+  }
+
+  @Column(name = "firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -81,7 +91,7 @@ public class User {
     this.firstName = firstName;
   }
 
-  @Column(name="lastName")
+  @Column(name = "lastName")
   public String getLastName() {
     return lastName;
   }
@@ -90,7 +100,7 @@ public class User {
     this.lastName = lastName;
   }
 
-  @Column(name="pwHash")
+  @Column(name = "pwHash")
   public String getPwHash() {
     return pwHash;
   }
@@ -98,7 +108,7 @@ public class User {
   public void setPwHash(String pwHash) {
     this.pwHash = pwHash;
   }
-  
+
   @Column(name = "profile_text", length = 256)
   public String getProfileText() {
     return this.profileText;
@@ -107,10 +117,10 @@ public class User {
   public void setProfileText(String profileText) {
     this.profileText = profileText;
   }
-  
+
   @Column(name = "gender", length = 6)
   public String getGender() {
-    return this.profileText;
+    return this.gender;
   }
 
   public void setGender(String gender) {
@@ -169,5 +179,5 @@ public class User {
 
   public void setGroups(Set<Group> groups) {
     this.groups = groups;
-  } 
+  }
 }

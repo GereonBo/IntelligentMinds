@@ -17,9 +17,9 @@ import at.intelligentminds.service.model.User;
 public class UserService {
 
   @POST
-  @Path("/searchuser")
+  @Path("/searchaccount")
   @Produces(MediaType.TEXT_PLAIN)
-  public List searchUser(@FormParam("searchText") String searchText) {
+  public List searchAccount(@FormParam("searchText") String searchText) {
     
     String[] parts = searchText.split(" ");
 
