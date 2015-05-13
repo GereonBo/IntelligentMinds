@@ -33,7 +33,7 @@ public class TestRegister {
    * should succeed
    */   
   public void testRegisterSucceed() {
-    RegisterResponse response = provider.register(user1, pw1, "male", "user", "mustermann");
+    RegisterResponse response = provider.register(user1, pw1, "male", "Thomas", "Hoedl");
     
     assertNotNull(response);
     assertEquals(RegisterResponse.SUCCESS, response);
