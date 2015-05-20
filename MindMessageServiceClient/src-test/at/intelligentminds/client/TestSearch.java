@@ -34,9 +34,9 @@ public class TestSearch {
     provider = ConnectionProvider.getInstance();
     
     provider.register(userEmail1, pw1, "male", "user", "mustermann");
-    provider.register(userEmail2, pw1, "male", "user2", "mustermann");
-    provider.register(userEmail3, pw1, "male", "user3", "mustermann");
-    provider.register(userEmail4, pw1, "male", "user4", "mustermann");
+    provider.register(userEmail2, pw1, "male", "userZwei", "mustermann");
+    provider.register(userEmail3, pw1, "male", "userDrei", "mustermann");
+    provider.register(userEmail4, pw1, "male", "userVier", "mustermann");
     authTokenUser1 = provider.performLogin(userEmail1, pw1);
   }
 
