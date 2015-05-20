@@ -132,6 +132,7 @@ public class ConnectionProvider {
     if (response != null && response != "") {
       returnList = new JSONArray(response);
     }
+    
     return returnList;
   }
 
@@ -142,10 +143,26 @@ public class ConnectionProvider {
     create_form.param("text", text);
     create_form.param("authtoken", authtoken);
 
-    JSONArray returnList = new JSONArray();
     Boolean response = this.target.path("messageservice").path("createmessage").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(create_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
 
     return response;
+  }
+  
+  public JSONArray getMessagesBySenderAndReceiver(String requesterEmail, String receiverEmail, String authtoken) {
+    Form retrieve_form = new Form();
+    retrieve_form.param("senderEmail", requesterEmail);
+    retrieve_form.param("receiverEmail", receiverEmail);
+    retrieve_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    String response = this.target.path("messageservice").path("retrievemessages").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(retrieve_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+
+    if (response != null && response != "") {
+      returnList = new JSONArray(response);
+    }
+    
+    return returnList;
   }
 }

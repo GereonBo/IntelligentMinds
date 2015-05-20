@@ -2,15 +2,11 @@ package at.intelligentminds.client;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.json.JSONArray;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
 
 public class TestSearch {
 
@@ -34,9 +30,9 @@ public class TestSearch {
     provider = ConnectionProvider.getInstance();
     
     provider.register(userEmail1, pw1, "male", "user", "mustermann");
-    provider.register(userEmail2, pw1, "male", "user2", "mustermann");
-    provider.register(userEmail3, pw1, "male", "user3", "mustermann");
-    provider.register(userEmail4, pw1, "male", "user4", "mustermann");
+    provider.register(userEmail2, pw1, "male", "userZwei", "mustermann");
+    provider.register(userEmail3, pw1, "male", "userDrei", "mustermann");
+    provider.register(userEmail4, pw1, "male", "userVier", "mustermann");
     authTokenUser1 = provider.performLogin(userEmail1, pw1);
   }
 
