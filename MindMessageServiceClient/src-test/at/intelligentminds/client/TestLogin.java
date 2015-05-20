@@ -2,16 +2,28 @@ package at.intelligentminds.client;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
 
 public class TestLogin {
 
   private ConnectionProvider provider;
+  private String userEmail1;
+  private String userEmail2;
+  private String pw;
   
   @Before
   public void setUp() throws Exception {
     provider = ConnectionProvider.getInstance();
+    userEmail1 = "test@test.at";
+    userEmail2 = "demo@demo.at";
+    pw = "p@$$w0rD";
+    
+    provider.register(userEmail1, pw, "male", "first", "last");
+    provider.register(userEmail2, pw, "male", "first", "last");
   }
 
   @Test
@@ -19,7 +31,7 @@ public class TestLogin {
    * should succeed
    */   
   public void testLoginSuccess() {
-    String loginSucceeded = provider.performLogin("test", "p@$$w0rd");
+    String loginSucceeded = provider.performLogin(userEmail1, pw);
     
     assertNotNull(loginSucceeded);
     assertNotEquals("", loginSucceeded);
@@ -43,7 +55,7 @@ public class TestLogin {
    * wrong password
    */   
   public void testLoginFailsWrongPassword() {
-    String loginFails = provider.performLogin("test", "ups");
+    String loginFails = provider.performLogin(userEmail1, "ups");
     
     assertNotNull(loginFails);
     assertEquals("", loginFails);
@@ -55,8 +67,8 @@ public class TestLogin {
    */
   public void testLoginRemembered()
   {
-    String token_user_a = provider.performLogin("test", "p@$$w0rd");
-    String token_user_b = provider.performLogin("demo", "demopassword");
+    String token_user_a = provider.performLogin(userEmail1, pw);
+    String token_user_b = provider.performLogin(userEmail2, pw);
     
     assertNotNull(token_user_a);
     assertNotNull(token_user_b);
@@ -70,5 +82,12 @@ public class TestLogin {
     assertTrue(a_still_logged_in);
     assertTrue(b_still_logged_in);
     assertFalse(c_still_logged_in);
+  }
+  
+  @After
+  public void tearDown() {
+    
+    provider.deleteAccount(userEmail1, pw, provider.performLogin(userEmail1, pw));
+    provider.deleteAccount(userEmail2, pw, provider.performLogin(userEmail2, pw));
   }
 }
