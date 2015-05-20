@@ -133,7 +133,7 @@ public class TestRegister {
   public void tearDown() {
     
     provider.deleteAccount(user1, pw1, provider.performLogin(user1, pw1));
-    provider.deleteAccount(user2, pw1, provider.performLogin(user2, pw1));
+    provider.deleteAccount(user2, pw1, provider.performLogin(user1, pw1));
   }
 
 }

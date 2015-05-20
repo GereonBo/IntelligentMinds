@@ -9,10 +9,11 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericEntity;
+
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
@@ -20,7 +21,6 @@ import org.glassfish.jersey.client.ClientResponse;
 import org.json.JSONArray;
 
 import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
-
 
 public class ConnectionProvider {
 
@@ -32,6 +32,14 @@ public class ConnectionProvider {
     SUCCESS, ERROR, PASSWORD, USER_EXISTS, NAME, MISC_ERROR, EMAIL
   }
 
+  private ConnectionProvider(Class<? extends Feature> feature) {
+    ClientConfig config = new ClientConfig();
+
+    Client client = ClientBuilder.newClient(config).register(feature);
+
+    this.target = client.target(getBaseURI()).path("mm");
+  }
+  
   private ConnectionProvider() {
     ClientConfig config = new ClientConfig();
 
@@ -40,6 +48,14 @@ public class ConnectionProvider {
     this.target = client.target(getBaseURI()).path("mm");
   }
 
+  public static ConnectionProvider getInstance(Class<? extends Feature> feature) {
+    if (ConnectionProvider.instance == null) {
+      ConnectionProvider.instance = new ConnectionProvider(feature);
+    }
+
+    return ConnectionProvider.instance;
+  }
+  
   public static ConnectionProvider getInstance() {
     if (ConnectionProvider.instance == null) {
       ConnectionProvider.instance = new ConnectionProvider();
@@ -50,8 +66,8 @@ public class ConnectionProvider {
 
   private static URI getBaseURI() {
 
-    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
-
+    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
+//    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
   public String performLogin(String email, String password) {

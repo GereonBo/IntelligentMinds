@@ -1,0 +1,8 @@
+package at.intelligentminds.service;
+
+import javax.ws.rs.Path;
+
+@Path("/userservice")
+public class RegisterService {
+  
+}

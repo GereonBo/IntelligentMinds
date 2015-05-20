@@ -1,0 +1,22 @@
+package at.intelligentminds.client;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class TestLogin {
+
+  private ConnectionProvider provider;
+  
+  @Before
+  public void setUp() throws Exception {
+    provider = ConnectionProvider.getInstance();
+  }
+
+  @Test
+  public void test() {
+    fail("Not yet implemented");
+  }
+
+}

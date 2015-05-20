@@ -1,0 +1,24 @@
+package at.intelligentminds.service.client;
+
+public class ConnectionProvider {
+
+	// Eine (versteckte) Klassenvariable vom Typ der eigenen Klasse
+	  private static ConnectionProvider instance;
+	  // Verhindere die Erzeugung des Objektes über andere Methoden
+	  private ConnectionProvider () {}
+	  // Eine Zugriffsmethode auf Klassenebene, welches dir '''einmal''' ein konkretes 
+	  // Objekt erzeugt und dieses zurückliefert.
+	  public static ConnectionProvider getInstance () {
+	    if (instance == null) {
+	      Singleton.instance = new Singleton ();
+	    }
+	    return ConnectionProvider.instance;
+	  }
+	  
+	private static URI getBaseURI() {
+
+		return UriBuilder.fromUri(
+				"http://localhost:8080/com.vogella.jersey.first").build();
+
+	}
+}

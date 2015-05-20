@@ -1,0 +1,5 @@
+package at.intelligentminds.service.client;
+
+public class ConnectionProvider {
+
+}

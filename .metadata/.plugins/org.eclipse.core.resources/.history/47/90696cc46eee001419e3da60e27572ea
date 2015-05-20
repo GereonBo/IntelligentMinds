@@ -1,0 +1,54 @@
+package at.intelligentminds.client;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
+
+public class TestRegister {
+
+  private ConnectionProvider provider;
+  private String user1;
+  private String user2;
+
+  @Before
+  public void setUp() throws Exception {
+    provider = ConnectionProvider.getInstance();
+  }
+
+  @Test
+  /**
+   * should succeed
+   */   
+  public void testRegisterSucceed() {
+    RegisterResponse response = provider.register("user0815@bla.com", "Passw0rd", "male", "user", "0815");
+    
+    assertNotNull(response);
+    assertEquals(RegisterResponse.SUCCESS, response);
+  }
+  
+  @Test
+  /**
+   * should fail
+   */   
+  public void testRegister() {
+    RegisterResponse response = provider.register("user0816@bla.com", "Passw0rd", "male", "user", "0815");
+    RegisterResponse response2 = provider.register("user0816@bla.com", "Passw0rd", "male", "user", "0815");
+    
+    assertNotNull(response);
+    assertNotNull(response2);
+    assertEquals(RegisterResponse.SUCCESS, response);
+    assertEquals(RegisterResponse.USERNAME, response);
+  }
+  
+  @After
+  public void tearDown() {
+    
+    provider.deleteAccount("user0815@bla.com", "Passw0rd", provider.performLogin(user, password));
+    provider.deleteAccount("user0816@bla.com", "Passw0rd", "token");
+  }
+
+}
