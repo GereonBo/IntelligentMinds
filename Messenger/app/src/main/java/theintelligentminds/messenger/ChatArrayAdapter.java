@@ -1,9 +1,15 @@
 package theintelligentminds.messenger;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,8 +53,13 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 		}
 		singleMessageContainer = (LinearLayout) row.findViewById(R.id.singleMessageContainer);
 		ChatMessage chatMessageObj = getItem(position);
+
+        String htmlmessage = EmoticonProvider.getInstance().htmlFormatEmoticons(chatMessageObj.message);
+        Emoticongetter getter = new Emoticongetter();
+        Spanned spannedtext = Html.fromHtml(htmlmessage,getter,null);
+
 		chatText = (TextView) row.findViewById(R.id.singleMessage);
-		chatText.setText(chatMessageObj.message);
+		chatText.setText(spannedtext);
 		chatText.setBackgroundResource(chatMessageObj.left ? R.drawable.bubble_s_a : R.drawable.bubble_w_a);
         chatText.setTextColor(chatMessageObj.left ? Color.WHITE : Color.BLACK);
 		singleMessageContainer.setGravity(chatMessageObj.left ? Gravity.LEFT : Gravity.RIGHT);
@@ -59,4 +70,24 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 		return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
 	}
 
+    /**
+     * Image getter for showing the emoticons in the message.
+     */
+    class Emoticongetter implements Html.ImageGetter  {
+        public Drawable getDrawable(String source) {
+
+            try {
+                int ecoid = EmoticonProvider.getInstance().getEmoticon(source);
+                if(ecoid == -1 )return null;
+
+                Drawable drawable = getContext().getResources().getDrawable(ecoid);
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
+
+                return drawable;
+            } catch(Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    };
 }
