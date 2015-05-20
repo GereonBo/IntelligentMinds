@@ -45,8 +45,8 @@ public class TestRegister {
    * test username already exists
    */   
   public void testRegisterUsernameExists() {
-    RegisterResponse response = provider.register(user2, pw1, "male", "user", "mustermann");
-    RegisterResponse response2 = provider.register(user2, pw1, "male", "user", "mustermann");
+    RegisterResponse response = provider.register(user3, pw1, "male", "user", "mustermann");
+    RegisterResponse response2 = provider.register(user3, pw1, "male", "user", "mustermann");
     
     assertNotNull(response);
     assertNotNull(response2);
@@ -133,7 +133,8 @@ public class TestRegister {
   public void tearDown() {
     
     provider.deleteAccount(user1, pw1, provider.performLogin(user1, pw1));
-    provider.deleteAccount(user2, pw1, provider.performLogin(user1, pw1));
+    provider.deleteAccount(user2, pw1, provider.performLogin(user2, pw1));
+    provider.deleteAccount(user3, pw1, provider.performLogin(user3, pw1));
   }
 
 }

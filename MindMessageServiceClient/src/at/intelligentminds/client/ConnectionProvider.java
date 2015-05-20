@@ -39,7 +39,7 @@ public class ConnectionProvider {
 
     this.target = client.target(getBaseURI()).path("mm");
   }
-  
+
   private ConnectionProvider() {
     ClientConfig config = new ClientConfig();
 
@@ -55,7 +55,7 @@ public class ConnectionProvider {
 
     return ConnectionProvider.instance;
   }
-  
+
   public static ConnectionProvider getInstance() {
     if (ConnectionProvider.instance == null) {
       ConnectionProvider.instance = new ConnectionProvider();
@@ -66,8 +66,9 @@ public class ConnectionProvider {
 
   private static URI getBaseURI() {
 
-    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
-//    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    // return
+    // UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
+    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
   public String performLogin(String email, String password) {
@@ -118,7 +119,7 @@ public class ConnectionProvider {
 
     return response;
   }
-  
+
   public JSONArray searchAccounts(String searchText, String authtoken) {
     Form search_form = new Form();
     search_form.param("searchText", searchText);
@@ -132,5 +133,19 @@ public class ConnectionProvider {
       returnList = new JSONArray(response);
     }
     return returnList;
+  }
+
+  public Boolean sendMessage(String senderEmail, String receiverEmail, String text, String authtoken) {
+    Form create_form = new Form();
+    create_form.param("senderEmail", senderEmail);
+    create_form.param("receiverEmail", receiverEmail);
+    create_form.param("text", text);
+    create_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    Boolean response = this.target.path("messageservice").path("createmessage").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(create_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+
+    return response;
   }
 }
