@@ -1,49 +1,61 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="#ffff9045"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="16dp"
-    android:columnCount="1"
-    android:rowCount="4">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/textfieldEMail"
-        android:text="E-Mail"
-        android:background="#ffffffff" />
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:layout_gravity="center"
+        android:columnCount="1"
+        android:rowCount="4">
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/textfieldPassword"
-        android:text="password"
-        android:background="#ffffffff" />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/textfieldEMail"
+            android:text="E-Mail"
+            android:background="#ffffffff"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginBottom="20dp" />
 
-    <Button
-        android:layout_width="200dip"
-        android:layout_height="35dip"
-        android:text="Login"
-        android:id="@+id/buttonLogin"
-        android:background="#ff190c02"
-        android:textColor="#ffffffff"
-        android:layout_marginTop="30dp" />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/textfieldPassword"
+            android:text="password"
+            android:background="#ffffffff"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginBottom="20dp" />
 
-    <Button
-        android:layout_width="80dip"
-        android:layout_height="35dip"
-        android:text="Registration"
-        android:id="@+id/buttonRegister"
-        android:background="#ff190c02"
-        android:textColor="#ffffffff"
-        android:layout_marginTop="25dp" />
+        <Button
+            android:layout_width="200dip"
+            android:layout_height="35dip"
+            android:text="Login"
+            android:id="@+id/buttonLogin"
+            android:background="#ff190c02"
+            android:textColor="#ffffffff"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginBottom="20dp" />
 
- </GridLayout>
+        <Button
+            android:layout_width="80dip"
+            android:layout_height="35dip"
+            android:text="Registration"
+            android:id="@+id/buttonRegister"
+            android:background="#ff190c02"
+            android:layout_gravity="fill_horizontal"
+            android:textColor="#ffffffff" />
+
+    </GridLayout>
+</FrameLayout>
