@@ -20,6 +20,7 @@ public class EmoticonProvider {
     {
         emomap = new HashMap<>();
         emomap.put(":-)",R.drawable.bubble_s_a);
+
     }
 
     public static EmoticonProvider getInstance(){

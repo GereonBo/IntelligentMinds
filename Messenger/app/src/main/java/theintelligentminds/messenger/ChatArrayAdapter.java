@@ -21,9 +21,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import theintelligentminds.messenger.emoji.EmojiconTextView;
+
 public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
-	private TextView chatText;
+	private EmojiconTextView chatText;
 	private List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
 	private LinearLayout singleMessageContainer;
 
@@ -54,12 +56,8 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 		singleMessageContainer = (LinearLayout) row.findViewById(R.id.singleMessageContainer);
 		ChatMessage chatMessageObj = getItem(position);
 
-        String htmlmessage = EmoticonProvider.getInstance().htmlFormatEmoticons(chatMessageObj.message);
-        Emoticongetter getter = new Emoticongetter();
-        Spanned spannedtext = Html.fromHtml(htmlmessage,getter,null);
-
-		chatText = (TextView) row.findViewById(R.id.singleMessage);
-		chatText.setText(spannedtext);
+		chatText = (EmojiconTextView) row.findViewById(R.id.singleMessage);
+		chatText.setText(chatMessageObj.message);
 		chatText.setBackgroundResource(chatMessageObj.left ? R.drawable.bubble_s_a : R.drawable.bubble_w_a);
         chatText.setTextColor(chatMessageObj.left ? Color.WHITE : Color.BLACK);
 		singleMessageContainer.setGravity(chatMessageObj.left ? Gravity.LEFT : Gravity.RIGHT);
@@ -70,24 +68,4 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 		return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
 	}
 
-    /**
-     * Image getter for showing the emoticons in the message.
-     */
-    class Emoticongetter implements Html.ImageGetter  {
-        public Drawable getDrawable(String source) {
-
-            try {
-                int ecoid = EmoticonProvider.getInstance().getEmoticon(source);
-                if(ecoid == -1 )return null;
-
-                Drawable drawable = getContext().getResources().getDrawable(ecoid);
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
-
-                return drawable;
-            } catch(Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    };
 }
