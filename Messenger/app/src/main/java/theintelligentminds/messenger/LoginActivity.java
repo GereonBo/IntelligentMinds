@@ -34,81 +34,79 @@ import java.util.List;
 
 import at.intelligentminds.client.ConnectionProvider;
 
-
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity {
-private Button register;
-private Button login;
-    private EditText email;
-    private EditText password;
-    private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
+  private Button register;
+  private Button login;
+  private EditText email;
+  private EditText password;
+  private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.login);
+    // Parse.initialize(this, "app-id", "client-key");
+
+    EditText usernameField = (EditText) findViewById(R.id.textfieldEMail);
+    register = (Button) findViewById(R.id.buttonRegister);
+    login = (Button) findViewById(R.id.buttonLogin);
+
+    email = (EditText) findViewById(R.id.textfieldEMail);
+    password = (EditText) findViewById(R.id.textfieldPassword);
+
+    login.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        AsyncDBAccess async = new AsyncDBAccess();
+        async.execute();
+      }
+    });
+
+    register.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+        Intent intent = new Intent(LoginActivity.this, Registration.class);
+        startActivity(intent);
+      }
+
+    });
+  }
+
+  class AsyncDBAccess extends AsyncTask<String, Void, String> {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        //Parse.initialize(this, "app-id", "client-key");
+    protected String doInBackground(String... strings) {
+      String auth_token = provider.performLogin(email.getText().toString(), password.getText().toString());
 
-        EditText usernameField = (EditText) findViewById(R.id.textfieldEMail);
-        register = (Button) findViewById(R.id.buttonRegister);
-        login = (Button) findViewById(R.id.buttonLogin);
+      return auth_token;
+    }
 
-        email = (EditText) findViewById(R.id.textfieldEMail);
-        password = (EditText) findViewById(R.id.textfieldPassword);
+    @Override
+    protected void onPostExecute(String auth_token) {
+      super.onPostExecute(auth_token);
 
-        login.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                AsyncDBAccess async = new AsyncDBAccess();
-                async.execute();
-            }
-        });
+      if (auth_token.equals("")) {
+        new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login failed")
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialogInterface, int i) {
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(LoginActivity.this, Registration.class);
+              }
+            }).show();
+      }
+      else {
+        new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login successful")
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(LoginActivity.this, Profile.class);
                 startActivity(intent);
-            }
-
-        });
+              }
+            }).show();
+      }
     }
-
-
-    class AsyncDBAccess extends AsyncTask<String,Void,String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            String auth_token = provider.performLogin(email.getText().toString(),
-                    password.getText().toString());
-
-            return auth_token;
-        }
-
-        @Override
-        protected void onPostExecute(String auth_token) {
-            super.onPostExecute(auth_token);
-
-            if(auth_token.equals("")) {
-                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login failed").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                }).show();
-            }else{
-                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login successful").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(LoginActivity.this, Profile.class);
-                        startActivity(intent);
-                    }
-                }).show();
-            }
-        }
-    }
+  }
 }
-
-
-
