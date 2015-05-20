@@ -2,6 +2,7 @@ package theintelligentminds.messenger;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,8 +10,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import at.intelligentminds.client.ConnectionProvider;
 
@@ -26,11 +34,17 @@ public class Registration extends Activity {
   private EditText password;
   private RadioGroup radioSexGroup;
   private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
+  private TextView calendarView;
+  private int year, month, day;
+  private DatePickerDialog datePickerDialog;
+  private SimpleDateFormat dateFormatter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.registration);
+
+    dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
     register = (Button) findViewById(R.id.buttonRegister);
     firstName = (EditText) findViewById(R.id.textfieldFirstname);
@@ -38,6 +52,22 @@ public class Registration extends Activity {
     email = (EditText) findViewById(R.id.textfieldEMail);
     password = (EditText) findViewById(R.id.textfieldPassword);
     radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+    calendarView = (TextView) findViewById(R.id.calendarView);
+
+    final Calendar cal = Calendar.getInstance();
+    year = cal.get(Calendar.YEAR);
+    month = cal.get(Calendar.MONTH);
+    day = cal.get(Calendar.DAY_OF_MONTH);
+
+    calendarView.setText(dateFormatter.format(cal.getTime()));
+
+    calendarView.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            datePickerDialog.show();
+        }
+    });
+
 
     register.setOnClickListener(new OnClickListener() {
       @Override
@@ -47,6 +77,23 @@ public class Registration extends Activity {
         async.execute();
       }
     });
+
+      datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+          public void onDateSet(DatePicker view, int y, int m, int d) {
+              year = y;
+              month = m;
+              day = d;
+
+              final Calendar cal = Calendar.getInstance();
+              year = cal.get(Calendar.YEAR);
+              month = cal.get(Calendar.MONTH);
+              day = cal.get(Calendar.DAY_OF_MONTH);
+
+              calendarView.setText(dateFormatter.format(cal.getTime()));
+          }
+
+      },year, month, day);
   }
 
   class AsyncDBAccess extends AsyncTask<String, Void, String> {
