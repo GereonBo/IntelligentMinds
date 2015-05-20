@@ -16,6 +16,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -74,6 +75,10 @@ public class LoginService {
   @Produces(MediaType.TEXT_HTML)
   public String get() {
     return "These are not the droids you are looking for!";
+  }
+  
+  public static User getUserByToken(String token) {
+    return userTokens.get(token);
   }
   
 }
