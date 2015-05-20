@@ -1,5 +1,7 @@
 package at.intelligentminds.service;
 
+import java.util.Set;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.Transaction;
 
 import at.intelligentminds.service.model.HibernateSupport;
+import at.intelligentminds.service.model.Message;
 import at.intelligentminds.service.model.User;
 
 @Path("/userservice")
@@ -25,6 +28,7 @@ public class DeleteService {
     
     Transaction tx = HibernateSupport.getSession().beginTransaction();
     User user = (User)HibernateSupport.getSession().get(User.class, email);
+    
     tx.commit();
     
     try {
@@ -32,6 +36,7 @@ public class DeleteService {
         tx = HibernateSupport.getSession().beginTransaction();
         HibernateSupport.getSession().delete(user);
         tx.commit();
+        
         return true;
       }else{
         return false;

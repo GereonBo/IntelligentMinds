@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
+
 public class TestMessageCreate {
 
   private ConnectionProvider provider;
@@ -26,7 +28,7 @@ public class TestMessageCreate {
     provider = ConnectionProvider.getInstance();
 
     provider.register(userEmail1, pw1, "male", "user", "mustermann");
-    provider.register(userEmail2, pw1, "male", "user2", "mustermann");
+    RegisterResponse r = provider.register(userEmail2, pw1, "male", "usercheck", "mustermann");
 
     authTokenUser1 = provider.performLogin(userEmail1, pw1);
     authTokenUser2 = provider.performLogin(userEmail2, pw1);
@@ -39,9 +41,29 @@ public class TestMessageCreate {
   }
 
   @Test
-  public void test() {
-    Boolean response = provider.sendMessage(userEmail1, userEmail2, "textblabla", authTokenUser1);
+  public void testCreateMessage() {
+    Boolean response = provider.sendMessage(userEmail1, userEmail2, "hallo", authTokenUser1);
+    Boolean response2 = provider.sendMessage(userEmail2, userEmail1, "hey", authTokenUser2);
+
     assertTrue(response);
+    assertTrue(response2);
   }
 
+  @Test
+  public void testNotLoggedIn() {
+    Boolean response = provider.sendMessage(userEmail1, userEmail2, "textblabla", "");
+    assertFalse(response);
+  }
+
+  @Test
+  public void testReceiverNotExists() {
+    Boolean response = provider.sendMessage(userEmail1, "ghost", "textblabla", "");
+    assertFalse(response);
+  }
+
+  @Test
+  public void testSenderNotExists() {
+    Boolean response = provider.sendMessage("ghostsender", userEmail1, "textblabla", "");
+    assertFalse(response);
+  }
 }

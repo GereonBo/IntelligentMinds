@@ -3,6 +3,7 @@ package at.intelligentminds.service.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -141,7 +142,7 @@ public class User {
     this.usersForContactId = usersForContactId;
   }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserReceiverId")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserReceiverId", cascade = CascadeType.ALL)
   public Set<Message> getMessagesForUserReceiverId() {
     return this.messagesForUserReceiverId;
   }
@@ -162,7 +163,7 @@ public class User {
     this.usersForUserId = usersForUserId;
   }
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserSenderId")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "userByUserSenderId", cascade = CascadeType.ALL)
   public Set<Message> getMessagesForUserSenderId() {
     return this.messagesForUserSenderId;
   }
