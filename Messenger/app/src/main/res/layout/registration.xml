@@ -14,7 +14,7 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="45"
+        android:layout_height="35dip"
         android:inputType="textPersonName"
         android:hint="Firstname"
         android:ems="10"
@@ -25,7 +25,7 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="45"
+        android:layout_height="35dip"
         android:inputType="textPersonName"
         android:hint="Lastname"
         android:ems="10"
@@ -39,33 +39,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
-        android:layout_marginBottom="20dp" >
+        android:layout_marginBottom="20dp">
 
-        <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:id="@+id/radioButtonFemale"
+            android:checked="false" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Female"
-                android:id="@+id/radioButtonFemale"
-                android:checked="false" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:id="@+id/radioButtonMale"
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Male"
-                android:id="@+id/radioButtonMale"
-                android:checked="false" />
-
-        </GridLayout>
+            android:checked="false" />
 
     </RadioGroup>
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="45"
+        android:layout_height="35dip"
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/textfieldEMail"
@@ -76,7 +74,7 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="45"
+        android:layout_height="35dip"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/textfieldPassword"
@@ -86,35 +84,44 @@
         android:layout_gravity="fill_horizontal"
         android:layout_marginBottom="20dp" />
 
-    <GridLayout android:columnCount="3"
+    <GridLayout
+        android:columnCount="3"
         android:rowCount="1"
         android:layout_gravity="fill_horizontal"
-        android:layout_marginBottom="20dp" >
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/textfieldBirthday" />
+            android:layout_height="35dip"
+            android:id="@+id/textfieldBirthday"
+            android:text="Birthday: "
+            android:layout_gravity="fill_horizontal"
+            android:textStyle="bold"
+            android:textColor="#ff190c02" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/calendarView" />
+            android:layout_height="35dip"
+            android:id="@+id/calendarView"
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#ff190c02" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dip"
+            android:layout_height="35dip"
             android:text="Change"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/buttonChangeBirthday" />
+            android:id="@+id/buttonChangeBirthday"
+            android:layout_gravity="fill_horizontal"
+            android:background="#ff190c02"
+            android:textColor="#ffffffff" />
 
     </GridLayout>
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dip"
         android:text="Register"
         android:id="@+id/buttonRegister"
         android:background="#ff190c02"
