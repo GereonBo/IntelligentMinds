@@ -6,8 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
-
 public class TestLogin {
 
   private ConnectionProvider provider;

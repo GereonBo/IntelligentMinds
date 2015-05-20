@@ -66,7 +66,7 @@ private ConnectionProvider provider;
   
   @Test
   public void testReceiverNotExists() {
-    JSONArray response = provider.getMessagesBySenderAndReceiver(userEmail1, userEmail2, "");
+    JSONArray response = provider.getMessagesBySenderAndReceiver(userEmail1, "ghost", authTokenUser1);
     
     assertNotNull(response);
     assertEquals(0, response.length());
@@ -74,7 +74,7 @@ private ConnectionProvider provider;
   
   @Test
   public void testSenderNotExists() {
-    JSONArray response = provider.getMessagesBySenderAndReceiver(userEmail1, userEmail2, "");
+    JSONArray response = provider.getMessagesBySenderAndReceiver("...", userEmail2, authTokenUser1);
     
     assertNotNull(response);
     assertEquals(0, response.length());
