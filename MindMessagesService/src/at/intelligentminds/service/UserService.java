@@ -1,5 +1,8 @@
 package at.intelligentminds.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -17,19 +20,39 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import at.intelligentminds.service.model.HibernateSupport;
-import at.intelligentminds.service.model.User;
+
 
 @Path("/userservice")
 public class UserService {
+  
+  public static final String JSON_EMAIL = "email";
+  public static final String JSON_FIRSTNAME = "firstName";
+  public static final String JSON_LASTNAME = "lastName";
+  public static final String JSON_ACCOUNTNAME = "accountName";
+  public static final String JSON_AGE = "age";
+  public static final String JSON_COUNTRY = "country";
+  public static final String JSON_LOCATION = "location";
+  public static final String JSON_ZIP = "zip";
+  public static final String JSON_ADDRESS = "address";
+  public static final String JSON_ABOUTME = "about";
 
   @POST
   @Path("/searchaccount")
   @Produces(MediaType.TEXT_PLAIN)
   public String searchAccount(@FormParam("searchText") String searchText, @FormParam("authtoken") String authtoken) {
+<<<<<<< HEAD
 
     if (!new LoginService().validate(authtoken)) return "[]";
+=======
+    
+    if(!new LoginService().validate(authtoken)) return "[]";
+    
+>>>>>>> add_friends
 
     String[] parts = searchText.split(" ");
 
@@ -72,7 +95,9 @@ public class UserService {
     JSONArray array = new JSONArray(res.toArray());
 
     tx.commit();
-    return array.toString();
+    
+    return array.toString();    
+    
   }
 
   @Path("/searchaccount")

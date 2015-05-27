@@ -22,10 +22,10 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/textfieldEMail"
-            android:text="E-Mail"
             android:background="#ffffffff"
             android:layout_gravity="fill_horizontal"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:hint="E-Mail" />
 
         <EditText
             android:layout_width="300dp"
@@ -33,10 +33,10 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/textfieldPassword"
-            android:text="password"
             android:background="#ffffffff"
             android:layout_gravity="fill_horizontal"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:hint="Password" />
 
         <Button
             android:layout_width="200dip"

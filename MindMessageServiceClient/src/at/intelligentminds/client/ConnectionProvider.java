@@ -3,6 +3,7 @@ package at.intelligentminds.client;
 import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 import javax.ws.rs.client.Client;
@@ -19,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import at.intelligentminds.service.User;
+
 
 public class ConnectionProvider {
 
@@ -26,6 +29,16 @@ public class ConnectionProvider {
   public static final String JSON_MESSAGE_KEY_DATE = "creatonDate";
   public static final String JSON_MESSAGE_KEY_RECEIVER = "receiverEmail";
   public static final String JSON_MESSAGE_KEY_SENDER = "senderEmail";
+  public static final String JSON_EMAIL = "email";
+  public static final String JSON_FIRSTNAME = "firstName";
+  public static final String JSON_LASTNAME = "lastName";
+  public static final String JSON_ACCOUNTNAME = "accountName";
+  public static final String JSON_AGE = "age";
+  public static final String JSON_COUNTRY = "country";
+  public static final String JSON_LOCATION = "location";
+  public static final String JSON_ZIP = "zip";
+  public static final String JSON_ADDRESS = "address";
+  public static final String JSON_ABOUTME = "about";
   
   private static ConnectionProvider instance;
   private WebTarget target;
@@ -131,11 +144,14 @@ public class ConnectionProvider {
     return response;
   }
 
-  public JSONArray searchAccounts(String searchText) {
+  public ArrayList<User> searchAccounts(String searchText) {
     return searchAccounts(searchText, this.authToken);
   }
   
-  public JSONArray searchAccounts(String searchText, String authtoken) {
+  public ArrayList<User> searchAccounts(String searchText, String authtoken) {
+    
+    ArrayList<User> userList = new ArrayList<>();
+    
     Form search_form = new Form();
     search_form.param("searchText", searchText);
     search_form.param("authtoken", authtoken);
@@ -143,12 +159,31 @@ public class ConnectionProvider {
     JSONArray returnList = new JSONArray();
     String response = this.target.path("userservice").path("searchaccount").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(search_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+    
 
     if (response != null && response != "") {
       returnList = new JSONArray(response);
     }
     
-    return returnList;
+    
+    for(int i = 0; i <  returnList.length(); i++){
+      JSONObject messageObject = returnList.getJSONObject(i);
+      if (messageObject.has(JSON_EMAIL) && messageObject.has(JSON_FIRSTNAME)
+          && messageObject.has(JSON_LASTNAME)) {
+        String email = messageObject.getString(JSON_EMAIL);
+        String firstName = messageObject.getString(JSON_FIRSTNAME);
+        String lastName = messageObject.getString(JSON_LASTNAME);
+       
+        try {
+          userList.add(new User(firstName,lastName,email));
+        }
+        catch (JSONException e) {
+          System.err.println("Malformed JSON response " + e.getMessage());
+        }
+      }
+    }
+    
+    return userList;
   }
 
   public Boolean sendMessage(String receiverEmail, String text) {

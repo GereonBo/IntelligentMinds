@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;User.java&apos; to &apos;at.intelligentminds.client.Message.java&apos;&#x0D;&#x0A;- Original project: &apos;MindMessagesService&apos;&#x0D;&#x0A;- Destination element: &apos;at.intelligentminds.client.Message.java&apos;&#x0D;&#x0A;- Original element: &apos;at.intelligentminds.service.User.java&apos;" description="Copy compilation unit" destination="=MindMessageServiceClient/src&lt;at.intelligentminds.client{Message.java" element1="/src&lt;at.intelligentminds.service{User.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1432736770121" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,38 @@
+
+package at.intelligentminds.client;
+
+
+public class User {
+
+  public String firstName;
+  public String lastName;
+  public String email;
+  public String accountName;
+  public unsigned int age;
+  public String country;
+  public String zipCode;
+  public String location;
+  public String address;
+  public String aboutMe;
+
+  
+  public User(String firstName,String lastName,String email) {
+    super();
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    
+  }
+
+  @Override
+  public int compareTo(Message o) {
+    int ret =  this.date.compareTo(o.date);
+    if(ret!=0) return ret;
+    ret = this.receiverEmail.compareTo(o.receiverEmail);
+    if(ret!=0) return ret;
+    ret = this.senderEmail.compareTo(o.senderEmail);
+    if(ret!=0) return ret;
+    ret = this.text.compareTo(o.text);
+    return ret;
+  }
+}
