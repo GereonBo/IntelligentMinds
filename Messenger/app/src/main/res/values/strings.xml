@@ -5,4 +5,7 @@
     <string name="hint">Type emoji here</string>
     <string name="i_love_emojicon">I \ue32d emojicon</string>
     <string name="title_activity_test">Test this is</string>
+    <string name="title_activity_friend_view">FriendView</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
