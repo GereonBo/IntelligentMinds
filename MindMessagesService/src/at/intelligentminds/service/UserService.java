@@ -1,6 +1,7 @@
 package at.intelligentminds.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -64,7 +65,8 @@ public class UserService {
 
     criteria.setProjection(
         Projections.projectionList().add(Projections.property("firstName"), "firstName")
-            .add(Projections.property("lastName"), "lastName").add(Projections.property("accountName"), "accountName")
+            .add(Projections.property("lastName"), "lastName")
+            .add(Projections.property("accountName"), "accountName")
             .add(Projections.property("email"), "email")).setResultTransformer(Transformers.aliasToBean(User.class));
 
     List res = criteria.list();
@@ -109,6 +111,56 @@ public class UserService {
       e.printStackTrace();
       return false;
     }  
+  }
+  
+  @POST
+  @Path("/retrievecontacts")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String retrieveContacts(@FormParam("userEmail") String userEmail,
+      @FormParam("authtoken") String authtoken) {
+
+    if (!new LoginService().validate(authtoken)) {
+      return "[]";
+    }
+    
+    Transaction tx = HibernateSupport.getSession().getTransaction();
+
+    tx.begin();
+
+    User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
+
+    if (user == null) {
+      tx.commit();
+      return "[]";
+    }
+            
+    Criteria criteria = HibernateSupport.getSession().createCriteria(User.class);
+    
+    criteria.createAlias("user.usersForContactId", "usersForContactId");
+    
+    criteria.add(Restrictions.eq("usersForContactId.user_id", userEmail));
+    
+    criteria.setProjection(
+        Projections.projectionList().add(Projections.property("firstName"), "firstName")
+            .add(Projections.property("lastName"), "lastName")
+            .add(Projections.property("accountName"), "accountName")
+            .add(Projections.property("email"), "email"))
+            .setResultTransformer(Transformers.aliasToBean(User.class));
+
+    List res = criteria.list();
+    
+    try {
+      //Boolean result = HibernateSupport.persist(user);
+      tx.commit();
+      
+      //return result;
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+      //return false;
+    }  
+    
+    return "";
   }
 
   @Path("/searchaccount")
