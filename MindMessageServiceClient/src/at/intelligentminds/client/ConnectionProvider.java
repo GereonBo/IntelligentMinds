@@ -247,4 +247,20 @@ public class ConnectionProvider {
   public Boolean addContact(String contactEmail) {
     return addContact(userEmail, contactEmail, authToken);
   }
+  
+  public JSONArray getContacts(String userEmail, String authtoken) {
+    Form retrieve_form = new Form();
+    retrieve_form.param("userEmail", userEmail);
+    retrieve_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    String response = this.target.path("userservice").path("retrievecontacts").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(retrieve_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+
+    if (response != null && response != "") {
+      returnList = new JSONArray(response);
+    }
+    
+    return returnList;
+  }
 }

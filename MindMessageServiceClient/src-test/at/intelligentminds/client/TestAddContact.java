@@ -2,6 +2,7 @@ package at.intelligentminds.client;
 
 import static org.junit.Assert.*;
 
+import org.json.JSONArray;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,10 @@ public class TestAddContact {
   private String userEmail1;
   private String authTokenUser1;
   private String userEmail2;
+  private String userEmail3;
+  private String userEmail4;
   private String authTokenUser2;
+  private String authTokenUser3;
   private String pw;
 
   @Before
@@ -20,6 +24,7 @@ public class TestAddContact {
     provider = ConnectionProvider.getInstance();
     userEmail1 = "test@test.at";
     userEmail2 = "demo@demo.at";
+
     pw = "p@$$w0rD";
 
     provider.register(userEmail1, pw, "male", "first", "last");
