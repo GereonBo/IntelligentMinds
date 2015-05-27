@@ -3,6 +3,7 @@ package at.intelligentminds.client;
 import static org.junit.Assert.*;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +55,17 @@ private ConnectionProvider provider;
     
     assertNotNull(response);
     assertEquals(2, response.length());
+  }
+  
+  @Test
+  public void testCorrectDate() {
+    JSONArray response = provider.getMessagesBySenderAndReceiver(userEmail2, userEmail3, authTokenUser1);
+        
+    assertNotNull(response);
+    assertEquals(1, response.length());
+    
+    JSONObject message = response.getJSONObject(0);
+    assertTrue(message.has("creatonDate"));
   }
 
   @Test
