@@ -45,6 +45,6 @@ public class TestAddContact {
   public void testAddContactNotLoggedIn() {
     Boolean result = provider.addContact(userEmail1, userEmail2, "");
 
-    assertTrue(result);
+    assertFalse(result);
   }
 }

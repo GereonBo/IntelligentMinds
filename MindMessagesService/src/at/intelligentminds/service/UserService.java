@@ -74,6 +74,42 @@ public class UserService {
     tx.commit();
     return array.toString();
   }
+  
+  @POST
+  @Path("/addcontact")
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean addContact(@FormParam("contactEmail") String contactEmail, 
+      @FormParam("userEmail") String userEmail, @FormParam("authtoken") String authtoken) {
+
+    if (!new LoginService().validate(authtoken)) {
+      return false;
+    }
+    
+    Transaction tx = HibernateSupport.getSession().getTransaction();
+
+    tx.begin();
+
+    User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
+    User contact = (User) HibernateSupport.getSession().get(User.class, contactEmail);
+
+    if (user == null || contact == null) {
+      tx.commit();
+      return false;
+    }
+    
+    user.getUsersForContactId().add(contact);
+    
+    try {
+      Boolean result = HibernateSupport.persist(user);
+      tx.commit();
+      
+      return result;
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+      return false;
+    }  
+  }
 
   @Path("/searchaccount")
   @GET
