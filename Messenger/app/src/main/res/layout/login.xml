@@ -36,7 +36,7 @@
             android:background="#ffffffff"
             android:layout_gravity="fill_horizontal"
             android:layout_marginBottom="20dp"
-            android:hint="password" />
+            android:hint="Password" />
 
         <Button
             android:layout_width="200dip"
