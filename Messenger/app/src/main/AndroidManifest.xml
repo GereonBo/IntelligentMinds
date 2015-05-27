@@ -18,31 +18,43 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Registration"
-            android:label="Register" >
+            android:label="@string/app_name"
+            android:exported="true">
         </activity>
         <activity
             android:name=".EditProfile"
-            android:label="Edit Profile" >
+            android:label="Edit Profile"
+            android:exported="true">
         </activity>
         <activity
             android:name=".Profile"
-            android:label="Profile" >
+            android:label="Profile"
+            android:exported="true">
         </activity>
         <activity
             android:name=".AddFriend"
-            android:label="Add Friend" >
+            android:label="Add Friend"
+            android:exported="true">
         </activity>
         <activity
             android:name=".ChatBubbleActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:exported="true">
         </activity>
         <activity
             android:name=".FriendView"
-            android:label="Friends" >
+            android:label="Friends"
+            android:exported="true">
         </activity>
     </application>
 
