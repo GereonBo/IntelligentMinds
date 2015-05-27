@@ -62,39 +62,6 @@ public class LoginActivity extends Activity {
       return authToken;
     }
 
-<<<<<<< HEAD
-
-    class AsyncDBAccess extends AsyncTask<String,Void,String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            String auth_token = provider.performLogin(email.getText().toString(),
-                    password.getText().toString());
-
-            return auth_token;
-        }
-
-        @Override
-        protected void onPostExecute(String auth_token) {
-            super.onPostExecute(auth_token);
-
-            if(auth_token.equals("")) {
-                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login failed").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                }).show();
-            }else{
-                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login successful").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(LoginActivity.this, ChatBubbleActivity.class);
-                        startActivity(intent);
-                    }
-                }).show();
-            }
-        }
-=======
     @Override
     protected void onPostExecute(final String authToken) {
       super.onPostExecute(authToken);
@@ -118,7 +85,6 @@ public class LoginActivity extends Activity {
               }
             }).show();
       }
->>>>>>> add_friends
     }
   }
 }
