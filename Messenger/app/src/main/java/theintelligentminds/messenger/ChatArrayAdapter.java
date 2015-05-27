@@ -20,7 +20,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
+import at.intelligentminds.client.ConnectionProvider;
+import at.intelligentminds.client.Message;
 import theintelligentminds.messenger.emoji.EmojiconTextView;
 
 public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
@@ -34,6 +37,15 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 		chatMessageList.add(object);
 		super.add(object);
 	}
+
+    public void refreshFromMessagesList(TreeSet<Message> messages){
+        ArrayList<ChatMessage> freshMessages = new ArrayList<>();
+        for(Message message:messages){
+            boolean mine = ConnectionProvider.getInstance().whoAmI().equals(message.senderEmail);
+            freshMessages.add(new ChatMessage(mine, message.text));
+        }
+        chatMessageList = freshMessages;
+    }
 
 	public ChatArrayAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);

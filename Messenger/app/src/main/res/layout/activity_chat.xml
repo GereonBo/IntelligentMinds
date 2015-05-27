@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#ffff9045"
+    >
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/emojilayout">
+    </ListView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:id="@+id/buttonSend"
+        android:layout_alignBottom="@+id/chatText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#ff190c02"
+        android:textColor="#ffffffff"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp" />
+
+    <theintelligentminds.messenger.emoji.EmojiconEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/chatText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/imageButton"
+        android:layout_toStartOf="@+id/imageButton" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_alignTop="@+id/chatText"
+        android:layout_alignBottom="@+id/buttonSend"
+        android:layout_toLeftOf="@+id/buttonSend"
+        android:src="@drawable/emoji_1f624"
+        android:background="#ffff9045"
+        android:layout_marginRight="10dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="210dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/emojilayout"
+        android:visibility="gone"
+        android:layout_above="@+id/buttonSend"
+        android:layout_marginBottom="5dp">
+
+        <fragment
+            android:id="@+id/emojicons"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            class="theintelligentminds.messenger.emoji.EmojiconsFragment"
+            android:layout_above="@+id/emoToggleButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
+
+</RelativeLayout>
