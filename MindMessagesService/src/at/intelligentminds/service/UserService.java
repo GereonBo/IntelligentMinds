@@ -13,7 +13,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.json.JSONArray;
 
 import at.intelligentminds.service.model.HibernateSupport;
@@ -61,6 +63,13 @@ public class UserService {
         
     Criteria criteria = HibernateSupport.getSession().createCriteria(User.class);
     criteria.add(or);
+    
+    criteria.setProjection(Projections.projectionList()
+        .add(Projections.property("firstName"), "firstName")
+        .add(Projections.property("lastName"), "lastName")
+        .add(Projections.property("accountName"), "accountName")
+        .add(Projections.property("email"), "email"))
+        .setResultTransformer(Transformers.aliasToBean(User.class));
     
 //    criteria.setProjection(Projections.property("firstName"));
 //    criteria.setProjection(Projections.property("lastName"));
