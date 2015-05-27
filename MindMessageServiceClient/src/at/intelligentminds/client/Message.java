@@ -19,6 +19,13 @@ public class Message implements Comparable<Message>{
 
   @Override
   public int compareTo(Message o) {
-    return this.date.compareTo(o.date);
+    int ret =  this.date.compareTo(o.date);
+    if(ret!=0) return ret;
+    ret = this.receiverEmail.compareTo(o.receiverEmail);
+    if(ret!=0) return ret;
+    ret = this.senderEmail.compareTo(o.senderEmail);
+    if(ret!=0) return ret;
+    ret = this.text.compareTo(o.text);
+    return ret;
   }
 }
