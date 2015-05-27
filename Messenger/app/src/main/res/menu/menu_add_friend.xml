@@ -4,6 +4,6 @@
     tools:context="theintelligentminds.messenger.AddFriend">
     <item android:id="@+id/action_search"
         android:title="Add Friend"
-        app:showAsAction="ifRoom|collapseActionView"
+        app:showAsAction="ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 </menu>
