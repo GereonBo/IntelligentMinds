@@ -61,11 +61,18 @@ public class TestSearch {
   }
   
   @Test
-  @Ignore
   public void testSearchFound() {
     JSONArray response = provider.searchAccounts("user", authTokenUser1);
     
     assertNotNull(response);
-    assertEquals(2, response.length());
+    assertEquals(4, response.length());
+  }
+  
+  @Test
+  public void testSearchFoundOne() {
+    JSONArray response = provider.searchAccounts("really", authTokenUser1);
+    
+    assertNotNull(response);
+    assertEquals(1, response.length());
   }
 }
