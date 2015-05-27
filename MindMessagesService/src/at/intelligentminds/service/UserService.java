@@ -32,7 +32,7 @@ public class UserService {
     String[] parts = searchText.split(" ");
 
     Transaction tx = HibernateSupport.getSession().beginTransaction();
-    Criterion cemail = Restrictions.like("email", ""+searchText+"%");
+    Criterion cemail = Restrictions.like("email", "%"+searchText+"%");
     Criterion cfirstname = Restrictions.like("firstName", "%"+searchText+"%");
     Criterion clastname = Restrictions.like("lastName", "%"+searchText+"%");
     Criterion caccountname = Restrictions.like("accountName", "%"+searchText+"%");
@@ -47,7 +47,7 @@ public class UserService {
     {
           for(int i = 0; i < parts.length;i++)
           {
-            cemail = Restrictions.like("email", ""+parts[i]+"%");
+            cemail = Restrictions.like("email", "%"+parts[i]+"%");
             cfirstname = Restrictions.like("firstName", "%"+parts[i]+"%");
             clastname = Restrictions.like("lastName", "%"+parts[i]+"%");
             caccountname = Restrictions.like("accountName", "%"+parts[i]+"%");

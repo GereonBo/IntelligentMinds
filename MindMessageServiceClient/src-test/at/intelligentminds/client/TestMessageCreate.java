@@ -6,8 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
-
 public class TestMessageCreate {
 
   private ConnectionProvider provider;
@@ -28,7 +26,7 @@ public class TestMessageCreate {
     provider = ConnectionProvider.getInstance();
 
     provider.register(userEmail1, pw1, "male", "user", "mustermann");
-    RegisterResponse r = provider.register(userEmail2, pw1, "male", "usercheck", "mustermann");
+    provider.register(userEmail2, pw1, "male", "usercheck", "mustermann");
 
     authTokenUser1 = provider.performLogin(userEmail1, pw1);
     authTokenUser2 = provider.performLogin(userEmail2, pw1);

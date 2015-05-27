@@ -1,7 +1,5 @@
 package at.intelligentminds.service;
 
-import java.util.Set;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import org.hibernate.Transaction;
 
 import at.intelligentminds.service.model.HibernateSupport;
-import at.intelligentminds.service.model.Message;
 import at.intelligentminds.service.model.User;
 
 @Path("/userservice")

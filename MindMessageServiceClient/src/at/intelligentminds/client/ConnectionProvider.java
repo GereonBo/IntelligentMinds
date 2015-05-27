@@ -1,9 +1,9 @@
 package at.intelligentminds.client;
 
-import java.lang.reflect.Array;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.TreeSet;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,23 +11,27 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.Form;
-
 import javax.ws.rs.core.MediaType;
-
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientResponse;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
 
 public class ConnectionProvider {
 
+  public static final String JSON_MESSAGE_KEY_TEXT = "text";
+  public static final String JSON_MESSAGE_KEY_DATE = "createonDate";
+  public static final String JSON_MESSAGE_KEY_RECEIVER = "userByUserReceiverId.email";
+  public static final String JSON_MESSAGE_KEY_SENDER = "userByUserSenderId.email";
+  
   private static ConnectionProvider instance;
   private WebTarget target;
-  private String userId;
-
+  private String authToken;
+  private String userEmail;
+  
   public enum RegisterResponse {
     SUCCESS, ERROR, PASSWORD, USER_EXISTS, NAME, MISC_ERROR, EMAIL
   }
@@ -66,9 +70,8 @@ public class ConnectionProvider {
 
   private static URI getBaseURI() {
 
-    // return
-    // UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
-    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
+    //return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
   public String performLogin(String email, String password) {
@@ -77,12 +80,16 @@ public class ConnectionProvider {
     login_form.param("email", email);
     login_form.param("password", password);
 
-    userId = this.target.path("userservice").path("login").request().accept(MediaType.TEXT_PLAIN)
+    authToken = this.target.path("userservice").path("login").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(login_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
-
-    return userId;
+    if(!authToken.equals("")) this.userEmail = email;
+    
+    return authToken;
   }
 
+  public boolean validateLogin() {
+    return this.validateLogin(this.authToken);
+  }
   public boolean validateLogin(String token) {
     Form validate_form = new Form();
     validate_form.param("token", token);
@@ -108,6 +115,10 @@ public class ConnectionProvider {
     return response;
   }
 
+  public boolean deleteAccount(String email, String password){
+    return this.deleteAccount(email, password, this.authToken);
+  }
+      
   public boolean deleteAccount(String email, String password, String authtoken) {
     Form delete_form = new Form();
     delete_form.param("email", email);
@@ -120,6 +131,10 @@ public class ConnectionProvider {
     return response;
   }
 
+  public JSONArray searchAccounts(String searchText) {
+    return searchAccounts(searchText, this.authToken);
+  }
+  
   public JSONArray searchAccounts(String searchText, String authtoken) {
     Form search_form = new Form();
     search_form.param("searchText", searchText);
@@ -132,9 +147,18 @@ public class ConnectionProvider {
     if (response != null && response != "") {
       returnList = new JSONArray(response);
     }
+    
     return returnList;
   }
 
+  public Boolean sendMessage(String receiverEmail, String text) {
+    return sendMessage(this.userEmail, receiverEmail, text, this.authToken);
+  }
+  
+  public Boolean sendMessage(String receiverEmail, String text, String authtoken) {
+    return sendMessage(this.userEmail, receiverEmail, text, authtoken);
+  }
+  
   public Boolean sendMessage(String senderEmail, String receiverEmail, String text, String authtoken) {
     Form create_form = new Form();
     create_form.param("senderEmail", senderEmail);
@@ -142,10 +166,67 @@ public class ConnectionProvider {
     create_form.param("text", text);
     create_form.param("authtoken", authtoken);
 
-    JSONArray returnList = new JSONArray();
     Boolean response = this.target.path("messageservice").path("createmessage").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(create_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
 
     return response;
+  }
+  
+  public TreeSet<Message> getMessagesBySenderAndReceiverSorted(String receiverEmail) {
+    return getMessagesBySenderAndReceiverSorted(this.userEmail, receiverEmail, this.authToken);
+  }
+  
+  public TreeSet<Message> getMessagesBySenderAndReceiverSorted(String requesterEmail, String receiverEmail, String authtoken) {
+    TreeSet<Message> ret = new TreeSet<Message>();
+    JSONArray array = getMessagesBySenderAndReceiver(requesterEmail, receiverEmail, authtoken);
+    
+    for(int i = 0; i <  array.length(); i++){
+      JSONObject messageObject = array.getJSONObject(i);
+      if (messageObject.has(JSON_MESSAGE_KEY_DATE) && messageObject.has(JSON_MESSAGE_KEY_RECEIVER)
+          && messageObject.has(JSON_MESSAGE_KEY_SENDER) && messageObject.has(JSON_MESSAGE_KEY_TEXT)) {
+        String datestring = messageObject.getString(JSON_MESSAGE_KEY_DATE);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        try {
+          ret.add(new Message(format.parse(datestring), 
+              messageObject.getString(JSON_MESSAGE_KEY_TEXT),
+              messageObject.getString(JSON_MESSAGE_KEY_RECEIVER),
+              messageObject.getString(JSON_MESSAGE_KEY_SENDER)));
+        }
+        catch (JSONException e) {
+          System.err.println("Malformed JSON response " + e.getMessage());
+        }
+        catch (ParseException e) {
+          System.err.println("Malformed creation date in JSON response " + e.getMessage());
+        }
+      }
+    }
+    return ret;
+  }
+  
+  public JSONArray getMessagesBySenderAndReceiver(String receiverEmail) {
+    return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, this.authToken);
+  }
+  public JSONArray getMessagesBySenderAndReceiver(String receiverEmail, String authtoken) {
+    return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, authtoken);
+  }
+  public JSONArray getMessagesBySenderAndReceiver(String requesterEmail, String receiverEmail, String authtoken) {
+    Form retrieve_form = new Form();
+    retrieve_form.param("senderEmail", requesterEmail);
+    retrieve_form.param("receiverEmail", receiverEmail);
+    retrieve_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    String response = this.target.path("messageservice").path("retrievemessages").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(retrieve_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+
+    if (response != null && response != "") {
+      returnList = new JSONArray(response);
+    }
+    
+    return returnList;
+  }
+  
+  public String whoAmI(){
+    return userEmail;
   }
 }

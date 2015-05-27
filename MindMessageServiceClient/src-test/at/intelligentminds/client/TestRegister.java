@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
@@ -16,7 +15,6 @@ public class TestRegister {
   private String user2;
   private String user3;
   private String pw1;
-  private String pw2;
 
   @Before
   public void setUp() throws Exception {
