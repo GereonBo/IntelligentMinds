@@ -1,16 +1,20 @@
 package theintelligentminds.messenger;
 
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import at.intelligentminds.client.ConnectionProvider;
+
 
 public class FriendView extends ActionBarActivity {
+
     private ListView friendView;
+    private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,5 +54,29 @@ public class FriendView extends ActionBarActivity {
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class AsyncDBAccess extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            //String friends = provider.getFriends();
+            //ArrayList<User> userList = provider.searchAccounts("Thomas");
+
+            /*for(int i = 0; i <  userList.length(); i++) {
+                try {
+                    JSONObject messageObject = userList.getJSONObject(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }*/
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String authToken) {
+            super.onPostExecute(authToken);
+
+        }
     }
 }
