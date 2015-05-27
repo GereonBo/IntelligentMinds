@@ -2,6 +2,8 @@ package at.intelligentminds.client;
 
 import static org.junit.Assert.*;
 
+import java.util.TreeSet;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.After;
@@ -90,5 +92,13 @@ private ConnectionProvider provider;
     
     assertNotNull(response);
     assertEquals(0, response.length());
+  }
+  
+  @Test
+  public void testGetCorrectMessagesSorted() {
+    TreeSet<Message> response = provider.getMessagesBySenderAndReceiverSorted(userEmail1, userEmail2, authTokenUser1);
+    
+    assertNotNull(response);
+    assertEquals(2, response.size());
   }
 }

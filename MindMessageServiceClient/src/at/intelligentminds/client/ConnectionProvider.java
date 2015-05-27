@@ -1,6 +1,10 @@
 package at.intelligentminds.client;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TreeSet;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -8,13 +12,13 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.Form;
-
 import javax.ws.rs.core.MediaType;
-
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class ConnectionProvider {
@@ -167,6 +171,37 @@ public class ConnectionProvider {
         .post(Entity.entity(create_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
 
     return response;
+  }
+  
+  public TreeSet<Message> getMessagesBySenderAndReceiverSorted(String receiverEmail) {
+    return getMessagesBySenderAndReceiverSorted(this.userEmail, receiverEmail, this.authToken);
+  }
+  
+  public TreeSet<Message> getMessagesBySenderAndReceiverSorted(String requesterEmail, String receiverEmail, String authtoken) {
+    TreeSet<Message> ret = new TreeSet<Message>();
+    JSONArray array = getMessagesBySenderAndReceiver(requesterEmail, receiverEmail, authtoken);
+    
+    for(int i = 0; i <  array.length(); i++){
+      JSONObject messageObject = array.getJSONObject(i);
+      if (messageObject.has(JSON_MESSAGE_KEY_DATE) && messageObject.has(JSON_MESSAGE_KEY_RECEIVER)
+          && messageObject.has(JSON_MESSAGE_KEY_SENDER) && messageObject.has(JSON_MESSAGE_KEY_TEXT)) {
+        String datestring = messageObject.getString(JSON_MESSAGE_KEY_DATE);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        try {
+          ret.add(new Message(format.parse(datestring), 
+              messageObject.getString(JSON_MESSAGE_KEY_TEXT),
+              messageObject.getString(JSON_MESSAGE_KEY_RECEIVER),
+              messageObject.getString(JSON_MESSAGE_KEY_SENDER)));
+        }
+        catch (JSONException e) {
+          System.err.println("Malformed JSON response " + e.getMessage());
+        }
+        catch (ParseException e) {
+          System.err.println("Malformed creation date in JSON response " + e.getMessage());
+        }
+      }
+    }
+    return ret;
   }
   
   public JSONArray getMessagesBySenderAndReceiver(String receiverEmail) {
