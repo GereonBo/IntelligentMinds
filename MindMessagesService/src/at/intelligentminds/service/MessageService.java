@@ -1,5 +1,6 @@
 package at.intelligentminds.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -53,6 +54,7 @@ public class MessageService {
       message.setText(text);
       message.setUserByUserReceiverId(receiver);
       message.setUserByUserSenderId(sender);
+      message.setCreatonDate(new Date());
 
       tx = HibernateSupport.getSession().beginTransaction();
       boolean success = HibernateSupport.persist(message);

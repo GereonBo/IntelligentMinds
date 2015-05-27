@@ -87,7 +87,7 @@ public class Message implements java.io.Serializable {
     this.userByUserReceiverId = userByUserReceiverId;
   }
 
-  @Temporal(TemporalType.DATE)
+  @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "creaton_date", length = 10)
   public Date getCreatonDate() {
     return this.creatonDate;
