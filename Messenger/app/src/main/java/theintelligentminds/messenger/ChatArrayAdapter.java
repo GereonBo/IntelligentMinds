@@ -41,8 +41,8 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
     public void refreshFromMessagesList(TreeSet<Message> messages){
         ArrayList<ChatMessage> freshMessages = new ArrayList<>();
         for(Message message:messages){
-            boolean mine = ConnectionProvider.getInstance().whoAmI().equals(message.senderEmail);
-            freshMessages.add(new ChatMessage(mine, message.text));
+            boolean mine = ConnectionProvider.getInstance(AndroidFriendlyFeature.class).whoAmI().equals(message.senderEmail);
+            freshMessages.add(new ChatMessage(!mine, message.text));
         }
         chatMessageList = freshMessages;
     }

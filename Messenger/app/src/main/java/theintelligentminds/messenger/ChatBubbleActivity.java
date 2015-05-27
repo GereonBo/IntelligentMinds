@@ -1,11 +1,14 @@
 package theintelligentminds.messenger;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -50,6 +53,7 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     private String receiver;
     boolean popupShown = false;
     Timer autoUpdateTimer;
+    private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
 
     Intent intent;
     private boolean side = false;
@@ -57,7 +61,9 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        receiver = "dermaniac@gmail.com";
+        receiver = "testaccount@test.com";
+
+
         Intent i = getIntent();
         setContentView(R.layout.activity_chat);
 
@@ -74,7 +80,8 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
         chatText.setOnKeyListener(new OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    return sendChatMessage();
+                    new AsyncSendMessageTask().execute();
+                    return true;
                 }
 
                 return false;
@@ -83,7 +90,7 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                sendChatMessage();
+                new AsyncSendMessageTask().execute();
             }
         });
         buttonEmo.setOnClickListener(new View.OnClickListener() {
@@ -109,31 +116,22 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
         autoUpdateTimer.schedule(new TimerTask(){
             @Override
             public void run(){
-               // runOnUiThread(new Runnable() {
-               //     @Override
-               //     public void run() {
-                        autoUpdateMessages();
-               //     }
-               // });
+                // runOnUiThread(new Runnable() {
+                //     @Override
+                //     public void run() {
+                autoUpdateMessages();
+                //     }
+                // });
             }
         }, 0, 10000);
     }
 
-    private boolean sendChatMessage(){
-        boolean success = ConnectionProvider.getInstance().sendMessage(receiver,chatText.getText().toString());
-        if(success) {
-            chatArrayAdapter.add(new ChatMessage(false, chatText.getText().toString()));
-        }else{
-            chatArrayAdapter.add(new ChatMessage(false, "Message failed to send: " + chatText.getText().toString()));
-        }
-        chatText.setText("");
-        return true;
-    }
 
     private void autoUpdateMessages()
     {
-        TreeSet<Message> messages = ConnectionProvider.getInstance().getMessagesBySenderAndReceiverSorted(receiver);
+        TreeSet<Message> messages = provider.getMessagesBySenderAndReceiverSorted(receiver);
         chatArrayAdapter.refreshFromMessagesList(messages);
+        listView.postInvalidate();
     }
 
     private boolean popUpEmos(){
@@ -157,4 +155,23 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     }
 
 
+    class AsyncSendMessageTask extends AsyncTask<String,Void,Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return provider.sendMessage(receiver,chatText.getText().toString());
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            if(success) {
+                chatArrayAdapter.add(new ChatMessage(false, chatText.getText().toString()));
+            }else{
+                chatArrayAdapter.add(new ChatMessage(false, "Message failed to send: " + chatText.getText().toString()));
+            }
+            chatText.setText("");
+
+        }
+    }
 }
+

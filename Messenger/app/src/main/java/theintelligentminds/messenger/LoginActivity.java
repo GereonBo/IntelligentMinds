@@ -101,7 +101,7 @@ private Button login;
                 new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login successful").setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(LoginActivity.this, Profile.class);
+                        Intent intent = new Intent(LoginActivity.this, ChatBubbleActivity.class);
                         startActivity(intent);
                     }
                 }).show();
