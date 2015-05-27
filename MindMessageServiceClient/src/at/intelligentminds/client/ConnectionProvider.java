@@ -79,6 +79,9 @@ public class ConnectionProvider {
     return authToken;
   }
 
+  public boolean validateLogin() {
+    return this.validateLogin(this.authToken);
+  }
   public boolean validateLogin(String token) {
     Form validate_form = new Form();
     validate_form.param("token", token);
@@ -104,6 +107,10 @@ public class ConnectionProvider {
     return response;
   }
 
+  public boolean deleteAccount(String email, String password){
+    return this.deleteAccount(email, password, this.authToken);
+  }
+      
   public boolean deleteAccount(String email, String password, String authtoken) {
     Form delete_form = new Form();
     delete_form.param("email", email);
@@ -116,6 +123,10 @@ public class ConnectionProvider {
     return response;
   }
 
+  public JSONArray searchAccounts(String searchText) {
+    return searchAccounts(searchText, this.authToken);
+  }
+  
   public JSONArray searchAccounts(String searchText, String authtoken) {
     Form search_form = new Form();
     search_form.param("searchText", searchText);
@@ -132,6 +143,10 @@ public class ConnectionProvider {
     return returnList;
   }
 
+  public Boolean sendMessage(String receiverEmail, String text) {
+    return sendMessage(this.userEmail, receiverEmail, text, this.authToken);
+  }
+  
   public Boolean sendMessage(String receiverEmail, String text, String authtoken) {
     return sendMessage(this.userEmail, receiverEmail, text, authtoken);
   }
@@ -149,6 +164,9 @@ public class ConnectionProvider {
     return response;
   }
   
+  public JSONArray getMessagesBySenderAndReceiver(String receiverEmail) {
+    return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, this.authToken);
+  }
   public JSONArray getMessagesBySenderAndReceiver(String receiverEmail, String authtoken) {
     return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, authtoken);
   }
