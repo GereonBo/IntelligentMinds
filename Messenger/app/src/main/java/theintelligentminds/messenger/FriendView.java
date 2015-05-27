@@ -16,6 +16,7 @@ public class FriendView extends ActionBarActivity {
     private ListView friendView;
     private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
