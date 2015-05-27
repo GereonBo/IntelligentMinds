@@ -16,6 +16,7 @@ import at.intelligentminds.client.ConnectionProvider;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity {
+  //TODO
   private Button register;
   private Button login;
   private EditText email;
