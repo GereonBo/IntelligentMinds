@@ -1,6 +1,9 @@
 package at.intelligentminds.client;
 
+import java.lang.reflect.Array;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -8,11 +11,14 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.Form;
+
 import javax.ws.rs.core.MediaType;
+
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientResponse;
+import org.json.JSONArray;
 
 import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
 
@@ -33,7 +39,7 @@ public class ConnectionProvider {
 
     this.target = client.target(getBaseURI()).path("mm");
   }
-  
+
   private ConnectionProvider() {
     ClientConfig config = new ClientConfig();
 
@@ -49,7 +55,7 @@ public class ConnectionProvider {
 
     return ConnectionProvider.instance;
   }
-  
+
   public static ConnectionProvider getInstance() {
     if (ConnectionProvider.instance == null) {
       ConnectionProvider.instance = new ConnectionProvider();
@@ -61,7 +67,7 @@ public class ConnectionProvider {
   private static URI getBaseURI() {
 
     return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
-//    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    //return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
   public String performLogin(String email, String password) {
@@ -111,5 +117,51 @@ public class ConnectionProvider {
         .post(Entity.entity(delete_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
 
     return response;
+  }
+
+  public JSONArray searchAccounts(String searchText, String authtoken) {
+    Form search_form = new Form();
+    search_form.param("searchText", searchText);
+    search_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    String response = this.target.path("userservice").path("searchaccount").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(search_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+
+    if (response != null && response != "") {
+      returnList = new JSONArray(response);
+    }
+    
+    return returnList;
+  }
+
+  public Boolean sendMessage(String senderEmail, String receiverEmail, String text, String authtoken) {
+    Form create_form = new Form();
+    create_form.param("senderEmail", senderEmail);
+    create_form.param("receiverEmail", receiverEmail);
+    create_form.param("text", text);
+    create_form.param("authtoken", authtoken);
+
+    Boolean response = this.target.path("messageservice").path("createmessage").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(create_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+
+    return response;
+  }
+  
+  public JSONArray getMessagesBySenderAndReceiver(String requesterEmail, String receiverEmail, String authtoken) {
+    Form retrieve_form = new Form();
+    retrieve_form.param("senderEmail", requesterEmail);
+    retrieve_form.param("receiverEmail", receiverEmail);
+    retrieve_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    String response = this.target.path("messageservice").path("retrievemessages").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(retrieve_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+
+    if (response != null && response != "") {
+      returnList = new JSONArray(response);
+    }
+    
+    return returnList;
   }
 }

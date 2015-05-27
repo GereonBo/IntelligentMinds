@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
@@ -16,7 +15,6 @@ public class TestRegister {
   private String user2;
   private String user3;
   private String pw1;
-  private String pw2;
 
   @Before
   public void setUp() throws Exception {
@@ -33,30 +31,46 @@ public class TestRegister {
    * should succeed
    */   
   public void testRegisterSucceed() {
-    RegisterResponse response = provider.register(user1, pw1, "male", "Thomas", "Hoedl");
+    RegisterResponse response = provider.register(user1, pw1, "male", "user", "mustermann");
     
     assertNotNull(response);
     assertEquals(RegisterResponse.SUCCESS, response);
+    
   }
   
   @Test
-  @Ignore
   /**
    * test username already exists
    */   
   public void testRegisterUsernameExists() {
-    RegisterResponse response = provider.register(user2, pw1, "male", "user", "mustermann");
-    RegisterResponse response2 = provider.register(user2, pw1, "male", "user", "mustermann");
+    RegisterResponse response = provider.register(user3, pw1, "male", "user", "mustermann");
+    RegisterResponse response2 = provider.register(user3, pw1, "male", "user", "mustermann");
     
     assertNotNull(response);
     assertNotNull(response2);
     assertEquals(RegisterResponse.SUCCESS, response);
-    assertEquals(RegisterResponse.USER_EXISTS, response);
+    assertEquals(RegisterResponse.USER_EXISTS, response2);
   }
   
   @Test
   /**
    * test username already exists
+   */   
+  public void testRegisterDeleteRegisterWithoutLogin() {
+    //Register
+	RegisterResponse response = provider.register(user2, pw1, "male", "user", "mustermann");
+    assertNotNull(response);
+    assertEquals(RegisterResponse.SUCCESS, response);
+    //Delete
+    provider.deleteAccount(user2, pw1, provider.performLogin(user2, pw1));
+    //Reregister
+    response = provider.register(user2, pw1, "male", "user", "mustermann");
+    assertNotEquals(RegisterResponse.USER_EXISTS, response);
+  }
+  
+  @Test
+  /**
+   * test using weak password
    */   
   public void testRegisterWeakPassword() {
     RegisterResponse response = provider.register(user3, "testfere", "male", "max", "mustermann");
@@ -91,11 +105,34 @@ public class TestRegister {
     assertEquals(RegisterResponse.EMAIL, response);
   }
   
+  @Test
+  /**
+   * wrong name
+   */   
+  public void testRegisterNamefail() {
+    RegisterResponse response = provider.register(user3, pw1, "male", "12345weird name", "mustermann");
+    
+    assertNotNull(response);
+    assertEquals(RegisterResponse.NAME, response);
+  }
+  
+  @Test
+  /**
+   * wrong gender
+   */   
+  public void testRegisterGenderfail() {
+    RegisterResponse response = provider.register(user3, pw1, "unknown", "user", "mustermann");
+    
+    assertNotNull(response);
+    assertEquals(RegisterResponse.MISC_ERROR, response);
+  }
+  
   @After
   public void tearDown() {
     
     provider.deleteAccount(user1, pw1, provider.performLogin(user1, pw1));
-    provider.deleteAccount(user2, pw1, provider.performLogin(user1, pw1));
+    provider.deleteAccount(user2, pw1, provider.performLogin(user2, pw1));
+    provider.deleteAccount(user3, pw1, provider.performLogin(user3, pw1));
   }
 
 }
