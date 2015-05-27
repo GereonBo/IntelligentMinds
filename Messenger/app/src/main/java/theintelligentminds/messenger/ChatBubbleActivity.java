@@ -25,6 +25,14 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TreeSet;
+
+import at.intelligentminds.client.ConnectionProvider;
+import at.intelligentminds.client.Message;
 import theintelligentminds.messenger.emoji.Emojicon;
 import theintelligentminds.messenger.emoji.EmojiconEditText;
 import theintelligentminds.messenger.emoji.EmojiconGridFragment;
@@ -39,7 +47,9 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     private Button buttonSend;
     private ImageView buttonEmo;
     private LinearLayout emoPanel;
+    private String receiver;
     boolean popupShown = false;
+    Timer autoUpdateTimer;
 
     Intent intent;
     private boolean side = false;
@@ -47,6 +57,7 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        receiver = "dermaniac@gmail.com";
         Intent i = getIntent();
         setContentView(R.layout.activity_chat);
 
@@ -93,13 +104,36 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
                 listView.setSelection(chatArrayAdapter.getCount() - 1);
             }
         });
+
+        autoUpdateTimer = new Timer();
+        autoUpdateTimer.schedule(new TimerTask(){
+            @Override
+            public void run(){
+               // runOnUiThread(new Runnable() {
+               //     @Override
+               //     public void run() {
+                        autoUpdateMessages();
+               //     }
+               // });
+            }
+        }, 0, 10000);
     }
 
     private boolean sendChatMessage(){
-        chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
+        boolean success = ConnectionProvider.getInstance().sendMessage(receiver,chatText.getText().toString());
+        if(success) {
+            chatArrayAdapter.add(new ChatMessage(false, chatText.getText().toString()));
+        }else{
+            chatArrayAdapter.add(new ChatMessage(false, "Message failed to send: " + chatText.getText().toString()));
+        }
         chatText.setText("");
-        side = !side;
         return true;
+    }
+
+    private void autoUpdateMessages()
+    {
+        TreeSet<Message> messages = ConnectionProvider.getInstance().getMessagesBySenderAndReceiverSorted(receiver);
+        chatArrayAdapter.refreshFromMessagesList(messages);
     }
 
     private boolean popUpEmos(){
