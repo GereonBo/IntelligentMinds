@@ -7,13 +7,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
+import android.widget.ListView;
+
+import javassist.bytecode.stackmap.BasicBlock;
 
 
 public class AddFriend extends ActionBarActivity {
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        listView = (ListView) findViewById(R.id.addFriendsListView);
+
         setContentView(R.layout.add_friend);
     }
 
