@@ -23,9 +23,9 @@ import org.json.JSONObject;
 public class ConnectionProvider {
 
   public static final String JSON_MESSAGE_KEY_TEXT = "text";
-  public static final String JSON_MESSAGE_KEY_DATE = "createonDate";
-  public static final String JSON_MESSAGE_KEY_RECEIVER = "userByUserReceiverId.email";
-  public static final String JSON_MESSAGE_KEY_SENDER = "userByUserSenderId.email";
+  public static final String JSON_MESSAGE_KEY_DATE = "creatonDate";
+  public static final String JSON_MESSAGE_KEY_RECEIVER = "receiverEmail";
+  public static final String JSON_MESSAGE_KEY_SENDER = "senderEmail";
   
   private static ConnectionProvider instance;
   private WebTarget target;
