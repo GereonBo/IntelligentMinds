@@ -81,7 +81,6 @@ public class LoginActivity extends Activity {
               @Override
               public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent(LoginActivity.this, FriendView.class);
-                intent.putExtra("AUTH_TOKEN", authToken);
                 startActivity(intent);
               }
             }).show();
