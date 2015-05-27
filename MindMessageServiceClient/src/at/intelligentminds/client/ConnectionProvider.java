@@ -1,9 +1,6 @@
 package at.intelligentminds.client;
 
-import java.lang.reflect.Array;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -17,17 +14,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientResponse;
 import org.json.JSONArray;
 
-import at.intelligentminds.client.ConnectionProvider.RegisterResponse;
 
 public class ConnectionProvider {
 
   private static ConnectionProvider instance;
   private WebTarget target;
-  private String userId;
-
+  private String authToken;
+  private String userEmail;
+  
   public enum RegisterResponse {
     SUCCESS, ERROR, PASSWORD, USER_EXISTS, NAME, MISC_ERROR, EMAIL
   }
@@ -76,10 +72,11 @@ public class ConnectionProvider {
     login_form.param("email", email);
     login_form.param("password", password);
 
-    userId = this.target.path("userservice").path("login").request().accept(MediaType.TEXT_PLAIN)
+    authToken = this.target.path("userservice").path("login").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(login_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
-
-    return userId;
+    if(!authToken.equals("")) this.userEmail = email;
+    
+    return authToken;
   }
 
   public boolean validateLogin(String token) {
@@ -135,6 +132,10 @@ public class ConnectionProvider {
     return returnList;
   }
 
+  public Boolean sendMessage(String receiverEmail, String text, String authtoken) {
+    return sendMessage(this.userEmail, receiverEmail, text, authtoken);
+  }
+  
   public Boolean sendMessage(String senderEmail, String receiverEmail, String text, String authtoken) {
     Form create_form = new Form();
     create_form.param("senderEmail", senderEmail);
@@ -148,6 +149,9 @@ public class ConnectionProvider {
     return response;
   }
   
+  public JSONArray getMessagesBySenderAndReceiver(String receiverEmail, String authtoken) {
+    return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, authtoken);
+  }
   public JSONArray getMessagesBySenderAndReceiver(String requesterEmail, String receiverEmail, String authtoken) {
     Form retrieve_form = new Form();
     retrieve_form.param("senderEmail", requesterEmail);
