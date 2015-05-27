@@ -19,6 +19,11 @@ import org.json.JSONArray;
 
 public class ConnectionProvider {
 
+  private static final String JSON_MESSAGE_KEY_TEXT = "text";
+  private static final String JSON_MESSAGE_KEY_DATE = "createonDate";
+  private static final String JSON_MESSAGE_KEY_RECEIVER = "userByUserReceiverId.email";
+  private static final String JSON_MESSAGE_KEY_SENDER = "userByUserSenderId.email";
+  
   private static ConnectionProvider instance;
   private WebTarget target;
   private String authToken;
