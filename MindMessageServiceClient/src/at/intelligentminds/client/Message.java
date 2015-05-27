@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Message implements Comparable<Message>{
 
-  Date date;
-  String text;
-  String receiverEmail;
-  String senderEmail;
+  public Date date;
+  public String text;
+  public String receiverEmail;
+  public String senderEmail;
   
   public Message(Date date, String text, String receiverEmail, String senderEmail) {
     super();
