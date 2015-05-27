@@ -8,9 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import at.intelligentminds.client.ConnectionProvider;
+
 
 public class FriendView extends ActionBarActivity {
     private ListView friendView;
+    private ConnectionProvider provider = ConnectionProvider.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

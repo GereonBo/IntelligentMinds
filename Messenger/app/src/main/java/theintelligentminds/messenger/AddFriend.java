@@ -1,5 +1,9 @@
 package theintelligentminds.messenger;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,11 +13,15 @@ import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+
+import at.intelligentminds.client.ConnectionProvider;
 import javassist.bytecode.stackmap.BasicBlock;
 
 
 public class AddFriend extends ActionBarActivity {
     private ListView listView;
+    private ConnectionProvider provider = ConnectionProvider.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,41 @@ public class AddFriend extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+/*
+    class AsyncDBAccess extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            JSONArray users = provider.searchAccounts(strings[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final String authToken) {
+            super.onPostExecute(authToken);
+
+            if (authToken.equals("")) {
+                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login failed")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+            }
+            else {
+                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login successful")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(LoginActivity.this, FriendView.class);
+                                startActivity(intent);
+                            }
+                        }).show();
+            }
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -60,6 +103,6 @@ public class AddFriend extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+*/
 
 }
