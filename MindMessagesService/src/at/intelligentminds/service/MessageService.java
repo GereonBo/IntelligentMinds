@@ -15,8 +15,12 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import at.intelligentminds.service.model.HibernateSupport;
 import at.intelligentminds.service.model.Message;
@@ -105,10 +109,19 @@ public class MessageService {
     or_receiver_email.add(c_receiver_email2);
     Criterion final_email = Restrictions.and(or_sender_email, or_receiver_email);
 
-    Criteria criteria = HibernateSupport.getSession().createCriteria(Message.class);
+    Criteria criteria = HibernateSupport.getSession().createCriteria(Message.class, "message");
     criteria.add(final_email);
 
     criteria.addOrder(Order.asc("creatonDate"));
+    
+    criteria.createAlias("message.userByUserSenderId", "userByUserSenderId");
+    criteria.createAlias("message.userByUserReceiverId", "userByUserReceiverId");
+    
+    criteria.setProjection(Projections.projectionList()
+        .add(Projections.property("text"), "text")
+        .add(Projections.property("creatonDate"), "creatonDate")
+        .add(Projections.property("userByUserReceiverId.email"), "email")
+        .add(Projections.property("userByUserSenderId.email"), "email"));
 
     JSONArray array = new JSONArray();
 
@@ -116,7 +129,18 @@ public class MessageService {
       List res = criteria.list();
       tx.commit();
 
-      array = new JSONArray(res.toArray());
+      for(int i = 0; i < res.size(); i++) {
+        
+        Object [] messageValues = (Object [])res.get(i);
+
+        JSONObject message = new JSONObject();
+        message.put("text", messageValues[0]);
+        message.put("creatonDate", messageValues[1]);
+        message.put("receiverEmail", messageValues[2]);
+        message.put("senderEmail", messageValues[3]);
+        
+        array.put(message);
+      }      
     }
     catch (Exception e) {
       e.printStackTrace();
