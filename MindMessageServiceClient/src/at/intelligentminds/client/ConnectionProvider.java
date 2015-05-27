@@ -3,7 +3,6 @@ package at.intelligentminds.client;
 import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TreeSet;
 
 import javax.ws.rs.client.Client;
@@ -225,5 +224,9 @@ public class ConnectionProvider {
     }
     
     return returnList;
+  }
+  
+  public String whoAmI(){
+    return userEmail;
   }
 }
