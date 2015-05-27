@@ -4,13 +4,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 
 public class FriendView extends ActionBarActivity {
+    private String authToken;
+    private ListView friendView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+            authToken = extras.getString("AUTH_TOKEN");
+
+        friendView = (ListView) findViewById(R.id.friendView);
+
         setContentView(R.layout.friend_view);
     }
 
