@@ -20,9 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import at.intelligentminds.service.User;
-
-
 public class ConnectionProvider {
 
   public static final String JSON_MESSAGE_KEY_TEXT = "text";
@@ -103,6 +100,7 @@ public class ConnectionProvider {
   public boolean validateLogin() {
     return this.validateLogin(this.authToken);
   }
+
   public boolean validateLogin(String token) {
     Form validate_form = new Form();
     validate_form.param("token", token);
@@ -159,22 +157,19 @@ public class ConnectionProvider {
     JSONArray returnList = new JSONArray();
     String response = this.target.path("userservice").path("searchaccount").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(search_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
-    
 
     if (response != null && response != "") {
       returnList = new JSONArray(response);
     }
     
-    
-    for(int i = 0; i <  returnList.length(); i++){
+    for(int i = 0; i <  returnList.length(); i++) {
       JSONObject messageObject = returnList.getJSONObject(i);
       if (messageObject.has(JSON_EMAIL) && messageObject.has(JSON_FIRSTNAME)
           && messageObject.has(JSON_LASTNAME)) {
-        String email = messageObject.getString(JSON_EMAIL);
-        String firstName = messageObject.getString(JSON_FIRSTNAME);
-        String lastName = messageObject.getString(JSON_LASTNAME);
-       
-        try {
+    	try {
+    	  String email = messageObject.getString(JSON_EMAIL);
+    	  String firstName = messageObject.getString(JSON_FIRSTNAME);
+          String lastName = messageObject.getString(JSON_LASTNAME);
           userList.add(new User(firstName,lastName,email));
         }
         catch (JSONException e) {

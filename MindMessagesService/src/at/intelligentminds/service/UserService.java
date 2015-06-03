@@ -1,8 +1,5 @@
 package at.intelligentminds.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -20,11 +17,9 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 import at.intelligentminds.service.model.HibernateSupport;
+import at.intelligentminds.service.model.User;
 
 
 @Path("/userservice")
@@ -44,15 +39,8 @@ public class UserService {
   @POST
   @Path("/searchaccount")
   @Produces(MediaType.TEXT_PLAIN)
-  public String searchAccount(@FormParam("searchText") String searchText, @FormParam("authtoken") String authtoken) {
-<<<<<<< HEAD
-
-    if (!new LoginService().validate(authtoken)) return "[]";
-=======
-    
+  public String searchAccount(@FormParam("searchText") String searchText, @FormParam("authtoken") String authtoken) {    
     if(!new LoginService().validate(authtoken)) return "[]";
-    
->>>>>>> add_friends
 
     String[] parts = searchText.split(" ");
 
