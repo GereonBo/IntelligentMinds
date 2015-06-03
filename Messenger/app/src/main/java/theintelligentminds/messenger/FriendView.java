@@ -25,6 +25,8 @@ public class FriendView extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.friend_view);
+
         friendListView = (ListView) findViewById(R.id.friendListView);
 
         ArrayList<String> testStrings = new ArrayList<String>();
@@ -44,8 +46,6 @@ public class FriendView extends ActionBarActivity {
                 final String item = (String) adapterView.getItemAtPosition(i);
             }
         });
-
-        setContentView(R.layout.friend_view);
     }
 
 

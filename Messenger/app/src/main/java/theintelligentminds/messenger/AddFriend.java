@@ -1,9 +1,5 @@
 package theintelligentminds.messenger;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,25 +7,40 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.json.JSONArray;
+import java.util.ArrayList;
 
 import at.intelligentminds.client.ConnectionProvider;
-import javassist.bytecode.stackmap.BasicBlock;
 
 
 public class AddFriend extends ActionBarActivity {
-    private ListView listView;
+    private ListView addFriendsListView;
+    private ArrayAdapter<String> listViewAdapter;
     private ConnectionProvider provider = ConnectionProvider.getInstance();
+    ArrayList<String> friendsList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        listView = (ListView) findViewById(R.id.addFriendsListView);
-
         setContentView(R.layout.add_friend);
+
+        addFriendsListView = (ListView) findViewById(R.id.addFriendsListView);
+
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(this, R.layout.friend_view_row,
+                friendsList);
+
+        addFriendsListView.setAdapter(listViewAdapter);
+
+        addFriendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final String item = (String) adapterView.getItemAtPosition(i);
+            }
+        });
     }
 
 
@@ -49,7 +60,7 @@ public class AddFriend extends ActionBarActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d("Test", "Query change: " + s);
+                friendsList.add("test");
                 return true;
             }
         };
