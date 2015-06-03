@@ -177,10 +177,52 @@ public class UserService {
     return array.toString();   
   }
   
+  @Path("/updateuser")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean updateUser(@FormParam("userEmail") String email, @FormParam("authtoken") String authtoken, 
+      @FormParam("firstName") String firstName, @FormParam("lastName") String lastName, 
+      @FormParam("profileText") String profileText) {
+    
+    if (!new LoginService().validate(authtoken)) {
+      return false;
+    }
+    
+    Transaction tx = HibernateSupport.getSession().beginTransaction();
+    
+    try {     
+  
+      User user = (User) HibernateSupport.getSession().get(User.class, email);
+      
+      if(firstName != null) {
+        user.setFirstName(firstName);
+      }
+      if(lastName != null) {
+        user.setLastName(lastName);
+      }
+      if(profileText != null) {
+        user.setProfileText(profileText);
+      }
+      
+      HibernateSupport.persist(user);
+      tx.commit();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      if(tx != null) {
+        tx.rollback();
+      }
+      
+      return false;
+    }   
+    
+    return true;
+  }
+  
   @Path("/logout")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
-  public Boolean logout(@FormParam("email") String email, @FormParam("authtoken") String authtoken) {
+  public Boolean logout(@FormParam("email") String userEmail, @FormParam("authtoken") String authtoken) {
     
     if (!new LoginService().validate(authtoken)) {
       return false;
