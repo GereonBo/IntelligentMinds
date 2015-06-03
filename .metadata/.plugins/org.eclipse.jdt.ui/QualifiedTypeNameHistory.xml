@@ -17,4 +17,5 @@
 <fullyQualifiedTypeName name="java.lang.Boolean"/>
 <fullyQualifiedTypeName name="at.intelligentminds.client.ConnectionProvider.RegisterResponse"/>
 <fullyQualifiedTypeName name="org.junit.After"/>
+<fullyQualifiedTypeName name="at.intelligentminds.service.model.User"/>
 </qualifiedTypeNameHistroy>

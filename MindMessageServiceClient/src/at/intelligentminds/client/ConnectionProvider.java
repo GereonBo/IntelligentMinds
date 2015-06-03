@@ -79,8 +79,7 @@ public class ConnectionProvider {
   }
 
   private static URI getBaseURI() {
-
-    return UriBuilder.fromUri("http://129.27.237.158:8080/MindMessagesService").build();
+    return UriBuilder.fromUri("http://129.27.229.49:8080/MindMessagesService").build();
     //return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
@@ -236,9 +235,11 @@ public class ConnectionProvider {
   public JSONArray getMessagesBySenderAndReceiver(String receiverEmail) {
     return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, this.authToken);
   }
+  
   public JSONArray getMessagesBySenderAndReceiver(String receiverEmail, String authtoken) {
     return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, authtoken);
   }
+  
   public JSONArray getMessagesBySenderAndReceiver(String requesterEmail, String receiverEmail, String authtoken) {
     Form retrieve_form = new Form();
     retrieve_form.param("senderEmail", requesterEmail);
@@ -258,5 +259,59 @@ public class ConnectionProvider {
   
   public String whoAmI(){
     return userEmail;
+  }
+  
+  public Boolean addContact(String userEmail, String contactEmail, String authtoken) {
+    Form add_form = new Form();
+    add_form.param("userEmail", userEmail);
+    add_form.param("contactEmail", contactEmail);
+    add_form.param("authtoken", authtoken);
+
+    Boolean response = this.target.path("userservice").path("addcontact").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(add_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+    
+    return response;
+  }
+  
+  public Boolean addContact(String contactEmail) {
+    return addContact(userEmail, contactEmail, authToken);
+  }
+  
+  public ArrayList<User>  getContacts() {
+    return getContacts(userEmail, authToken);
+  }
+  
+  public ArrayList<User>  getContacts(String userEmail, String authtoken) {
+    Form retrieve_form = new Form();
+    ArrayList<User> userList = new ArrayList<>();
+    
+    retrieve_form.param("userEmail", userEmail);
+    retrieve_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    String response = this.target.path("userservice").path("retrievecontacts").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(retrieve_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+
+    if (response != null && response != "") {
+      returnList = new JSONArray(response);
+    }
+    
+    for(int i = 0; i <  returnList.length(); i++) {
+      JSONObject messageObject = returnList.getJSONObject(i);
+      if (messageObject.has(JSON_EMAIL) && messageObject.has(JSON_FIRSTNAME)
+          && messageObject.has(JSON_LASTNAME)) {
+      try {
+        String email = messageObject.getString(JSON_EMAIL);
+        String firstName = messageObject.getString(JSON_FIRSTNAME);
+          String lastName = messageObject.getString(JSON_LASTNAME);
+          userList.add(new User(firstName,lastName,email));
+        }
+        catch (JSONException e) {
+          System.err.println("Malformed JSON response " + e.getMessage());
+        }
+      }
+    }
+    
+    return userList;
   }
 }

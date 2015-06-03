@@ -36,7 +36,6 @@ public class User {
     this.location = location;
     this.address = address;
     this.aboutMe = aboutMe;
-       
   }
   
 }

@@ -1,6 +1,8 @@
 package at.intelligentminds.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -75,7 +77,8 @@ public class UserService {
 
     criteria.setProjection(
         Projections.projectionList().add(Projections.property("firstName"), "firstName")
-            .add(Projections.property("lastName"), "lastName").add(Projections.property("accountName"), "accountName")
+            .add(Projections.property("lastName"), "lastName")
+            .add(Projections.property("accountName"), "accountName")
             .add(Projections.property("email"), "email")).setResultTransformer(Transformers.aliasToBean(User.class));
 
     List res = criteria.list();
@@ -86,6 +89,103 @@ public class UserService {
     
     return array.toString();    
     
+  }
+  
+  @POST
+  @Path("/addcontact")
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean addContact(@FormParam("contactEmail") String contactEmail, 
+      @FormParam("userEmail") String userEmail, @FormParam("authtoken") String authtoken) {
+
+    if (!new LoginService().validate(authtoken)) {
+      return false;
+    }
+    
+    Transaction tx = HibernateSupport.getSession().getTransaction();
+
+    tx.begin();
+
+    User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
+    User contact = (User) HibernateSupport.getSession().get(User.class, contactEmail);
+
+    if (user == null || contact == null || user.getUsersForContactId().contains(contact)) {
+      tx.commit();
+      return false;
+    }
+            
+    user.getUsersForContactId().add(contact);
+    contact.getUsersForContactId().add(user);
+    
+    List<Object> entities = new ArrayList<Object>();
+    entities.add(user);
+    entities.add(contact);
+    
+    try {
+      Boolean result = HibernateSupport.persistMultiple(entities);
+      
+      tx.commit();
+      
+      return result;
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+      
+      if(tx != null) {
+        tx.rollback();
+      }
+      
+      return false;
+    }  
+  }
+  
+  @POST
+  @Path("/retrievecontacts")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String retrieveContacts(@FormParam("userEmail") String userEmail,
+      @FormParam("authtoken") String authtoken) {
+
+    if (!new LoginService().validate(authtoken)) {
+      return "[]";
+    }
+    
+    Transaction tx = HibernateSupport.getSession().getTransaction();
+
+    tx.begin();
+
+    User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
+
+    if (user == null) {
+      tx.commit();
+      return "[]";
+    }
+    
+    Set<User> contacts = user.getUsersForContactId();
+    ArrayList<User> newContacts = new ArrayList<User>();
+    
+    
+    JSONArray array = new JSONArray();
+    
+    try {
+      for(User contact : contacts) {
+        User newContact = new User(contact.getEmail(), contact.getAccountName(), contact.getFirstName(), 
+            contact.getLastName());
+        
+        newContacts.add(newContact);
+      }
+      
+      array = new JSONArray(newContacts.toArray());
+      
+      tx.commit();
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+      
+      if(!tx.wasCommitted()) {
+        tx.rollback();
+      }
+    } 
+    
+    return array.toString();   
   }
 
   @Path("/searchaccount")
