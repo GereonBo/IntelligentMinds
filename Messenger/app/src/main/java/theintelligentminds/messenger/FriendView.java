@@ -20,6 +20,7 @@ import at.intelligentminds.client.User;
 public class FriendView extends ActionBarActivity {
 
     private ListView friendListView;
+    private ArrayList<User> friendList;
     private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
 
 
@@ -36,7 +37,7 @@ public class FriendView extends ActionBarActivity {
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final String item = (String) adapterView.getItemAtPosition(i);
+                User user = friendList.get(i);
             }
         });
     }
@@ -58,7 +59,7 @@ public class FriendView extends ActionBarActivity {
 
         switch(item.getItemId())
         {
-            case R.id.add_friends:
+            case R.id.add_friend:
                 intent = new Intent(FriendView.this, AddFriend.class);
                 break;
             case R.id.show_profile:
@@ -76,7 +77,7 @@ public class FriendView extends ActionBarActivity {
     class AsyncDBAccessGetFriends extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
         protected ArrayList<User> doInBackground(String... strings) {
-            ArrayList<User> friendList = provider.getContacts();
+            friendList = provider.getContacts();
             return friendList;
         }
 
@@ -88,6 +89,21 @@ public class FriendView extends ActionBarActivity {
                     R.layout.friend_view_row, friendList);
 
             friendListView.setAdapter(listViewAdapter);
+        }
+    }
+
+    class AsyncDBAccessStartCommunication extends AsyncTask<User, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(User... users) {
+            Intent intent = new Intent(FriendView.this, ChatBubbleActivity.class);
+            intent.putExtra("USER_EMAIL", users[0].getEmail());
+            startActivity(intent);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
         }
     }
 }

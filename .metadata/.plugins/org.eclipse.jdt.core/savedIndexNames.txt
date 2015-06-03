@@ -68,7 +68,6 @@ INDEX VERSION 1.127+C:\Users\Thomas\Documents\GitHub\IntelligentMinds\.metadata\
 1787405673.index
 4242092280.index
 3841246513.index
-2118687823.index
 4224804022.index
 1418135881.index
 2471154274.index

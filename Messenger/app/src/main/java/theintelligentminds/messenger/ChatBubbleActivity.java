@@ -61,8 +61,7 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        receiver = "testaccount@test.com";
-
+        receiver = getIntent().getStringExtra("USER_EMAIL");
 
         Intent i = getIntent();
         setContentView(R.layout.activity_chat);
