@@ -236,9 +236,11 @@ public class ConnectionProvider {
   public JSONArray getMessagesBySenderAndReceiver(String receiverEmail) {
     return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, this.authToken);
   }
+  
   public JSONArray getMessagesBySenderAndReceiver(String receiverEmail, String authtoken) {
     return getMessagesBySenderAndReceiver(this.userEmail, receiverEmail, authtoken);
   }
+  
   public JSONArray getMessagesBySenderAndReceiver(String requesterEmail, String receiverEmail, String authtoken) {
     Form retrieve_form = new Form();
     retrieve_form.param("senderEmail", requesterEmail);
@@ -258,5 +260,37 @@ public class ConnectionProvider {
   
   public String whoAmI(){
     return userEmail;
+  }
+  
+  public Boolean addContact(String userEmail, String contactEmail, String authtoken) {
+    Form add_form = new Form();
+    add_form.param("userEmail", userEmail);
+    add_form.param("contactEmail", contactEmail);
+    add_form.param("authtoken", authtoken);
+
+    Boolean response = this.target.path("userservice").path("addcontact").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(add_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+    
+    return response;
+  }
+  
+  public Boolean addContact(String contactEmail) {
+    return addContact(userEmail, contactEmail, authToken);
+  }
+  
+  public JSONArray getContacts(String userEmail, String authtoken) {
+    Form retrieve_form = new Form();
+    retrieve_form.param("userEmail", userEmail);
+    retrieve_form.param("authtoken", authtoken);
+
+    JSONArray returnList = new JSONArray();
+    String response = this.target.path("userservice").path("retrievecontacts").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(retrieve_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+
+    if (response != null && response != "") {
+      returnList = new JSONArray(response);
+    }
+    
+    return returnList;
   }
 }

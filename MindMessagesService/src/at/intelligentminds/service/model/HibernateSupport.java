@@ -1,5 +1,7 @@
 package at.intelligentminds.service.model;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,6 +47,24 @@ public class HibernateSupport {
 		return true;
 	}
 
+	public static boolean persistMultiple(List<Object> objects) {
+    try {
+      for (Object currentEntity : objects) {
+        if(currentEntity == null) {
+          continue;
+        }
+        
+        getSession().saveOrUpdate(currentEntity);
+      }
+      
+    } catch (HibernateException e) {
+      System.out.println("Committing error: " + e);
+      return false;
+    }
+    
+    return true;
+  }
+	
 	public static void destroy() {
 		StandardServiceRegistryBuilder.destroy(serviceRegistry);
 	}
