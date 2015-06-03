@@ -42,8 +42,8 @@ public class TestGetContacts {
   public void tearDown() throws Exception {
     provider.deleteAccount(userEmail1, pw, provider.performLogin(userEmail1, pw));
     provider.deleteAccount(userEmail2, pw, provider.performLogin(userEmail2, pw));
-    provider.deleteAccount(userEmail3, pw, provider.performLogin(userEmail2, pw));
-    provider.deleteAccount(userEmail4, pw, provider.performLogin(userEmail2, pw));
+    provider.deleteAccount(userEmail3, pw, provider.performLogin(userEmail3, pw));
+    provider.deleteAccount(userEmail4, pw, provider.performLogin(userEmail4, pw));
   }
 
   @Test
@@ -74,8 +74,8 @@ public class TestGetContacts {
     assertNotNull(response);
     assertEquals(2, response.length());
     
-    assertNotNull(response);
-    assertEquals(1, response.length());
+    assertNotNull(response2);
+    assertEquals(1, response2.length());
   }
 
 }

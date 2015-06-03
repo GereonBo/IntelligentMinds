@@ -1,5 +1,6 @@
 package at.intelligentminds.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -94,21 +95,32 @@ public class UserService {
     User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
     User contact = (User) HibernateSupport.getSession().get(User.class, contactEmail);
 
-    if (user == null || contact == null) {
+    if (user == null || contact == null || user.getUsersForContactId().contains(contact)) {
       tx.commit();
       return false;
     }
-    
+            
     user.getUsersForContactId().add(contact);
+    contact.getUsersForContactId().add(user);
+    
+    List<Object> entities = new ArrayList<Object>();
+    entities.add(user);
+    entities.add(contact);
     
     try {
-      Boolean result = HibernateSupport.persist(user);
+      Boolean result = HibernateSupport.persistMultiple(entities);
+      
       tx.commit();
       
       return result;
     }
     catch(Exception e) {
       e.printStackTrace();
+      
+      if(tx != null) {
+        tx.rollback();
+      }
+      
       return false;
     }  
   }
@@ -133,34 +145,34 @@ public class UserService {
       tx.commit();
       return "[]";
     }
-            
-    Criteria criteria = HibernateSupport.getSession().createCriteria(User.class);
     
-    criteria.createAlias("user.usersForContactId", "usersForContactId");
+    Set<User> contacts = user.getUsersForContactId();
+    ArrayList<User> newContacts = new ArrayList<User>();
     
-    criteria.add(Restrictions.eq("usersForContactId.user_id", userEmail));
     
-    criteria.setProjection(
-        Projections.projectionList().add(Projections.property("firstName"), "firstName")
-            .add(Projections.property("lastName"), "lastName")
-            .add(Projections.property("accountName"), "accountName")
-            .add(Projections.property("email"), "email"))
-            .setResultTransformer(Transformers.aliasToBean(User.class));
-
-    List res = criteria.list();
+    JSONArray array = new JSONArray();
     
     try {
-      //Boolean result = HibernateSupport.persist(user);
-      tx.commit();
+      for(User contact : contacts) {
+        User newContact = new User(contact.getEmail(), contact.getAccountName(), contact.getFirstName(), 
+            contact.getLastName());
+        
+        newContacts.add(newContact);
+      }
       
-      //return result;
+      array = new JSONArray(newContacts.toArray());
+      
+      tx.commit();
     }
     catch(Exception e) {
       e.printStackTrace();
-      //return false;
-    }  
+      
+      if(!tx.wasCommitted()) {
+        tx.rollback();
+      }
+    } 
     
-    return "";
+    return array.toString();   
   }
 
   @Path("/searchaccount")
