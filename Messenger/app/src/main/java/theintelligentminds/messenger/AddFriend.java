@@ -15,11 +15,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import at.intelligentminds.client.ConnectionProvider;
+import at.intelligentminds.client.User;
 
 
 public class AddFriend extends ActionBarActivity {
     private ListView addFriendsListView;
-    private ArrayAdapter<String> listViewAdapter;
     private ConnectionProvider provider = ConnectionProvider.getInstance();
     ArrayList<String> friendsList = new ArrayList<String>();
 
@@ -30,8 +30,7 @@ public class AddFriend extends ActionBarActivity {
 
         addFriendsListView = (ListView) findViewById(R.id.addFriendsListView);
 
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(this, R.layout.friend_view_row,
-                friendsList);
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(this, R.layout.friend_view_row, friendsList);
 
         addFriendsListView.setAdapter(listViewAdapter);
 
@@ -60,7 +59,9 @@ public class AddFriend extends ActionBarActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                friendsList.add("test");
+                ArrayList<User> userList = provider.searchAccounts(s);
+                ArrayAdapter<User> listViewAdapter = new ArrayAdapter<User>(AddFriend.this, R.layout.friend_view_row, userList);
+                addFriendsListView.setAdapter(listViewAdapter);
                 return true;
             }
         };
