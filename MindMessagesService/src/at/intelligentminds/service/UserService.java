@@ -92,8 +92,6 @@ public class UserService {
     
     Transaction tx = HibernateSupport.getSession().getTransaction();
 
-    tx.begin();
-
     User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
     User contact = (User) HibernateSupport.getSession().get(User.class, contactEmail);
 
@@ -133,48 +131,49 @@ public class UserService {
   public String retrieveContacts(@FormParam("userEmail") String userEmail,
       @FormParam("authtoken") String authtoken) {
 
-    if (!new LoginService().validate(authtoken)) {
-      return "[]";
-    }
-    
-    Transaction tx = HibernateSupport.getSession().getTransaction();
-
-    tx.begin();
-
-    User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
-
-    if (user == null) {
-      tx.commit();
-      return "[]";
-    }
-    
-    Set<User> contacts = user.getUsersForContactId();
-    ArrayList<User> newContacts = new ArrayList<User>();
-    
-    
-    JSONArray array = new JSONArray();
-    
-    try {
-      for(User contact : contacts) {
-        User newContact = new User(contact.getEmail(), contact.getAccountName(), contact.getFirstName(), 
-            contact.getLastName());
-        
-        newContacts.add(newContact);
+    try{
+      if (!new LoginService().validate(authtoken)) {
+        return "[]";
       }
-      
-      array = new JSONArray(newContacts.toArray());
-      
-      tx.commit();
-    }
-    catch(Exception e) {
+
+      Transaction tx = HibernateSupport.getSession().getTransaction();
+
+      User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
+
+      if (user == null) {
+        tx.commit();
+        return "[]";
+      }
+
+      Set<User> contacts = user.getUsersForContactId();
+      ArrayList<User> newContacts = new ArrayList<User>();
+
+
+      JSONArray array = new JSONArray();
+
+      try {
+        for(User contact : contacts) {
+          User newContact = new User(contact.getEmail(), contact.getAccountName(), contact.getFirstName(), 
+              contact.getLastName());
+
+          newContacts.add(newContact);
+        }
+
+        array = new JSONArray(newContacts.toArray());
+        tx.commit();
+      }
+      catch(Exception e) {
+        e.printStackTrace();
+
+        if(!tx.wasCommitted()) {
+          tx.rollback();
+        }
+      } 
+      return array.toString();   
+    } catch (Exception e){
       e.printStackTrace();
-      
-      if(!tx.wasCommitted()) {
-        tx.rollback();
-      }
-    } 
-    
-    return array.toString();   
+    }
+    return "[]";
   }
   
   @Path("/logout")
