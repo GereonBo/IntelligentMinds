@@ -41,6 +41,5 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-logging-annotations-1.2.0.Beta1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.1.35-bin.jar"/>
-	<classpathentry kind="lib" path="E:/Eigene Dateien/schul/7 Semester/WM/IntelligentMinds/MindMessagesService/WebContent/WEB-INF/lib/jersey-json-1.19.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

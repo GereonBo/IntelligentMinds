@@ -44,15 +44,8 @@ public class UserService {
   @POST
   @Path("/searchaccount")
   @Produces(MediaType.TEXT_PLAIN)
-  public String searchAccount(@FormParam("searchText") String searchText, @FormParam("authtoken") String authtoken) {
-<<<<<<< HEAD
-
-    if (!new LoginService().validate(authtoken)) return "[]";
-=======
-    
+  public String searchAccount(@FormParam("searchText") String searchText, @FormParam("authtoken") String authtoken) {    
     if(!new LoginService().validate(authtoken)) return "[]";
-    
->>>>>>> add_friends
 
     String[] parts = searchText.split(" ");
 
