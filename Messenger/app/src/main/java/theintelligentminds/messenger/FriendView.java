@@ -2,8 +2,8 @@ package theintelligentminds.messenger;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +18,14 @@ import at.intelligentminds.client.ConnectionProvider;
 
 public class FriendView extends ActionBarActivity {
 
-    private ListView friendView;
+    private ListView friendListView;
     private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        friendView = (ListView) findViewById(R.id.friendView);
+        friendListView = (ListView) findViewById(R.id.friendListView);
 
         ArrayList<String> testStrings = new ArrayList<String>();
         testStrings.add("item 1");
@@ -36,9 +36,9 @@ public class FriendView extends ActionBarActivity {
         ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(this, R.layout.friend_view_row,
                 testStrings);
 
-        friendView.setAdapter(listViewAdapter);
+        friendListView.setAdapter(listViewAdapter);
 
-        friendView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final String item = (String) adapterView.getItemAtPosition(i);

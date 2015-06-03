@@ -1,8 +1,5 @@
 package at.intelligentminds.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -20,11 +17,9 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 import at.intelligentminds.service.model.HibernateSupport;
+import at.intelligentminds.service.model.User;
 
 
 @Path("/userservice")
