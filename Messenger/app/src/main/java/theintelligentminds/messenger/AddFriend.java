@@ -59,7 +59,13 @@ public class AddFriend extends ActionBarActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                ArrayList<User> userList = provider.searchAccounts(s);
+                ArrayList<User> userList = null;
+                try {
+                    userList = provider.searchAccounts(s);
+                } catch(Exception e) {
+                    Log.d("Error!!!!: ", e.getStackTrace().toString());
+                }
+
                 ArrayAdapter<User> listViewAdapter = new ArrayAdapter<User>(AddFriend.this, R.layout.friend_view_row, userList);
                 addFriendsListView.setAdapter(listViewAdapter);
                 return true;
