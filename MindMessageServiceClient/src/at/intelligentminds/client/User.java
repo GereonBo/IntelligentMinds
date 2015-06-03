@@ -4,16 +4,16 @@ package at.intelligentminds.client;
 
 public class User {
 
-  public String firstName = null;
-  public String lastName = null;
-  public String email = null;
-  public String accountName = null;
-  public int age = -1;
-  public String country = null;
-  public String zipCode = null;
-  public String location = null;
-  public String address = null;
-  public String aboutMe = null;
+  private String firstName = null;
+  private String lastName = null;
+  private String email = null;
+  private String accountName = null;
+  private int age = -1;
+  private String country = null;
+  private String zipCode = null;
+  private String location = null;
+  private String address = null;
+  private String aboutMe = null;
 
   public User(String firstName,String lastName,String email) {
     super();
@@ -36,7 +36,52 @@ public class User {
     this.location = location;
     this.address = address;
     this.aboutMe = aboutMe;
-       
   }
+  
+  @Override
+  public String toString() {      
+      return firstName+" "+lastName+ " - "+email;
+  }
+  
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getAccountName() {
+    return accountName;
+  }
+
+  public int getAge() {
+    return age;
+  }
+
+  public String getCountry() {
+    return country;
+  }
+
+  public String getZipCode() {
+    return zipCode;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public String getAboutMe() {
+    return aboutMe;
+  }
+  
   
 }
