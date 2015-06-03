@@ -79,8 +79,7 @@ public class ConnectionProvider {
   }
 
   private static URI getBaseURI() {
-
-    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
+    return UriBuilder.fromUri("http://intelligentminds-intelligentminds.rhcloud.com/MindMessagesService").build();
     //return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
@@ -95,6 +94,27 @@ public class ConnectionProvider {
     if(!authToken.equals("")) this.userEmail = email;
     
     return authToken;
+  }
+  
+  public Boolean performLogout() {
+  return this.performLogout(this.userEmail, this.authToken);
+  }
+  
+  public Boolean performLogout(String email, String authtoken) {
+
+    Form logout_form = new Form();
+    logout_form.param("email", email);
+    logout_form.param("authtoken", authtoken);
+
+    Boolean result = this.target.path("userservice").path("logout").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(logout_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+    
+    if(result) {
+      this.userEmail = "";
+    this.authToken = "";
+    }
+    
+    return result;
   }
 
   public boolean validateLogin() {
@@ -278,8 +298,14 @@ public class ConnectionProvider {
     return addContact(userEmail, contactEmail, authToken);
   }
   
-  public JSONArray getContacts(String userEmail, String authtoken) {
+  public ArrayList<User>  getContacts() {
+    return getContacts(userEmail, authToken);
+  }
+  
+  public ArrayList<User>  getContacts(String userEmail, String authtoken) {
     Form retrieve_form = new Form();
+    ArrayList<User> userList = new ArrayList<>();
+    
     retrieve_form.param("userEmail", userEmail);
     retrieve_form.param("authtoken", authtoken);
 
@@ -291,6 +317,22 @@ public class ConnectionProvider {
       returnList = new JSONArray(response);
     }
     
-    return returnList;
+    for(int i = 0; i <  returnList.length(); i++) {
+      JSONObject messageObject = returnList.getJSONObject(i);
+      if (messageObject.has(JSON_EMAIL) && messageObject.has(JSON_FIRSTNAME)
+          && messageObject.has(JSON_LASTNAME)) {
+      try {
+        String email = messageObject.getString(JSON_EMAIL);
+        String firstName = messageObject.getString(JSON_FIRSTNAME);
+          String lastName = messageObject.getString(JSON_LASTNAME);
+          userList.add(new User(firstName,lastName,email));
+        }
+        catch (JSONException e) {
+          System.err.println("Malformed JSON response " + e.getMessage());
+        }
+      }
+    }
+    
+    return userList;
   }
 }

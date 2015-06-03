@@ -73,5 +73,11 @@ public class LoginService {
   public static User getUserByToken(String token) {
     return userTokens.get(token);
   }
+  
+  public static void removeUserByToken(String token) {
+    if(userTokens.containsKey(token)) {
+      userTokens.remove(token);
+    }    
+  }
 
 }

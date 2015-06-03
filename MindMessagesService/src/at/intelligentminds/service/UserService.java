@@ -26,17 +26,6 @@ import at.intelligentminds.service.model.User;
 
 @Path("/userservice")
 public class UserService {
-  
-  public static final String JSON_EMAIL = "email";
-  public static final String JSON_FIRSTNAME = "firstName";
-  public static final String JSON_LASTNAME = "lastName";
-  public static final String JSON_ACCOUNTNAME = "accountName";
-  public static final String JSON_AGE = "age";
-  public static final String JSON_COUNTRY = "country";
-  public static final String JSON_LOCATION = "location";
-  public static final String JSON_ZIP = "zip";
-  public static final String JSON_ADDRESS = "address";
-  public static final String JSON_ABOUTME = "about";
 
   @POST
   @Path("/searchaccount")
@@ -103,8 +92,6 @@ public class UserService {
     
     Transaction tx = HibernateSupport.getSession().getTransaction();
 
-    tx.begin();
-
     User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
     User contact = (User) HibernateSupport.getSession().get(User.class, contactEmail);
 
@@ -144,48 +131,63 @@ public class UserService {
   public String retrieveContacts(@FormParam("userEmail") String userEmail,
       @FormParam("authtoken") String authtoken) {
 
-    if (!new LoginService().validate(authtoken)) {
-      return "[]";
-    }
-    
-    Transaction tx = HibernateSupport.getSession().getTransaction();
-
-    tx.begin();
-
-    User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
-
-    if (user == null) {
-      tx.commit();
-      return "[]";
-    }
-    
-    Set<User> contacts = user.getUsersForContactId();
-    ArrayList<User> newContacts = new ArrayList<User>();
-    
-    
-    JSONArray array = new JSONArray();
-    
-    try {
-      for(User contact : contacts) {
-        User newContact = new User(contact.getEmail(), contact.getAccountName(), contact.getFirstName(), 
-            contact.getLastName());
-        
-        newContacts.add(newContact);
+    try{
+      if (!new LoginService().validate(authtoken)) {
+        return "[]";
       }
-      
-      array = new JSONArray(newContacts.toArray());
-      
-      tx.commit();
-    }
-    catch(Exception e) {
+
+      Transaction tx = HibernateSupport.getSession().getTransaction();
+
+      User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
+
+      if (user == null) {
+        tx.commit();
+        return "[]";
+      }
+
+      Set<User> contacts = user.getUsersForContactId();
+      ArrayList<User> newContacts = new ArrayList<User>();
+
+
+      JSONArray array = new JSONArray();
+
+      try {
+        for(User contact : contacts) {
+          User newContact = new User(contact.getEmail(), contact.getAccountName(), contact.getFirstName(), 
+              contact.getLastName());
+
+          newContacts.add(newContact);
+        }
+
+        array = new JSONArray(newContacts.toArray());
+        tx.commit();
+      }
+      catch(Exception e) {
+        e.printStackTrace();
+
+        if(!tx.wasCommitted()) {
+          tx.rollback();
+        }
+      } 
+      return array.toString();   
+    } catch (Exception e){
       e.printStackTrace();
-      
-      if(!tx.wasCommitted()) {
-        tx.rollback();
-      }
-    } 
+    }
+    return "[]";
+  }
+  
+  @Path("/logout")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean logout(@FormParam("email") String email, @FormParam("authtoken") String authtoken) {
     
-    return array.toString();   
+    if (!new LoginService().validate(authtoken)) {
+      return false;
+    }
+    
+    LoginService.removeUserByToken(authtoken);
+    
+    return true;
   }
 
   @Path("/searchaccount")

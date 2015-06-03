@@ -2,6 +2,8 @@ package at.intelligentminds.client;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.junit.After;
 import org.junit.Before;
@@ -48,18 +50,18 @@ public class TestGetContacts {
 
   @Test
   public void testGetContactsZero() {
-    JSONArray response = provider.getContacts(userEmail2, authTokenUser2);
+    ArrayList<User> users = provider.getContacts(userEmail2, authTokenUser2);
 
-    assertNotNull(response);
-    assertEquals(0, response.length());
+    assertNotNull(users);
+    assertEquals(0, users.size());
   }
   
   @Test
   public void testGetContactsNotLoggedIn() {
-    JSONArray response = provider.getContacts(userEmail2, "");
+    ArrayList<User> users = provider.getContacts(userEmail2, "");
 
-    assertNotNull(response);
-    assertEquals(0, response.length());
+    assertNotNull(users);
+    assertEquals(0, users.size());
   }
   
   @Test
@@ -67,15 +69,15 @@ public class TestGetContacts {
     provider.addContact(userEmail2, userEmail3, authTokenUser2);
     provider.addContact(userEmail2, userEmail4, authTokenUser2);
     
-    JSONArray response = provider.getContacts(userEmail2, authTokenUser2);
+    ArrayList<User> users = provider.getContacts(userEmail2, authTokenUser2);
     
-    JSONArray response2 = provider.getContacts(userEmail3, authTokenUser3);
+    ArrayList<User> users2 = provider.getContacts(userEmail3, authTokenUser3);
 
-    assertNotNull(response);
-    assertEquals(2, response.length());
+    assertNotNull(users);
+    assertEquals(2, users.size());
     
-    assertNotNull(response2);
-    assertEquals(1, response2.length());
+    assertNotNull(users2);
+    assertEquals(1, users2.size());
   }
 
 }

@@ -7,29 +7,40 @@ import android.os.AsyncTask;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.json.JSONArray;
+import java.util.ArrayList;
 
 import at.intelligentminds.client.ConnectionProvider;
-import javassist.bytecode.stackmap.BasicBlock;
+import at.intelligentminds.client.User;
 
 
 public class AddFriend extends ActionBarActivity {
-    private ListView listView;
+    private ListView addFriendsListView;
     private ConnectionProvider provider = ConnectionProvider.getInstance();
+    private ArrayList<User> newFriendList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        listView = (ListView) findViewById(R.id.addFriendsListView);
-
         setContentView(R.layout.add_friend);
+
+        addFriendsListView = (ListView) findViewById(R.id.addFriendsListView);
+
+        addFriendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                User user = newFriendList.get(i);
+                AsyncDBAccessAddFriend asyncAddFriend = new AsyncDBAccessAddFriend();
+                asyncAddFriend.execute(user);
+            }
+        });
     }
 
 
@@ -43,13 +54,13 @@ public class AddFriend extends ActionBarActivity {
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Log.d("Test", "Query submit: " + s);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d("Test", "Query change: " + s);
+                AsyncDBAccessSearchFriends asyncSearchFriends = new AsyncDBAccessSearchFriends();
+                asyncSearchFriends.execute(s);
                 return true;
             }
         };
@@ -59,50 +70,52 @@ public class AddFriend extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-/*
-    class AsyncDBAccess extends AsyncTask<String, Void, String> {
+    class AsyncDBAccessSearchFriends extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
-        protected String doInBackground(String... strings) {
-            JSONArray users = provider.searchAccounts(strings[0]);
-
-            return null;
+        protected ArrayList<User> doInBackground(String... strings) {
+            newFriendList = provider.searchAccounts(strings[0]);
+            return newFriendList;
         }
 
         @Override
-        protected void onPostExecute(final String authToken) {
-            super.onPostExecute(authToken);
+        protected void onPostExecute(ArrayList<User> newFriends) {
+            super.onPostExecute(newFriends);
 
-            if (authToken.equals("")) {
-                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login failed")
+            ArrayAdapter<User> listViewAdapter = new ArrayAdapter<User>(AddFriend.this, R.layout.friend_view_row, newFriends);
+            addFriendsListView.setAdapter(listViewAdapter);
+        }
+    }
+
+    class AsyncDBAccessAddFriend extends AsyncTask<User, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(User... users) {
+            boolean successful_added = provider.addContact(users[0].getEmail());
+            return successful_added;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean successful_added) {
+            super.onPostExecute(successful_added);
+
+            if (successful_added) {
+                new AlertDialog.Builder(AddFriend.this).setTitle("Add friend").setMessage("Add friend successful")
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        }).show();
-            }
-            else {
-                new AlertDialog.Builder(LoginActivity.this).setTitle("Login").setMessage("Login successful")
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(LoginActivity.this, FriendView.class);
+                                Intent intent = new Intent(AddFriend.this, FriendView.class);
                                 startActivity(intent);
                             }
                         }).show();
             }
+            else {
+                new AlertDialog.Builder(AddFriend.this).setTitle("Add friend").setMessage("Add friend failed")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+            }
         }
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
-
 }
