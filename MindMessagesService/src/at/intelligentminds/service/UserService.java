@@ -176,6 +176,20 @@ public class UserService {
     
     return array.toString();   
   }
+  
+  @Path("/logout")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean logout(@FormParam("email") String email, @FormParam("authtoken") String authtoken) {
+    
+    if (!new LoginService().validate(authtoken)) {
+      return false;
+    }
+    
+    LoginService.removeUserByToken(authtoken);
+    
+    return true;
+  }
 
   @Path("/searchaccount")
   @GET
