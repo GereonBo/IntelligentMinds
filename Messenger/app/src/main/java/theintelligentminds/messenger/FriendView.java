@@ -38,6 +38,8 @@ public class FriendView extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 User user = friendList.get(i);
+                AsyncDBAccessStartCommunication asyncStartCommunication = new AsyncDBAccessStartCommunication();
+                asyncStartCommunication.execute(user);
             }
         });
     }
