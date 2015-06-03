@@ -1,10 +1,12 @@
 package theintelligentminds.messenger;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
@@ -22,7 +24,7 @@ import at.intelligentminds.client.User;
 public class AddFriend extends ActionBarActivity {
     private ListView addFriendsListView;
     private ConnectionProvider provider = ConnectionProvider.getInstance();
-    private ArrayList<User> newFriends;
+    private ArrayList<User> newFriendList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,9 @@ public class AddFriend extends ActionBarActivity {
         addFriendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.v("id: ", l + "");
-                Log.v("pos: ", i + "");
+                User user = newFriendList.get(i);
+                AsyncDBAccessAddFriend asyncAddFriend = new AsyncDBAccessAddFriend();
+                asyncAddFriend.execute(user);
             }
         });
     }
@@ -70,8 +73,8 @@ public class AddFriend extends ActionBarActivity {
     class AsyncDBAccessSearchFriends extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
         protected ArrayList<User> doInBackground(String... strings) {
-            newFriends = provider.searchAccounts(strings[0]);
-            return newFriends;
+            newFriendList = provider.searchAccounts(strings[0]);
+            return newFriendList;
         }
 
         @Override
@@ -83,19 +86,36 @@ public class AddFriend extends ActionBarActivity {
         }
     }
 
-    class AsyncDBAccessAddFriend extends AsyncTask<User, Void, boolean> {
+    class AsyncDBAccessAddFriend extends AsyncTask<User, Void, Boolean> {
         @Override
-        protected boolean doInBackground(User... users) {
-            newFriends = provider.addContact(users[0].email);
-            return newFriends;
+        protected Boolean doInBackground(User... users) {
+            boolean successful_added = provider.addContact(users[0].getEmail());
+            return successful_added;
         }
 
         @Override
-        protected void onPostExecute(boolean successful_added) {
+        protected void onPostExecute(Boolean successful_added) {
             super.onPostExecute(successful_added);
 
-            ArrayAdapter<User> listViewAdapter = new ArrayAdapter<User>(AddFriend.this, R.layout.friend_view_row, newFriends);
-            addFriendsListView.setAdapter(listViewAdapter);
+            if (successful_added) {
+                new AlertDialog.Builder(AddFriend.this).setTitle("Add friend").setMessage("Add friend successful")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(AddFriend.this, FriendView.class);
+                                startActivity(intent);
+                            }
+                        }).show();
+            }
+            else {
+                new AlertDialog.Builder(AddFriend.this).setTitle("Add friend").setMessage("Add friend failed")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+            }
         }
     }
 }
