@@ -80,8 +80,8 @@ public class ConnectionProvider {
 
   private static URI getBaseURI() {
 
-    return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
-    //return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    //return UriBuilder.fromUri("http://80.110.233.183:12346/MindMessagesService").build();
+    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
   }
 
   public String performLogin(String email, String password) {
@@ -95,6 +95,27 @@ public class ConnectionProvider {
     if(!authToken.equals("")) this.userEmail = email;
     
     return authToken;
+  }
+  
+  public Boolean performLogout() {
+	return this.performLogout(this.userEmail, this.authToken);
+  }
+  
+  public Boolean performLogout(String email, String authtoken) {
+
+    Form logout_form = new Form();
+    logout_form.param("email", email);
+    logout_form.param("authtoken", authtoken);
+
+    Boolean result = this.target.path("userservice").path("logout").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(logout_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+    
+    if(result) {
+      this.userEmail = "";
+	  this.authToken = "";
+    }
+    
+    return result;
   }
 
   public boolean validateLogin() {

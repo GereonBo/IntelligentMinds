@@ -26,17 +26,6 @@ import at.intelligentminds.service.model.User;
 
 @Path("/userservice")
 public class UserService {
-  
-  public static final String JSON_EMAIL = "email";
-  public static final String JSON_FIRSTNAME = "firstName";
-  public static final String JSON_LASTNAME = "lastName";
-  public static final String JSON_ACCOUNTNAME = "accountName";
-  public static final String JSON_AGE = "age";
-  public static final String JSON_COUNTRY = "country";
-  public static final String JSON_LOCATION = "location";
-  public static final String JSON_ZIP = "zip";
-  public static final String JSON_ADDRESS = "address";
-  public static final String JSON_ABOUTME = "about";
 
   @POST
   @Path("/searchaccount")
