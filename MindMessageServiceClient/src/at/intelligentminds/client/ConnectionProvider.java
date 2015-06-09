@@ -30,12 +30,13 @@ public class ConnectionProvider {
   public static final String JSON_FIRSTNAME = "firstName";
   public static final String JSON_LASTNAME = "lastName";
   public static final String JSON_ACCOUNTNAME = "accountName";
+  public static final String JSON_GENDER = "gender";
   public static final String JSON_AGE = "age";
   public static final String JSON_COUNTRY = "country";
   public static final String JSON_LOCATION = "location";
   public static final String JSON_ZIP = "zip";
   public static final String JSON_ADDRESS = "address";
-  public static final String JSON_ABOUTME = "about";
+  public static final String JSON_ABOUTME = "profileText";
   
   private static ConnectionProvider instance;
   private WebTarget target;
@@ -79,8 +80,9 @@ public class ConnectionProvider {
   }
 
   private static URI getBaseURI() {
-    return UriBuilder.fromUri("http://intelligentminds-intelligentminds.rhcloud.com/MindMessagesService").build();
-    //return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    //return UriBuilder.fromUri("http://intelligentminds-intelligentminds.rhcloud.com/MindMessagesService").build();
+    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    //return UriBuilder.fromUri("http://129.27.229.49:8080/MindMessagesService").build();
   }
 
   public String performLogin(String email, String password) {
@@ -334,5 +336,69 @@ public class ConnectionProvider {
     }
     
     return userList;
+  }
+  
+  public Boolean updateUser(String userEmail, String authtoken, String firstName, String lastName, 
+		  String profileText) {
+    Form update_form = new Form();
+    update_form.param("userEmail", userEmail);
+    update_form.param("firstName", firstName);
+    update_form.param("lastName", lastName);
+    update_form.param("profileText", profileText);
+    update_form.param("authtoken", authtoken);
+
+    Boolean response = this.target.path("userservice").path("updateuser").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(update_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Boolean.class);
+    
+    return response;
+  }
+  
+  public Boolean updateUser(String firstName, String lastName, String profileText) {
+    return updateUser(userEmail, authToken, firstName, lastName, profileText);
+  }
+  
+  public User getUserInformation(String contactEmail, String authtoken) {
+    Form user_form = new Form();
+    user_form.param("contactEmail", contactEmail);
+    user_form.param("authtoken", authtoken);
+
+    JSONObject userObject = new JSONObject();
+    
+    String response = this.target.path("userservice").path("userinformation").request().accept(MediaType.TEXT_PLAIN)
+        .post(Entity.entity(user_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+    
+    if (response != null && response != "") {
+    	userObject = new JSONObject(response);
+    }
+    else {
+    	return null;
+    }
+    
+    User user = new User();
+    
+    if (userObject.has(JSON_EMAIL) && userObject.has(JSON_FIRSTNAME)
+            && userObject.has(JSON_LASTNAME) && userObject.has(JSON_ABOUTME) 
+            && userObject.has(JSON_ACCOUNTNAME) && userObject.has(JSON_GENDER)) {
+      try {
+        user.setEmail(userObject.getString(JSON_EMAIL));
+        user.setFirstName(userObject.getString(JSON_FIRSTNAME));
+        user.setLastName(userObject.getString(JSON_LASTNAME));
+        user.setAboutMe(userObject.getString(JSON_ABOUTME));
+        user.setAccountName(userObject.getString(JSON_ACCOUNTNAME));
+        user.setGender(userObject.getString(JSON_GENDER));
+      }
+      catch (JSONException e) {
+        System.err.println("Malformed JSON response " + e.getMessage());
+        return null;
+      }
+      
+      return user;
+    }
+    
+    return null;
+  }
+  
+  public User getUserInformation(String contactEmail) {
+    return getUserInformation(contactEmail, authToken);
   }
 }

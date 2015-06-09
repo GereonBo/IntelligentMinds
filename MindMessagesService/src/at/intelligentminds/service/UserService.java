@@ -19,6 +19,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import at.intelligentminds.service.model.HibernateSupport;
 import at.intelligentminds.service.model.User;
@@ -176,10 +177,87 @@ public class UserService {
     return "[]";
   }
   
+  @Path("/updateuser")
+  @POST
+  @Produces(MediaType.TEXT_PLAIN)
+  public Boolean updateUser(@FormParam("userEmail") String email, @FormParam("authtoken") String authtoken, 
+      @FormParam("firstName") String firstName, @FormParam("lastName") String lastName, 
+      @FormParam("profileText") String profileText) {
+    
+    if (!new LoginService().validate(authtoken)) {
+      return false;
+    }
+    
+    Transaction tx = HibernateSupport.getSession().beginTransaction();
+    
+    try {     
+  
+      User user = (User) HibernateSupport.getSession().get(User.class, email);
+      
+      if(firstName != null) {
+        user.setFirstName(firstName);
+      }
+      if(lastName != null) {
+        user.setLastName(lastName);
+      }
+      if(profileText != null) {
+        user.setProfileText(profileText);
+      }
+      
+      HibernateSupport.persist(user);
+      tx.commit();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      if(tx != null) {
+        tx.rollback();
+      }
+      
+      return false;
+    }   
+    
+    return true;
+  }
+  
+  @POST
+  @Path("/userinformation")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String getUserInformation(@FormParam("contactEmail") String contactEmail,
+      @FormParam("authtoken") String authtoken) {
+
+    if (!new LoginService().validate(authtoken)) {
+      return "[]";
+    }
+    
+    Transaction tx = HibernateSupport.getSession().getTransaction();
+
+    tx.begin();
+
+    User user = (User) HibernateSupport.getSession().get(User.class, contactEmail);
+
+    tx.commit();
+    
+    if (user == null) {      
+      return "";
+    }
+    
+    User retrievedUser = new User();
+    retrievedUser.setAccountName(user.getAccountName() == null ? "" : user.getAccountName());
+    retrievedUser.setEmail(user.getEmail());
+    retrievedUser.setFirstName(user.getFirstName());
+    retrievedUser.setLastName(user.getLastName());
+    retrievedUser.setProfileText(user.getProfileText() == null ? "" : user.getProfileText());
+    retrievedUser.setGender(user.getGender() == null ? "" : user.getGender());
+    
+    JSONObject userObject = new JSONObject(retrievedUser);
+    
+    return userObject.toString();   
+  }
+  
   @Path("/logout")
   @POST
   @Produces(MediaType.TEXT_PLAIN)
-  public Boolean logout(@FormParam("email") String email, @FormParam("authtoken") String authtoken) {
+  public Boolean logout(@FormParam("email") String userEmail, @FormParam("authtoken") String authtoken) {
     
     if (!new LoginService().validate(authtoken)) {
       return false;
