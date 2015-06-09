@@ -19,6 +19,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import at.intelligentminds.service.model.HibernateSupport;
 import at.intelligentminds.service.model.User;
@@ -217,6 +218,41 @@ public class UserService {
     }   
     
     return true;
+  }
+  
+  @POST
+  @Path("/userinformation")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String getUserInformation(@FormParam("contactEmail") String contactEmail,
+      @FormParam("authtoken") String authtoken) {
+
+    if (!new LoginService().validate(authtoken)) {
+      return "[]";
+    }
+    
+    Transaction tx = HibernateSupport.getSession().getTransaction();
+
+    tx.begin();
+
+    User user = (User) HibernateSupport.getSession().get(User.class, contactEmail);
+
+    tx.commit();
+    
+    if (user == null) {      
+      return "";
+    }
+    
+    User retrievedUser = new User();
+    retrievedUser.setAccountName(user.getAccountName() == null ? "" : user.getAccountName());
+    retrievedUser.setEmail(user.getEmail());
+    retrievedUser.setFirstName(user.getFirstName());
+    retrievedUser.setLastName(user.getLastName());
+    retrievedUser.setProfileText(user.getProfileText() == null ? "" : user.getProfileText());
+    retrievedUser.setGender(user.getGender() == null ? "" : user.getGender());
+    
+    JSONObject userObject = new JSONObject(retrievedUser);
+    
+    return userObject.toString();   
   }
   
   @Path("/logout")

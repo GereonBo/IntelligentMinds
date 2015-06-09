@@ -14,6 +14,7 @@ public class User {
   private String location = null;
   private String address = null;
   private String aboutMe = null;
+  private String gender = null;
 
   public User(String firstName,String lastName,String email) {
     super();
@@ -36,6 +37,9 @@ public class User {
     this.location = location;
     this.address = address;
     this.aboutMe = aboutMe;
+  }
+  
+  public User() {	  
   }
   
   @Override
@@ -82,6 +86,32 @@ public class User {
   public String getAboutMe() {
     return aboutMe;
   }
-  
-  
+
+  public void setFirstName(String firstName) {
+	this.firstName = firstName;
+  }
+
+  public void setLastName(String lastName) {
+	this.lastName = lastName;
+  }
+
+  public void setEmail(String email) {
+	this.email = email;
+  }
+
+  public void setAccountName(String accountName) {
+	this.accountName = accountName;
+  }
+
+  public void setAboutMe(String aboutMe) {
+	this.aboutMe = aboutMe;
+  }
+
+  public String getGender() {
+	return gender;
+  }
+
+  public void setGender(String gender) {
+	this.gender = gender;
+  } 
 }
