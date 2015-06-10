@@ -118,7 +118,7 @@ public class Registration extends Activity {
       }
 
       ConnectionProvider.RegisterResponse response = provider.register(email.getText().toString(), password.getText()
-          .toString(), "male", firstName.getText().toString(), lastName.getText().toString());
+          .toString(), sex, firstName.getText().toString(), lastName.getText().toString());
 
       switch (response) {
         case EMAIL:

@@ -8,11 +8,6 @@ public class User {
   private String lastName = null;
   private String email = null;
   private String accountName = null;
-  private int age = -1;
-  private String country = null;
-  private String zipCode = null;
-  private String location = null;
-  private String address = null;
   private String aboutMe = null;
   private String gender = null;
 
@@ -24,18 +19,12 @@ public class User {
   }
 
   public User(String firstName,String lastName,String email,   
-   String accountName, int age, String country, String zipCode,
-   String location, String address, String aboutMe) {
+   String accountName, String aboutMe) {
     super();
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.accountName = accountName;
-    this.age = age;
-    this.country = country;
-    this.zipCode = zipCode;
-    this.location = location;
-    this.address = address;
     this.aboutMe = aboutMe;
   }
   
@@ -61,26 +50,6 @@ public class User {
 
   public String getAccountName() {
     return accountName;
-  }
-
-  public int getAge() {
-    return age;
-  }
-
-  public String getCountry() {
-    return country;
-  }
-
-  public String getZipCode() {
-    return zipCode;
-  }
-
-  public String getLocation() {
-    return location;
-  }
-
-  public String getAddress() {
-    return address;
   }
 
   public String getAboutMe() {

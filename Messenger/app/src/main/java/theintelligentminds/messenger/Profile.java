@@ -26,8 +26,6 @@ public class Profile extends Activity {
   private TextView gender;
   private TextView aboutMe;
   private Button edit;
-  private User user;
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +82,7 @@ public class Profile extends Activity {
     class AsyncProfileInformation extends AsyncTask<String,Void,User> {
         @Override
         protected User doInBackground(String... strings) {
-            user = provider.getUserInformation();
+            User user = provider.getUserInformation();
             return user;
         }
 
@@ -94,6 +92,7 @@ public class Profile extends Activity {
             lastName.setText(user.getLastName());
             firstName.setText(user.getFirstName());
             eMail.setText(user.getEmail());
+            gender.setText(user.getGender());
             aboutMe.setText(user.getAboutMe());
         }
     }
