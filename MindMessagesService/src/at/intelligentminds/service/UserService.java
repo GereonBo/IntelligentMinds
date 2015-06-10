@@ -92,7 +92,7 @@ public class UserService {
     }
     
     Transaction tx = HibernateSupport.getSession().getTransaction();
-
+    tx.begin();
     User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
     User contact = (User) HibernateSupport.getSession().get(User.class, contactEmail);
 
@@ -138,7 +138,7 @@ public class UserService {
       }
 
       Transaction tx = HibernateSupport.getSession().getTransaction();
-
+      tx.begin();
       User user = (User) HibernateSupport.getSession().get(User.class, userEmail);
 
       if (user == null) {

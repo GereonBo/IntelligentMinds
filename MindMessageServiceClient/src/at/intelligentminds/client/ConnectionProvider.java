@@ -80,8 +80,8 @@ public class ConnectionProvider {
   }
 
   private static URI getBaseURI() {
-    //return UriBuilder.fromUri("http://intelligentminds-intelligentminds.rhcloud.com/MindMessagesService").build();
-    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
+    return UriBuilder.fromUri("http://intelligentminds-intelligentminds.rhcloud.com/MindMessagesService").build();
+//    return UriBuilder.fromUri("http://localhost:8080/MindMessagesService").build();
     //return UriBuilder.fromUri("http://129.27.229.49:8080/MindMessagesService").build();
   }
 
