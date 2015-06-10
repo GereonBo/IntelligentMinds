@@ -18,7 +18,7 @@ import android.widget.TextView;
 /**
  * Created by Chris_1909 on 29.04.2015.
  */
-public class Profile extends Activity {
+public class Profile extends ActionBarActivity {
   private ConnectionProvider provider = ConnectionProvider.getInstance();
   private TextView lastName;
   private TextView firstName;
