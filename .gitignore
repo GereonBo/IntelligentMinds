@@ -3,4 +3,5 @@ Messenger/local.properties
 Messenger/.idea
 Messenger/.DS_Store
 Messenger/build
+.recommenders
 .metadata
