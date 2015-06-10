@@ -30,10 +30,10 @@ public class TestSearch {
     
     provider = ConnectionProvider.getInstance();
     
-    provider.register(userEmail1, pw1, "male", "user", "mustermann");
-    provider.register(userEmail2, pw1, "male", "userZwei", "mustermann");
-    provider.register(userEmail3, pw1, "male", "userDrei", "mustermann");
-    provider.register(userEmail4, pw1, "male", "userVier", "mustermann");
+    provider.register(userEmail1, pw1, "male", "null", "mustermann");
+    provider.register(userEmail2, pw1, "male", "nullEins", "mustermann");
+    provider.register(userEmail3, pw1, "male", "nullZwei", "mustermann");
+    provider.register(userEmail4, pw1, "male", "nullDrei", "mustermann");
     authTokenUser1 = provider.performLogin(userEmail1, pw1);
   }
 
@@ -63,7 +63,7 @@ public class TestSearch {
   
   @Test
   public void testSearchFound() {
-	  ArrayList<User> response = provider.searchAccounts("user", authTokenUser1);
+	  ArrayList<User> response = provider.searchAccounts("null", authTokenUser1);
     
     assertNotNull(response);
     assertEquals(3, response.size());
