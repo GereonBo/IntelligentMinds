@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import at.intelligentminds.client.ConnectionProvider;
@@ -116,6 +117,11 @@ public class Registration extends Activity {
         default:
           return "No sex selected";
       }
+
+      Calendar c = Calendar.getInstance();
+      c.set(year+18, month-1, day);
+      if(new Date().getTime() < c.getTime().getTime()) return "You need to be at least 18 years old";
+
 
       ConnectionProvider.RegisterResponse response = provider.register(email.getText().toString(), password.getText()
           .toString(), sex, firstName.getText().toString(), lastName.getText().toString());
