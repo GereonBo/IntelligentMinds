@@ -115,14 +115,9 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
         autoUpdateTimer.schedule(new TimerTask(){
             @Override
             public void run(){
-                // runOnUiThread(new Runnable() {
-                //     @Override
-                //     public void run() {
                 autoUpdateMessages();
-                //     }
-                // });
             }
-        }, 0, 10000);
+        }, 0, 5000);
     }
 
 
@@ -134,9 +129,9 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
                 chatArrayAdapter.refreshFromMessagesList(messages);
                 chatArrayAdapter.notifyDataSetInvalidated();
                 listView.invalidate();
-                }
+                listView.setSelection(chatArrayAdapter.getCount() - 1);
+            }
             });
-        listView.postInvalidate();
     }
 
     private boolean popUpEmos(){
