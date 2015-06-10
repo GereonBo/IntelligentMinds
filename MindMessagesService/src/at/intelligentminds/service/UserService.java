@@ -33,6 +33,12 @@ public class UserService {
   @Produces(MediaType.TEXT_PLAIN)
   public String searchAccount(@FormParam("searchText") String searchText, @FormParam("authtoken") String authtoken) {    
     if(!new LoginService().validate(authtoken)) return "[]";
+    
+    User currentUser = LoginService.getUserByToken(authtoken);
+    
+    if(currentUser == null) {
+      return "[]";
+    }
 
     String[] parts = searchText.split(" ");
 
@@ -41,6 +47,7 @@ public class UserService {
     Criterion cfirstname = Restrictions.like("firstName", "%" + searchText + "%");
     Criterion clastname = Restrictions.like("lastName", "%" + searchText + "%");
     Criterion caccountname = Restrictions.like("accountName", "%" + searchText + "%");
+    Criterion notCurrentUser = Restrictions.ne("email", currentUser.getEmail());
 
     Disjunction or = Restrictions.disjunction();
     or.add(cemail);
@@ -61,9 +68,11 @@ public class UserService {
         or.add(caccountname);
       }
     }
+    
+    Criterion andCombined = Restrictions.and(or, notCurrentUser);
 
     Criteria criteria = HibernateSupport.getSession().createCriteria(User.class);
-    criteria.add(or);
+    criteria.add(andCombined);
 
     criteria.setProjection(
         Projections.projectionList().add(Projections.property("firstName"), "firstName")

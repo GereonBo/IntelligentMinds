@@ -66,7 +66,7 @@ public class TestSearch {
 	  ArrayList<User> response = provider.searchAccounts("user", authTokenUser1);
     
     assertNotNull(response);
-    assertEquals(4, response.size());
+    assertEquals(3, response.size());
   }
   
   @Test
