@@ -42,7 +42,9 @@
             android:layout_column="1"
             style="@style/Widget.AppCompat.EditText"
             android:layout_marginTop="135dp"
-            android:text="Gender" />
+            android:text="Gender"
+            android:editable="false"
+            android:focusable="false"/>
 
         <EditText
             android:layout_width="194dp"
