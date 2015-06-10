@@ -362,7 +362,7 @@ public class ConnectionProvider {
     String response = this.target.path("userservice").path("userinformation").request().accept(MediaType.TEXT_PLAIN)
         .post(Entity.entity(user_form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
     
-    if (response != null && response != "") {
+    if (response != null && !response.equals("") && !response.equals("[]")) {
     	userObject = new JSONObject(response);
     }
     else {

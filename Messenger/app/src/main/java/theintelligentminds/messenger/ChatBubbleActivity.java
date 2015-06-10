@@ -162,6 +162,11 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     class AsyncSendMessageTask extends AsyncTask<String,Void,Boolean> {
         @Override
         protected Boolean doInBackground(String... strings) {
+            if (chatText == null || chatText.getText() == null ||
+                    chatText.getText().toString().equals("")) {
+                return true;
+            }
+
             return provider.sendMessage(receiver,chatText.getText().toString());
         }
 
