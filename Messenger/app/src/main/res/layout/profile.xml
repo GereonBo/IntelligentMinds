@@ -29,7 +29,9 @@
             style="@style/Widget.AppCompat.EditText"
             android:layout_column="1"
             android:id="@+id/editTextFirstname"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:editable="false"
+            android:focusable="false"/>
 
         <TextView
             android:layout_width="350dp"
@@ -60,7 +62,9 @@
             style="@style/Widget.AppCompat.EditText"
             android:layout_column="1"
             android:layout_marginTop="135dp"
-            android:text="Gender" />
+            android:text="Gender"
+            android:editable="false"
+            android:focusable="false"/>
 
         <TextView
             android:layout_width="194dp"
@@ -71,7 +75,9 @@
             android:id="@+id/editTextLastname"
             android:layout_marginTop="70dp"
             android:layout_row="1"
-            android:layout_column="1" />
+            android:layout_column="1"
+            android:editable="false"
+            android:focusable="false"/>
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -112,7 +118,10 @@
             android:layout_gravity="center_horizontal"
             android:textSize="15dp"
             android:textStyle="normal"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="true"
+            android:editable="false"
+            android:focusable="false"
+            android:scrollbars="vertical"/>
 
     </GridLayout>
 
