@@ -70,6 +70,27 @@ public class AddFriend extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        Intent intent = null;
+
+        switch(item.getItemId())
+        {
+            case R.id.options:
+                intent = new Intent(AddFriend.this, Options.class);
+                break;
+            default:
+                intent = null;
+        }
+
+        startActivity(intent);
+
+        return super.onOptionsItemSelected(item);
+    }
+
     class AsyncDBAccessSearchFriends extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
         protected ArrayList<User> doInBackground(String... strings) {

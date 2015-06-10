@@ -6,4 +6,8 @@
         android:title="Add Friend"
         app:showAsAction="ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
+
+    <item
+        android:id="@+id/options"
+        android:title="Options"/>
 </menu>

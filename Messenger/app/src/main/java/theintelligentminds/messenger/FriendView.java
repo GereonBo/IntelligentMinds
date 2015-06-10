@@ -64,8 +64,8 @@ public class FriendView extends ActionBarActivity {
             case R.id.add_friend:
                 intent = new Intent(FriendView.this, AddFriend.class);
                 break;
-            case R.id.show_profile:
-                intent = new Intent(FriendView.this, Profile.class);
+            case R.id.options:
+                intent = new Intent(FriendView.this, Options.class);
                 break;
             default:
                 intent = null;
