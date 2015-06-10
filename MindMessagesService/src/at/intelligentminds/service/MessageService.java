@@ -1,5 +1,6 @@
 package at.intelligentminds.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 
+import org.glassfish.jersey.internal.util.Base64;
 import org.hibernate.Criteria;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
@@ -22,6 +25,8 @@ import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.mysql.jdbc.util.Base64Decoder;
+
 import at.intelligentminds.service.model.HibernateSupport;
 import at.intelligentminds.service.model.Message;
 import at.intelligentminds.service.model.User;
@@ -29,6 +34,25 @@ import at.intelligentminds.service.model.User;
 @Path("/messageservice")
 public class MessageService {
 
+  
+  private String toBase64(String ori){
+    try {
+      return DatatypeConverter.printBase64Binary(ori.getBytes("UTF-8"));
+    }
+    catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+      return "";
+    }
+  }
+  
+  private String fromBase64(String ori){
+    try{
+      return new String(DatatypeConverter.parseBase64Binary(ori));
+    }catch(Exception e){
+      return ori;
+    }
+  }
+  
   @POST
   @Path("/createmessage")
   @Produces(MediaType.TEXT_PLAIN)
@@ -55,7 +79,7 @@ public class MessageService {
 
       Message message = new Message();
 
-      message.setText(text);
+      message.setText(toBase64(text));
       message.setUserByUserReceiverId(receiver);
       message.setUserByUserSenderId(sender);
       message.setCreatonDate(new Date());
@@ -134,10 +158,11 @@ public class MessageService {
         Object [] messageValues = (Object [])res.get(i);
 
         JSONObject message = new JSONObject();
-        message.put("text", messageValues[0]);
+        message.put("text", fromBase64((String)messageValues[0]));
         message.put("creatonDate", messageValues[1]);
         message.put("receiverEmail", messageValues[2]);
         message.put("senderEmail", messageValues[3]);
+        
         
         array.put(message);
       }      

@@ -11,6 +11,8 @@
   <property name="connection.autoReconnect">true</property>
   <property name="connection.autoReconnectForPools">true</property>
   <property name="connection.failOverReadOnly">false</property>
+  <property name="hibernate.connection.useUnicode">true</property>
+  <property name="hibernate.connection.characterEncoding">UTF-8</property>
   <!-- JDBC connection pool (use the built-in) -->
   <property name="connection.pool_size">1</property>
   <!-- SQL dialect -->
