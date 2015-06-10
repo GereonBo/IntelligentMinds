@@ -2,27 +2,46 @@ package theintelligentminds.messenger;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 import at.intelligentminds.client.ConnectionProvider;
+import at.intelligentminds.client.User;
 
 
 public class FriendView extends ActionBarActivity {
 
-    private ListView friendView;
+    private ListView friendListView;
+    private ArrayList<User> friendList;
     private ConnectionProvider provider = ConnectionProvider.getInstance(AndroidFriendlyFeature.class);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        friendView = (ListView) findViewById(R.id.friendView);
-
         setContentView(R.layout.friend_view);
+
+        friendListView = (ListView) findViewById(R.id.friendListView);
+
+        AsyncDBAccessGetFriends asyncGetFriends = new AsyncDBAccessGetFriends();
+        asyncGetFriends.execute();
+
+        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                User user = friendList.get(i);
+                AsyncDBAccessStartCommunication asyncStartCommunication = new AsyncDBAccessStartCommunication();
+                asyncStartCommunication.execute(user);
+            }
+        });
     }
 
 
@@ -42,11 +61,11 @@ public class FriendView extends ActionBarActivity {
 
         switch(item.getItemId())
         {
-            case R.id.add_friends:
+            case R.id.add_friend:
                 intent = new Intent(FriendView.this, AddFriend.class);
                 break;
-            case R.id.show_profile:
-                intent = new Intent(FriendView.this, Profile.class);
+            case R.id.options:
+                intent = new Intent(FriendView.this, Options.class);
                 break;
             default:
                 intent = null;
@@ -57,27 +76,36 @@ public class FriendView extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class AsyncDBAccess extends AsyncTask<String, Void, String> {
+    class AsyncDBAccessGetFriends extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
-        protected String doInBackground(String... strings) {
-            //String friends = provider.getFriends();
-            //ArrayList<User> userList = provider.searchAccounts("Thomas");
-
-            /*for(int i = 0; i <  userList.length(); i++) {
-                try {
-                    JSONObject messageObject = userList.getJSONObject(i);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }*/
-
-            return null;
+        protected ArrayList<User> doInBackground(String... strings) {
+            friendList = provider.getContacts();
+            return friendList;
         }
 
         @Override
-        protected void onPostExecute(String authToken) {
-            super.onPostExecute(authToken);
+        protected void onPostExecute(ArrayList<User> friendList) {
+            super.onPostExecute(friendList);
 
+            ArrayAdapter<User> listViewAdapter = new ArrayAdapter<User>(FriendView.this,
+                    R.layout.friend_view_row, friendList);
+
+            friendListView.setAdapter(listViewAdapter);
+        }
+    }
+
+    class AsyncDBAccessStartCommunication extends AsyncTask<User, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(User... users) {
+            Intent intent = new Intent(FriendView.this, ChatBubbleActivity.class);
+            intent.putExtra("USER_EMAIL", users[0].getEmail());
+            startActivity(intent);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
         }
     }
 }

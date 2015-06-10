@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="theintelligentminds.messenger.FriendView">
     <item
-        android:id="@+id/show_profile"
-        android:title="Show Profile"/>
+        android:id="@+id/add_friend"
+        android:title="Add Friend"/>
     <item
-        android:id="@+id/add_friends"
-        android:title="Add Friends"/>
+        android:id="@+id/options"
+        android:title="Options"/>
 </menu>

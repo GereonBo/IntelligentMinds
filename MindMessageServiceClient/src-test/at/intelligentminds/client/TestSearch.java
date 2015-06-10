@@ -2,6 +2,8 @@ package at.intelligentminds.client;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.junit.After;
 import org.junit.Before;
@@ -28,10 +30,10 @@ public class TestSearch {
     
     provider = ConnectionProvider.getInstance();
     
-    provider.register(userEmail1, pw1, "male", "user", "mustermann");
-    provider.register(userEmail2, pw1, "male", "userZwei", "mustermann");
-    provider.register(userEmail3, pw1, "male", "userDrei", "mustermann");
-    provider.register(userEmail4, pw1, "male", "userVier", "mustermann");
+    provider.register(userEmail1, pw1, "male", "null", "mustermann");
+    provider.register(userEmail2, pw1, "male", "nullEins", "mustermann");
+    provider.register(userEmail3, pw1, "male", "nullZwei", "mustermann");
+    provider.register(userEmail4, pw1, "male", "nullDrei", "mustermann");
     authTokenUser1 = provider.performLogin(userEmail1, pw1);
   }
 
@@ -45,33 +47,33 @@ public class TestSearch {
 
   @Test
   public void testSearchNotFound() {
-    JSONArray response = provider.searchAccounts("nope", authTokenUser1);
+    ArrayList<User> response = provider.searchAccounts("nope", authTokenUser1);
     
     assertNotNull(response);
-    assertEquals(0, response.length());
+    assertEquals(0, response.size());
   }
   
   @Test
   public void testSearchNotLoggedIn() {
-    JSONArray response = provider.searchAccounts("user", "");
+	  ArrayList<User> response = provider.searchAccounts("user", "");
     
     assertNotNull(response);
-    assertEquals(0, response.length());
+    assertEquals(0, response.size());
   }
   
   @Test
   public void testSearchFound() {
-    JSONArray response = provider.searchAccounts("user", authTokenUser1);
+	  ArrayList<User> response = provider.searchAccounts("null", authTokenUser1);
     
     assertNotNull(response);
-    assertEquals(4, response.length());
+    assertEquals(3, response.size());
   }
   
   @Test
   public void testSearchFoundOne() {
-    JSONArray response = provider.searchAccounts("really", authTokenUser1);
+	ArrayList<User> response = provider.searchAccounts("really", authTokenUser1);
     
     assertNotNull(response);
-    assertEquals(1, response.length());
+    assertEquals(1, response.size());
   }
 }

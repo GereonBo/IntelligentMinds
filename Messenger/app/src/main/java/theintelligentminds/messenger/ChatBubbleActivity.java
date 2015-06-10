@@ -16,6 +16,8 @@ import android.text.Spanned;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
@@ -61,8 +63,7 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        receiver = "testaccount@test.com";
-
+        receiver = getIntent().getStringExtra("USER_EMAIL");
 
         Intent i = getIntent();
         setContentView(R.layout.activity_chat);
@@ -116,22 +117,23 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
         autoUpdateTimer.schedule(new TimerTask(){
             @Override
             public void run(){
-                // runOnUiThread(new Runnable() {
-                //     @Override
-                //     public void run() {
                 autoUpdateMessages();
-                //     }
-                // });
             }
-        }, 0, 10000);
+        }, 0, 5000);
     }
 
 
     private void autoUpdateMessages()
     {
-        TreeSet<Message> messages = provider.getMessagesBySenderAndReceiverSorted(receiver);
-        chatArrayAdapter.refreshFromMessagesList(messages);
-        listView.postInvalidate();
+        final TreeSet<Message> messages = provider.getMessagesBySenderAndReceiverSorted(receiver);
+        runOnUiThread(new Runnable() {
+            public void run() {
+                chatArrayAdapter.refreshFromMessagesList(messages);
+                chatArrayAdapter.notifyDataSetInvalidated();
+                listView.invalidate();
+                listView.setSelection(chatArrayAdapter.getCount() - 1);
+            }
+            });
     }
 
     private boolean popUpEmos(){
@@ -153,6 +155,8 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     public void onEmojiconBackspaceClicked(View v) {
         EmojiconsFragment.backspace(chatText);
     }
+
+
 
 
     class AsyncSendMessageTask extends AsyncTask<String,Void,Boolean> {

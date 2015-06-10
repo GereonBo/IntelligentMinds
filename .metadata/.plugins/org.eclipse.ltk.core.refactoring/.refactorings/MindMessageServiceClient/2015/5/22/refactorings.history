@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Move element &apos;User.java&apos; to &apos;MindMessagesService/src/at.intelligentminds.service&apos;&#x0D;&#x0A;- Original project: &apos;MindMessageServiceClient&apos;&#x0D;&#x0A;- Destination element: &apos;MindMessagesService/src/at.intelligentminds.service&apos;&#x0D;&#x0A;- Original element: &apos;at.intelligentminds.client.User.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="=MindMessagesService/src&lt;at.intelligentminds.service" element1="/src&lt;at.intelligentminds.client{User.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1432736624475" units="1" version="1.0"/>
-</session>

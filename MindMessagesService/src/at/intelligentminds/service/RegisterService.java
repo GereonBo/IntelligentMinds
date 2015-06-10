@@ -67,6 +67,7 @@ public class RegisterService {
     newuser.setEmail(email);
     newuser.setFirstName(firstName);
     newuser.setLastName(lastName);
+    newuser.setGender(gender);
 
     String hash;
     try {

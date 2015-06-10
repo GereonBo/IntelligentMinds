@@ -99,8 +99,7 @@
             android:ems="10"
             android:id="@+id/textfieldPassword"
             android:hint="Password"
-
-            android:background="#FFCC90"
+            android:background="#ffffffff"
             android:layout_gravity="fill_horizontal"
             android:layout_marginBottom="20dp" />
 

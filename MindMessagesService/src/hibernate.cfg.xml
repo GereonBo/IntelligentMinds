@@ -2,15 +2,17 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
- <session-factory name="">
+ <session-factory>
   <!-- Database connection settings -->
   <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-  <property name="connection.url">jdbc:mysql://localhost:3307/mindmessages</property>
-  <property name="connection.username">intelligentminds</property>
-  <property name="connection.password">mindthegap</property>
+  <property name="connection.url">jdbc:mysql://127.8.28.2:3306/mindmessages</property>
+  <property name="connection.username">adminVygvWnR</property>
+  <property name="connection.password">yGaiItLennFT</property>
   <property name="connection.autoReconnect">true</property>
   <property name="connection.autoReconnectForPools">true</property>
   <property name="connection.failOverReadOnly">false</property>
+  <property name="hibernate.connection.useUnicode">true</property>
+  <property name="hibernate.connection.characterEncoding">UTF-8</property>
   <!-- JDBC connection pool (use the built-in) -->
   <property name="connection.pool_size">1</property>
   <!-- SQL dialect -->

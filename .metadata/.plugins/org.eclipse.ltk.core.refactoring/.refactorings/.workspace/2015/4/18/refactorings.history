@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;MindMessagesService&apos;" deleteContents="false" description="Delete resource &apos;MindMessagesService&apos;" element1="/MindMessagesService" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1430298344728"/>
-</session>

@@ -1,155 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#ffff9045"
-    android:weightSum="1"
-    android:id="@+id/gridProfil"
-    android:rowCount="9"
-    android:columnCount="3"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="187dp"
-        android:layout_height="187dp"
-        android:id="@+id/imageView"
-        android:src="@mipmap/ic_launcher"
-        android:layout_row="0"
-        android:layout_column="0" />
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="16dp"
+        android:columnCount="2"
+        android:rowCount="8">
+        <ImageView
+            android:layout_width="187dp"
+            android:layout_height="187dp"
+            android:id="@+id/imageView"
+            android:src="@mipmap/ic_launcher"
+            android:layout_row="1"
+            android:layout_column="0" />
 
-    <TextView
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:inputType="textPersonName"
-        android:text="Firstname"
-        android:layout_row="0"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_column="1"
-        android:id="@+id/editTextFirstname"
-        android:layout_marginTop="5dp" />
+        <TextView
+            android:layout_width="194dp"
+            android:layout_height="40dp"
+            android:inputType="textPersonName"
+            android:text="Firstname"
+            android:layout_row="1"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_column="1"
+            android:id="@+id/editTextFirstname"
+            android:layout_marginTop="10dp"
+            android:editable="false"
+            android:focusable="false"/>
 
-    <TextView
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        style="@style/Widget.AppCompat.EditText"
-        android:id="@+id/viewTextMail"
-        android:layout_row="0"
-        android:layout_column="1"
-        android:text="E-Mail"
-        android:layout_marginTop="140dp" />
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:inputType="textEmailAddress"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:ems="10"
+            android:id="@+id/viewTextMail"
+            android:layout_row="0"
+            android:textColor="@android:color/background_dark"
+            android:layout_column="0"
+            android:text="E-Mail"
+            android:singleLine="false"
+            android:layout_marginTop="10dp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:textAlignment="center"
+            android:textStyle="bold|italic"
+            android:textSize="25dp"
+            android:gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editTextAge"
-        android:layout_row="0"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_column="1"
-        android:layout_marginTop="95dp"
-        android:text="Age" />
+        <TextView
+            android:layout_width="194dp"
+            android:ems="10"
+            android:id="@+id/viewTextGender"
+            android:layout_row="1"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_column="1"
+            android:layout_marginTop="135dp"
+            android:text="Gender"
+            android:editable="false"
+            android:focusable="false"/>
 
-    <TextView
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:inputType="textPersonName"
-        android:text="Lastname"
-        style="@style/Widget.AppCompat.EditText"
-        android:id="@+id/editTextLastname"
-        android:layout_marginTop="50dp"
-        android:layout_row="0"
-        android:layout_column="1" />
+        <TextView
+            android:layout_width="194dp"
+            android:layout_height="40dp"
+            android:inputType="textPersonName"
+            android:text="Lastname"
+            style="@style/Widget.AppCompat.EditText"
+            android:id="@+id/editTextLastname"
+            android:layout_marginTop="70dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:editable="false"
+            android:focusable="false"/>
 
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:id="@+id/editTextCountry"
-        android:layout_row="2"
-        android:layout_column="0"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_columnSpan="2"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Country"
-        android:layout_marginBottom="20dp" />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="125dp"
+            android:layout_height="20dp"
+            android:text="Edit"
+            android:id="@+id/buttonEdit"
+            android:layout_row="2"
+            android:background="#4E4E4E"
+            android:textColor="#ffffffff"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="125dp"
-        android:layout_height="20dp"
-        android:text="Edit"
-        android:id="@+id/buttonEdit"
-        android:layout_row="1"
-        android:background="#4E4E4E"
-        android:textColor="#ffffffff"
-        android:layout_column="0"
-        android:layout_gravity="center_horizontal" />
+        <TextView
+            android:layout_width="295dp"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="About Me:"
+            android:id="@+id/textViewAbout_Me"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000000"
+            android:singleLine="false"
+            android:layout_marginTop="25dp" />
 
-    <TextView
-        android:layout_width="145dp"
-        android:layout_height="40dp"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        style="@style/Widget.AppCompat.EditText"
-        android:id="@+id/editTextZIP"
-        android:layout_row="3"
-        android:layout_column="0"
-        android:layout_gravity="right"
-        android:text="ZIP"
-        android:layout_marginBottom="20dp" />
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editTextAbout_Me"
+            android:layout_row="7"
+            android:background="#FFCC90"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15dp"
+            android:textStyle="normal"
+            android:textIsSelectable="true"
+            android:editable="false"
+            android:focusable="false"
+            android:scrollbars="vertical"/>
 
-    <TextView
-        android:layout_width="155dp"
-        android:layout_height="40dp"
-        android:id="@+id/editTextLocation"
-        android:layout_row="3"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_column="1"
-        android:layout_gravity="left"
-        android:text="Location"
-        android:layout_marginBottom="20dp" />
+    </GridLayout>
 
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:ems="10"
-        android:id="@+id/editTextaddress"
-        android:layout_row="5"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_gravity="center_horizontal"
-        android:text="Address"
-        android:layout_marginBottom="20dp"
-        android:inputType="textPostalAddress" />
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        style="@style/Widget.AppCompat.EditText"
-        android:id="@+id/editTextAbout_Me"
-        android:layout_row="7"
-        android:background="#FFCC90"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_width="295dp"
-        android:layout_height="40dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="About Me:"
-        android:id="@+id/textViewAbout_Me"
-        android:layout_row="6"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#000000"
-        android:singleLine="false" />
-
-</GridLayout>
+</FrameLayout>
