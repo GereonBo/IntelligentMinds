@@ -31,11 +31,6 @@ public class ConnectionProvider {
   public static final String JSON_LASTNAME = "lastName";
   public static final String JSON_ACCOUNTNAME = "accountName";
   public static final String JSON_GENDER = "gender";
-  public static final String JSON_AGE = "age";
-  public static final String JSON_COUNTRY = "country";
-  public static final String JSON_LOCATION = "location";
-  public static final String JSON_ZIP = "zip";
-  public static final String JSON_ADDRESS = "address";
   public static final String JSON_ABOUTME = "profileText";
   
   private static ConnectionProvider instance;

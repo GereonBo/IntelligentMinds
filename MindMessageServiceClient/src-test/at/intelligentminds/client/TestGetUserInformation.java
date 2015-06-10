@@ -32,7 +32,7 @@ public class TestGetUserInformation {
 
   @Test
   public void testGetUserInformation() {
-    User user = provider.getUserInformation(userEmail1, authTokenUser1);
+    User user = provider.getUserInformation();
     
     assertNotNull(user);
     assertEquals(userEmail1, user.getEmail());
