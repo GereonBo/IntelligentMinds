@@ -128,8 +128,14 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
 
     private void autoUpdateMessages()
     {
-        TreeSet<Message> messages = provider.getMessagesBySenderAndReceiverSorted(receiver);
-        chatArrayAdapter.refreshFromMessagesList(messages);
+        final TreeSet<Message> messages = provider.getMessagesBySenderAndReceiverSorted(receiver);
+        runOnUiThread(new Runnable() {
+            public void run() {
+                chatArrayAdapter.refreshFromMessagesList(messages);
+                chatArrayAdapter.notifyDataSetInvalidated();
+                listView.invalidate();
+                }
+            });
         listView.postInvalidate();
     }
 
