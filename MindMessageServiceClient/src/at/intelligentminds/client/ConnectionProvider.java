@@ -401,4 +401,8 @@ public class ConnectionProvider {
   public User getUserInformation(String contactEmail) {
     return getUserInformation(contactEmail, authToken);
   }
+  
+  public User getUserInformation() {
+    return getUserInformation(userEmail, authToken);
+  }
 }
