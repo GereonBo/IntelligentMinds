@@ -37,6 +37,11 @@ public class Profile extends Activity {
 
     user = provider.getUserInformation();
 
+    lastName.setText(user.getLastName());
+    firstName.setText(user.getFirstName());
+    eMail.setText(user.getEmail());
+    aboutMe.setText(user.getAboutMe());
+
     edit.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
