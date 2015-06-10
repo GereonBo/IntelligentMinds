@@ -16,6 +16,8 @@ import android.text.Spanned;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
@@ -158,6 +160,8 @@ public class ChatBubbleActivity extends FragmentActivity  implements EmojiconGri
     public void onEmojiconBackspaceClicked(View v) {
         EmojiconsFragment.backspace(chatText);
     }
+
+
 
 
     class AsyncSendMessageTask extends AsyncTask<String,Void,Boolean> {

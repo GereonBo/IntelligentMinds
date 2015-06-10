@@ -1,159 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#ffff9045"
-    android:weightSum="1"
-    android:id="@+id/gridProfil"
-    android:rowCount="9"
-    android:columnCount="3"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="187dp"
-        android:layout_height="187dp"
-        android:id="@+id/imageView"
-        android:src="@mipmap/ic_launcher"
-        android:layout_row="0"
-        android:layout_column="0" />
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-    <EditText
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:inputType="textPersonName"
-        android:hint="Firstname"
-        android:layout_row="0"
-        android:layout_column="1"
-        android:id="@+id/editTextFirstname"
-        android:layout_marginTop="5dp" />
+        android:paddingRight="16dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="16dp"
+        android:columnCount="2"
+        android:rowCount="8">
 
-    <TextView
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:id="@+id/viewTextMail"
-        android:layout_row="0"
-        android:layout_column="1"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_marginTop="140dp"
-        android:text="E-Mail" />
+        <ImageView
+            android:layout_width="187dp"
+            android:layout_height="187dp"
+            android:id="@+id/imageView"
+            android:src="@mipmap/ic_launcher"
+            android:layout_row="0"
+            android:layout_column="0" />
 
-    <EditText
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editTextAge"
-        android:layout_row="0"
-        android:layout_column="1"
-        android:layout_marginTop="95dp"
-        android:hint="Age" />
+        <EditText
+            android:layout_width="194dp"
+            android:layout_height="40dp"
+            android:inputType="textPersonName"
+            android:hint="Firstname"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:id="@+id/editTextFirstname"
+            android:layout_marginTop="5dp" />
 
-    <EditText
-        android:layout_width="194dp"
-        android:layout_height="40dp"
-        android:inputType="textPersonName"
-        android:hint="Lastname"
-        android:id="@+id/editTextLastname"
-        android:layout_marginTop="50dp"
-        android:layout_row="0"
-        android:layout_column="1" />
+        <TextView
+            android:layout_width="194dp"
+            android:layout_height="40dp"
+            android:ems="10"
+            android:id="@+id/viewTextGender"
+            android:layout_row="0"
+            android:layout_column="1"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_marginTop="85dp"
+            android:text="Gender" />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:id="@+id/editTextCountry"
-        android:layout_row="2"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:hint="Country"
-        android:layout_marginBottom="20dp" />
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="70dp"
-        android:layout_height="20dp"
-        android:text="Back"
-        android:id="@+id/buttonBack"
-        android:layout_row="1"
-        android:background="#4E4E4E"
-        android:textColor="#ffffffff"
-        android:layout_column="0"
-        android:layout_gravity="left|center_horizontal"
-        android:layout_marginLeft="100dp" />
+        <EditText
+            android:layout_width="194dp"
+            android:layout_height="40dp"
+            android:inputType="textPersonName"
+            android:hint="Lastname"
+            android:id="@+id/editTextLastname"
+            android:layout_marginTop="45dp"
+            android:layout_row="0"
+            android:layout_column="1" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="70dp"
-        android:layout_height="20dp"
-        android:text="Save"
-        android:id="@+id/buttonSave"
-        android:layout_row="1"
-        android:background="#4E4E4E"
-        android:textColor="#ffffffff"
-        android:layout_column="0"
-        android:layout_gravity="left|center_horizontal"
-        android:layout_marginLeft="20dp" />
+        <TextView
+            android:layout_width="194dp"
+            android:layout_height="40dp"
+            android:id="@+id/viewTextMail"
+            android:layout_row="0"
+            android:layout_column="1"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_marginTop="125dp"
+            android:text="E-Mail" />
 
-    <EditText
-        android:layout_width="145dp"
-        android:layout_height="40dp"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editTextZIP"
-        android:layout_row="3"
-        android:layout_column="0"
-        android:layout_gravity="right"
-        android:hint="ZIP"
-        android:layout_marginBottom="20dp" />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:text="Back"
+            android:id="@+id/buttonBack"
+            android:layout_row="1"
+            android:background="#4E4E4E"
+            android:textColor="#ffffffff"
+            android:layout_column="0"
+            android:layout_gravity="left|center_horizontal"
+            android:layout_marginLeft="100dp" />
 
-    <EditText
-        android:layout_width="155dp"
-        android:layout_height="40dp"
-        android:id="@+id/editTextLocation"
-        android:layout_row="3"
-        android:layout_column="1"
-        android:layout_gravity="left"
-        android:hint="Location"
-        android:layout_marginBottom="20dp" />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:text="Save"
+            android:id="@+id/buttonSave"
+            android:layout_row="1"
+            android:background="#4E4E4E"
+            android:textColor="#ffffffff"
+            android:layout_column="0"
+            android:layout_gravity="left|center_horizontal"
+            android:layout_marginLeft="20dp" />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/editTextaddress"
-        android:layout_row="5"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_gravity="center_horizontal"
-        android:hint="Address"
-        android:layout_marginBottom="20dp" />
+        <TextView
+            android:layout_width="295dp"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="About Me:"
+            android:id="@+id/textViewAbout_Me"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000000"
+            android:singleLine="false"
+            android:layout_marginTop="25dp" />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editTextAbout_Me"
-        android:layout_row="7"
-        android:background="#FFCC90"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal" />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editTextAbout_Me"
+            android:layout_row="7"
+            android:background="#FFCC90"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="295dp"
-        android:layout_height="40dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="About Me:"
-        android:id="@+id/textViewAbout_Me"
-        android:layout_row="6"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#000000"
-        android:singleLine="false" />
+    </GridLayout>
 
-</GridLayout>
+</FrameLayout>
