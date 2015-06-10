@@ -10,6 +10,7 @@ public class TestGetUserInformation {
 
   private ConnectionProvider provider;
   private String userEmail1;
+  private String userEmail2;
   private String authTokenUser1;
   private String pw;
   
@@ -40,7 +41,7 @@ public class TestGetUserInformation {
   
   @Test
   public void testNotLoggedIn() {
-    User user = provider.getUserInformation(userEmail1, authTokenUser1);
+    User user = provider.getUserInformation(userEmail1, "");
     
     assertNull(user);
   }

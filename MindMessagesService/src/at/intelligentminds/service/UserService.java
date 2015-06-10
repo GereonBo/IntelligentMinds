@@ -235,7 +235,7 @@ public class UserService {
       @FormParam("authtoken") String authtoken) {
 
     if (!new LoginService().validate(authtoken)) {
-      return "[]";
+      return "";
     }
     
     Transaction tx = HibernateSupport.getSession().getTransaction();
